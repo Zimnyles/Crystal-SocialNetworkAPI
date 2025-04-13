@@ -1,0 +1,126 @@
+package layout
+
+import "zimniyles/fibergo/views/components"
+
+
+
+templ Menu() {
+    @MenuStyle()   
+    <div class="menu">
+        <div class="menu-leftpart">
+            <a href="/"><img src="/public/images/logo.png" width="160" height="48"></a>//height
+            <div class="menu-leftpart-item">
+                <div class="menu-leftpart-item-ico">
+                    <img src="/public/icons/location-w.svg" alt="location ico" />
+                </div>
+                <a class="menu__right-link">Уфа</a>
+            </div>
+        </div>
+        <div class="menu__right">
+            <a class="menu__right-link-fav">Избранное</a>
+            {{ login := ctx.Value("login").(string) }}
+            if login == "" {
+                <a  class="menu__right-link" href="login">Войти</a>
+            } else {
+                <div class="menu-rightpart-item">
+                    <div class="menu-leftpart-item-ico-user">
+                        <img width="24px" height="24px" src="/public/icons/user2.svg" alt="user ico" />
+                    </div>
+                    <span class="menu-right-login">{ login } </span>
+                </div>
+                <a class="menu__right-link" href="login">Выход</a>
+            }
+            
+            @components.ButtonLink("/register"){
+                <span>Зарегестрироваться</span>
+            }
+        </div>
+    </div>
+}
+
+templ MenuStyle() {
+    
+    <style>
+        .menu-right-login{
+            text-decoration: none;
+            color: var(--color-white);
+            font-size: 16px;
+            cursor: pointer;    
+        }
+        .menu-leftpart-item{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-left: 40px;
+            gap: 10px;
+            
+        }
+
+        .menu-rightpart-item{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            
+        }
+
+        .menu-leftpart-item-ico-user{
+            color: #ffffff;
+        }
+
+        .menu-leftpart-item-ico{
+            margin-left: 20px;
+            color: #ffffff;
+        }
+
+        .menu-leftpart{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 10px 0;
+            max-width: 1290px;
+            vertical-align: middle;
+            align-items: center;
+            width: 100%;
+        }
+    
+        .menu__right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+    
+        }
+    
+        .menu__right-link {
+            text-decoration: none;
+            color: var(--color-white);
+            font-size: 16px;
+            cursor: pointer;
+    
+        }
+
+        .menu__right-link-fav {
+            text-decoration: none;
+            color: var(--color-white);
+            font-size: 16px;
+            cursor: pointer;
+    
+        }
+
+        .menu__right-link-fav:hover {
+            color: #9f9f9f;
+    
+        }
+    
+        .menu__right-link:hover {
+            color: #9f9f9f;
+        }
+    </style>
+}

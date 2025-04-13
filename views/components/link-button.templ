@@ -1,0 +1,23 @@
+package components
+
+templ ButtonLink(href string) {
+    @ButtonLinkStyle()
+    <a class="link-button" href={templ.URL(href)}>
+    { children... }
+    </a>
+}
+
+templ ButtonLinkStyle() {
+    <style>
+        .link-button{
+            padding: 15px 20px;
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            text-decoration: none;
+            border-radius: 8px;
+        }
+        .link-button:hover{
+            background-color: var(--color-primary-hover)
+        }
+    </style>
+}

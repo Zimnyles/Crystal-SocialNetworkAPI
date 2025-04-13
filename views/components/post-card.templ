@@ -1,0 +1,132 @@
+package components
+
+import "time"
+import "github.com/rvflash/elapsed"
+
+
+type PostCardProps struct{
+    Id string
+    Createdat time.Time
+    Name string
+    Breed string
+    Price string
+    Location string
+    Description string
+    Email string
+}
+
+
+templ PostCard(props PostCardProps ) {
+    {{ date:= elapsed.LocalTime(props.Createdat, "ru") }}
+    @PostCatdStyle()
+    <div class="post-card">
+        <div>
+            <span class="post-card__createdat">{ date }</span>
+        </div>
+        <div class="post-card__title__wrapper">
+            <div class="post-card__title">
+                <div class="post-card__name"> { props.Name } </div>
+                <div class="post-card__breed"> { props.Breed } </div>
+                <div class="post-card__id"> Номер объявления: { props.Id } </div>
+                
+            </div>
+            <div class="post-card__description__wrapper">
+                <div class="post-card__description"> { props.Description } </div>
+            </div>
+        </div>
+        <div class="post-card__footer">
+            <div class="post-card__stats">
+                <div class="post-card__stat">
+                    <img src="/public/icons/dollar.svg" alt="price ico"/>
+                    <span>{ props.Price }</span>
+                </div>
+                <div class="post-card__stat">
+                    <img src="/public/icons/location.svg" alt="location ico" />
+                    <span>{ props.Location }</span>
+                </div>
+                
+            </div>
+            @ButtonLink(""){
+                <span>Откликнуться</span>
+            }
+        </div>
+    </div>
+}
+
+
+templ PostCatdStyle() {
+<style>
+    .post-card__title__wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Две равные колонки */
+        gap: 20px;
+        padding-left: 0; /* Убираем отступ слева полностью */
+        margin-left: 0;
+        grid-template-columns: minmax(0, 400px) minmax(0, 1200px);
+        grid-auto-rows: 50px;
+    }
+    .post-card__description__wrapper {
+        display: flex;
+        align-items: flex-start;
+    }
+    .post-card__description {
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--color-grey);
+        padding-top: 4px; /* Дополнительный отступ слева */
+    }
+
+    .post-card {
+        display: flex;
+        flex-direction: column;
+        padding: 40px;
+        background: var(--color-white);
+        box-shadow: 0px 3px 8px 0px rgba(48, 150, 137, 0.08);
+        gap: 24px ;
+        width: 100%;
+
+    }
+    .post-card__createdat{
+        padding: 8px;
+        color: var(--color-primary);
+        background: rgba(48, 150, 137, 0.08);
+        border-radius: 8px;
+    }
+    .post-card__title{
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+    }
+    .post-card__name{
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--color-black);
+    }
+    .post-card__breed{
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--color-black);
+    }
+    .post-card__id{
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--color-black);
+    }
+    .post-card__footer{
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+    .post-card__stats{
+        display: flex;
+        gap: 24px;
+    }
+    .post-card__stat{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+    }
+    
+</style>
+}

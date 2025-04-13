@@ -1,0 +1,51 @@
+package widgets
+
+import "zimniyles/fibergo/views/components"
+
+templ LoginForm() {
+    @LoginFormStyle()
+    
+        <div id="login-result"> </div>
+        <form hx-ext="response-targets" hx-post="/api/login" hx-trigger="submit" class="login-form"
+            hx-target-error="#login-result"
+            hx-swap="innerHTML"
+            >
+            @components.Input(components.InputProps{
+                Name: "login",
+                Placeholder: "Псевдоним",
+            })
+            @components.Input(components.InputProps{
+                Name: "email",
+                Placeholder: "Email",
+            })
+            @components.Input(components.InputProps{
+                Name: "password",
+                Placeholder: "Пароль",
+                Type: "password",
+            })
+            @components.SubmitButton(){
+            <span class="post-form__submit">Опубликовать</span>
+            }
+        </form>
+    
+
+}
+
+templ LoginFormStyle() {
+    <style>
+        #login-result{
+            margin-bottom: 30px;
+        }
+
+        .login-form{
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 520px;
+        }
+ 
+
+
+    </style>   
+}

@@ -1,0 +1,18 @@
+{
+  "name": "go-fiber",
+  "version": "1.0.0",
+  "description": "fo-fiber",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "no"
+  },
+  "keywords": [
+    "zmnls"
+  ],
+  "author": "zmnls",
+  "license": "ISC"
+}

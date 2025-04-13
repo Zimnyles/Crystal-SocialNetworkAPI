@@ -1,0 +1,3 @@
+ALTER TABLE users 
+ADD COLUMN role INT NOT NULL DEFAULT 0 
+CHECK (role IN (0, 1));

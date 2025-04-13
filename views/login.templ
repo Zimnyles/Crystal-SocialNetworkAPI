@@ -1,0 +1,27 @@
+package views
+
+import "zimniyles/fibergo/views/components"
+import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/views/widgets"
+
+templ Login() {
+    @layout.Layout(layout.LayoutProps{
+        Title: "Вход",
+        MetaDescriptiom: "Войти на сайт котики.ру",
+    }){
+        <main>
+            @MainStyle()
+            @layout.Header(){
+            @components.Title("Вход")
+            @widgets.LoginForm()
+            }
+        </main>
+    }
+       
+}
+
+templ LoginStyle() {
+<style>
+    
+</style>
+}

@@ -1,0 +1,23 @@
+package layout
+
+
+
+templ HeaderSmall() {
+    @HeaderSmallStyle()
+    <div class="headerSmall">
+    @Menu()
+        { children... }
+    </div>
+}
+
+templ HeaderSmallStyle() {
+    <style>
+        .headerSmall{
+            background: #222222;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+}
