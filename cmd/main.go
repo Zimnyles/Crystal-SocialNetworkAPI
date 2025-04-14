@@ -7,6 +7,7 @@ import (
 	"zimniyles/fibergo/internal/post"
 	"zimniyles/fibergo/pkg/database"
 	"zimniyles/fibergo/pkg/logger"
+	"zimniyles/fibergo/pkg/middleware"
 
 	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
@@ -42,6 +43,7 @@ func main() {
 		Storage: storage,
 	})
 
+	app.Use(middleware.AuthMiddleware(store))
 	//Repositories
 	postRepository := post.NewPostRepository(dbpool, customLogger)
 	homeRepository := home.NewUsersRepository(dbpool, customLogger)

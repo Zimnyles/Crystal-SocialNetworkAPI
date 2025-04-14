@@ -28,7 +28,7 @@ templ Menu() {
                     </div>
                     <span class="menu-right-login">{ login } </span>
                 </div>
-                <a class="menu__right-link" href="login">Выход</a>
+                <a class="menu__right-link" hx-trigger="click" hx-get="/api/logout">Выход</a>
             }
             
             @components.ButtonLink("/register"){

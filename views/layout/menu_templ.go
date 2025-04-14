@@ -59,7 +59,7 @@ func Menu() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</span></div><a class=\"menu__right-link\" href=\"login\">Выход</a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</span></div><a class=\"menu__right-link\" hx-trigger=\"click\" hx-get=\"/api/logout\">Выход</a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

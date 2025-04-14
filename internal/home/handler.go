@@ -43,9 +43,28 @@ func NewHandler(router fiber.Router, customLogger *zerolog.Logger, repository *p
 	h.router.Get("login", h.login)
 	h.router.Get("register", h.register)
 	h.router.Get("/404", h.error)
+	h.router.Get("api/logout", h.apiLogout)
 	//POST
 	h.router.Post("api/login", h.apiLogin)
 	h.router.Post("api/registration", h.apiRegistration)
+}
+
+func (h *HomeHandler) apiLogout(c *fiber.Ctx) error {
+
+	sess, err := h.store.Get(c)
+	if err != nil {
+		panic(err)
+	}
+
+	sess.Delete("login")
+
+	if err := sess.Save(); err != nil {
+		panic(err)
+	}
+
+	c.Response().Header.Add("Hx-Redirect", "/")
+	return c.Redirect("/", http.StatusOK)
+
 }
 
 func (h *HomeHandler) apiRegistration(c *fiber.Ctx) error {
@@ -140,17 +159,7 @@ func (h *HomeHandler) apiLogin(c *fiber.Ctx) error {
 func (h *HomeHandler) home(c *fiber.Ctx) error {
 	PAGE_ITEMS := 2
 	page := c.QueryInt("page", 1)
-	sess, err := h.store.Get(c)
-	if err != nil {
-		panic(err)
-	}
-	userLogin := ""
-	if login, ok := sess.Get("login").(string); ok {
-		h.customLogger.Info().Msg("1")
-		userLogin = login
-	}
-
-	c.Locals("login", userLogin)
+	
 
 	count := h.repository.CountAll()
 	posts, err := h.repository.GetAll(PAGE_ITEMS, (page-1)*PAGE_ITEMS)
@@ -165,18 +174,6 @@ func (h *HomeHandler) home(c *fiber.Ctx) error {
 
 func (h *HomeHandler) login(c *fiber.Ctx) error {
 	component := views.Login()
-
-	sess, err := h.store.Get(c)
-	if err != nil {
-		panic(err)
-	}
-	userLogin := ""
-	if login, ok := sess.Get("login").(string); ok {
-		userLogin = login
-		h.customLogger.Info().Msg("1")
-	}
-
-	c.Locals("login", userLogin)
 
 	return tadapter.Render(c, component, http.StatusOK)
 }
