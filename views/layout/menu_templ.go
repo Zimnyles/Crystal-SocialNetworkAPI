@@ -35,17 +35,45 @@ func Menu() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"menu\"><div class=\"menu-leftpart\"><a href=\"/\"><img src=\"/public/images/logo.png\" width=\"160\" height=\"48\"></a><div class=\"menu-leftpart-item\"><div class=\"menu-leftpart-item-ico\"><img src=\"/public/icons/location-w.svg\" alt=\"location ico\"></div><a class=\"menu__right-link\">Уфа</a></div></div><div class=\"menu__right\"><a class=\"menu__right-link-fav\">Избранное</a>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"menu\"><div class=\"menu-leftpart\"><a href=\"/\"><img src=\"/public/images/logo.png\" width=\"160\" height=\"48\"></a><div class=\"menu-leftpart-item\"><div class=\"menu-leftpart-item-ico\"><img src=\"/public/icons/location-w.svg\" alt=\"location ico\"></div><a class=\"menu__right-link\">Уфа</a></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		login := ctx.Value("login").(string)
+		menu__right_islogined := ""
+		if login != "" {
+			menu__right_islogined = "menu__right"
+		} else {
+			menu__right_islogined = "menu__right_unlog"
+		}
+		var templ_7745c5c3_Var2 = []any{menu__right_islogined}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/layout/menu.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><a class=\"menu__right-link-fav\">Избранное</a> ")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		if login == "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<a class=\"menu__right-link\" href=\"login\">Войти</a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<a class=\"menu__right-link\" href=\"login\">Войти</a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_Var4 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 				templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 				if !templ_7745c5c3_IsBuffer {
@@ -57,36 +85,36 @@ func Menu() templ.Component {
 					}()
 				}
 				ctx = templ.InitializeContext(ctx)
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<span>Зарегестрироваться</span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<span>Зарегестрироваться</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				return nil
 			})
-			templ_7745c5c3_Err = components.ButtonLink("/register").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.ButtonLink("/register").Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"menu-rightpart-item\"><div class=\"menu-leftpart-item-ico-user\"><img width=\"24px\" height=\"24px\" src=\"/public/icons/user2.svg\" alt=\"user ico\"></div><span class=\"menu-right-login\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div class=\"menu-rightpart-item\"><div class=\"menu-leftpart-item-ico-user\"><img width=\"24px\" height=\"24px\" src=\"/public/icons/user2.svg\" alt=\"user ico\"></div><span class=\"menu-right-login\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(login)
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(login)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/layout/menu.templ`, Line: 32, Col: 58}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/layout/menu.templ`, Line: 39, Col: 58}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</span></div><a class=\"menu__right-link\" hx-trigger=\"click\" hx-get=\"/api/logout\">Выход</a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</span></div><a class=\"menu__right-link\" hx-trigger=\"click\" hx-get=\"/api/logout\">Выход</a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -110,12 +138,12 @@ func MenuStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<style>\r\n        .menu-right-login{\r\n            text-decoration: none;\r\n            color: var(--color-white);\r\n            font-size: 16px;\r\n            cursor: pointer;    \r\n        }\r\n        .menu-leftpart-item{\r\n            display: flex;\r\n            flex-direction: row;\r\n            align-items: center;\r\n            margin-left: 40px;\r\n            gap: 10px;\r\n            \r\n        }\r\n\r\n        .menu-rightpart-item{\r\n            display: flex;\r\n            flex-direction: row;\r\n            align-items: center;\r\n            gap: 10px;\r\n            \r\n        }\r\n\r\n        .menu-leftpart-item-ico-user{\r\n            color: #ffffff;\r\n        }\r\n\r\n        .menu-leftpart-item-ico{\r\n            margin-left: 20px;\r\n            color: #ffffff;\r\n        }\r\n\r\n        .menu-leftpart{\r\n            display: flex;\r\n            flex-direction: row;\r\n            align-items: center;\r\n            \r\n            \r\n\r\n        }\r\n\r\n        .menu {\r\n            display: flex;\r\n\r\n            padding: 10px 0;\r\n            max-width: 1850px;\r\n            vertical-align: middle;\r\n            align-items: center;\r\n            width: 100%;\r\n        }\r\n    \r\n        .menu__right {\r\n            display: flex;\r\n            gap: 20px;\r\n            align-items: center;\r\n            margin-left: 140vh;\r\n    \r\n        }\r\n    \r\n        .menu__right-link {\r\n            text-decoration: none;\r\n            color: var(--color-white);\r\n            font-size: 16px;\r\n            cursor: pointer;\r\n    \r\n        }\r\n\r\n        .menu__right-link-fav {\r\n            text-decoration: none;\r\n            color: var(--color-white);\r\n            font-size: 16px;\r\n            cursor: pointer;\r\n    \r\n        }\r\n\r\n        .menu__right-link-fav:hover {\r\n            color: #9f9f9f;\r\n    \r\n        }\r\n    \r\n        .menu__right-link:hover {\r\n            color: #9f9f9f;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<style>\r\n        .menu-right-login{\r\n            text-decoration: none;\r\n            color: var(--color-white);\r\n            font-size: 16px;\r\n            cursor: pointer;    \r\n        }\r\n        .menu-leftpart-item{\r\n            display: flex;\r\n            flex-direction: row;\r\n            align-items: center;\r\n            margin-left: 40px;\r\n            gap: 10px;\r\n            \r\n        }\r\n\r\n        .menu-rightpart-item{\r\n            display: flex;\r\n            flex-direction: row;\r\n            align-items: center;\r\n            gap: 10px;\r\n            \r\n        }\r\n\r\n        .menu-leftpart-item-ico-user{\r\n            color: #ffffff;\r\n        }\r\n\r\n        .menu-leftpart-item-ico{\r\n            margin-left: 20px;\r\n            color: #ffffff;\r\n        }\r\n\r\n        .menu-leftpart{\r\n            display: flex;\r\n            flex-direction: row;\r\n            align-items: center;\r\n            \r\n            \r\n\r\n        }\r\n\r\n        .menu {\r\n            display: flex;\r\n\r\n            padding: 10px 0;\r\n            max-width: 1850px;\r\n            vertical-align: middle;\r\n            align-items: center;\r\n            width: 100%;\r\n        }\r\n    \r\n        .menu__right {\r\n            display: flex;\r\n            gap: 20px;\r\n            align-items: center;\r\n            margin-left: 140vh;\r\n    \r\n        }\r\n\r\n        .menu__right_unlog{\r\n            display: flex;\r\n            gap: 20px;\r\n            align-items: center;\r\n            margin-left: 125vh;\r\n        }\r\n    \r\n        .menu__right-link {\r\n            text-decoration: none;\r\n            color: var(--color-white);\r\n            font-size: 16px;\r\n            cursor: pointer;\r\n    \r\n        }\r\n        \r\n\r\n        .menu__right-link-fav {\r\n            text-decoration: none;\r\n            color: var(--color-white);\r\n            font-size: 16px;\r\n            cursor: pointer;\r\n    \r\n        }\r\n\r\n        .menu__right-link-fav:hover {\r\n            color: #9f9f9f;\r\n    \r\n        }\r\n    \r\n        .menu__right-link:hover {\r\n            color: #9f9f9f;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
