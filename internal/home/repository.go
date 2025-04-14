@@ -22,7 +22,18 @@ func NewUsersRepository(dbpool *pgxpool.Pool, customLogger *zerolog.Logger) *Use
 	}
 }
 
-func (r *UsersRepository) addUser(form UserCreateForm, logger *zerolog.Logger) error {
+func (r *UsersRepository) addUser(form UserCreateForm, logger *zerolog.Logger) (string, error) {
+
+	emailIsExists, err := r.IsEmailExists(form, logger)
+	if emailIsExists {
+		return "Аккаунт с таким email уже существует", fmt.Errorf("невозможно зарегестрировать аккаунт : %w", err)
+	}
+
+	loginIsExists, err := r.IsLoginExists(form, logger)
+	if loginIsExists {
+		return "Аккаунт с таким логином уже существует", fmt.Errorf("невозможно зарегестрировать аккаунт : %w", err)
+	}
+
 	query := `
 		INSERT INTO users (email, login, password, createdat) 
 		VALUES (@email, @login, @password, @createdat)
@@ -34,12 +45,33 @@ func (r *UsersRepository) addUser(form UserCreateForm, logger *zerolog.Logger) e
 		"createdat": time.Now(),
 	}
 
-	
-	_, err := r.Dbpool.Exec(context.Background(), query, args)
+	_, err = r.Dbpool.Exec(context.Background(), query, args)
 	if err != nil {
-		return fmt.Errorf("невозможно зарегестрировать аккаунт : %w", err)
+		return "Ошибка сервера, попробуйте позже", fmt.Errorf("невозможно зарегестрировать аккаунт : %w", err)
 	}
 	logger.Info().Msg("зарегестрирован аккаунт")
-	return nil
+	return "Аккаунт зарегестрирован", nil
 
+}
+
+func (r *UsersRepository) IsEmailExists(form UserCreateForm, logger *zerolog.Logger) (bool, error) {
+	var exists bool
+	err := r.Dbpool.QueryRow(
+		context.Background(),
+		"SELECT EXISTS(SELECT 1 FROM users WHERE email = $1)",
+		form.Email,
+	).Scan(&exists)
+
+	return exists, err
+}
+
+func (r *UsersRepository) IsLoginExists(form UserCreateForm, logger *zerolog.Logger) (bool, error) {
+	var exists bool
+	err := r.Dbpool.QueryRow(
+		context.Background(),
+		"SELECT EXISTS(SELECT 1 FROM users WHERE login = $1)",
+		form.Login,
+	).Scan(&exists)
+
+	return exists, err
 }

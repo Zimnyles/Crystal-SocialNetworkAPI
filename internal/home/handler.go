@@ -92,15 +92,13 @@ func (h *HomeHandler) apiRegistration(c *fiber.Ctx) error {
 		return tadapter.Render(c, component, http.StatusBadRequest)
 	}
 
-	err = h.repositoryH.addUser(form, h.customLogger)
+	msg, err := h.repositoryH.addUser(form, h.customLogger)
 	if err != nil {
 		h.customLogger.Error().Msg(err.Error())
-		component = components.Notification("Произошла ошибка на сервере, попробуйте повторить попытку позже", components.NotificationFail)
+		component = components.Notification(msg, components.NotificationFail)
 		return tadapter.Render(c, component, http.StatusBadRequest)
 	}
 
-	msg := "Аккаунт зарегестрирован"
-	
 	sess.Set("login", form.Login)
 	if err := sess.Save(); err != nil {
 		panic(err)
