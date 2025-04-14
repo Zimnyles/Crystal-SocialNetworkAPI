@@ -13,15 +13,17 @@ templ Main(posts []post.Post, pagesCount int, page int) {
         <main>
             @MainStyle()
             @layout.HeaderSmall()
-            
-            
-            @widgets.PostsList(posts, pagesCount, page)
-            
-            
-            <div class="main_submit-form">
-                @widgets.PostForm()
-                
+            <div class="leftmenu-and-content-wrappper">
+                @widgets.LeftMenu()
+                <div class="postlist-submitform-wrapper">
+                @widgets.PostsList(posts, pagesCount, page)
+                <div class="main_submit-form">
+                    @widgets.PostForm()
+                    
+                </div>
+                </div>
             </div>
+            
         </main>
     }
        
@@ -29,6 +31,19 @@ templ Main(posts []post.Post, pagesCount int, page int) {
 
 templ MainStyle() {
 <style>
+    .postlist-submitform-wrapper{
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .leftmenu-and-content-wrappper{
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
     .main_submit-form {
         display: flex;
         align-items:  center;

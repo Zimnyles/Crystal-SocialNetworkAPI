@@ -1,0 +1,49 @@
+package widgets
+
+templ LeftMenu() {
+    @LeftMenuStyle()
+    <div class="left-menu">
+        
+        <a href="/profile">Мой профиль</a>
+        <a href="/news">Новости</a>
+        <a href="/messages">Сообщения</a>
+        <a href="/friends">Друзья</a>
+        <a href="/groups">Группы</a>
+        <a href="/ads">Объявления</a>
+        <a href="/photos">Фотографии</a>
+    </div>
+}
+
+templ LeftMenuStyle() {
+    <style>
+    .left-menu {
+        width: 220px;
+        background-color: #363636;
+        color: white;
+        padding: 10px 0;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+    
+    .left-menu a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 12px 20px;
+        transition: background-color 0.3s;
+    }
+    
+    .left-menu a:hover {
+        
+    }
+    
+    .left-menu .menu-title {
+        font-weight: bold;
+        padding: 15px 20px 5px;
+        color: #bdc3c7;
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+    </style>
+}

@@ -37,7 +37,7 @@ func PostsList(posts []post.Post, pagesCount int, page int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"posts-list-wrapper\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"posts-list-wrapper\"><div class=\"title-wrapper\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,7 +45,7 @@ func PostsList(posts []post.Post, pagesCount int, page int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"posts-list\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><div class=\"posts-list\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -131,7 +131,7 @@ func PostsListStyle() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<style>\r\n    .post-list__pagination-item {\r\n        display: flex;\r\n        gap: 8px;\r\n        align-items: center;\r\n        \r\n    }\r\n    .post-list__pagination-item a{\r\n        text-decoration: none;\r\n        color: var(--color-grey);\r\n        \r\n    }\r\n    .post-list__pagination-item a:hover{\r\n        color: #585858;\r\n        \r\n    }\r\n    .post-list__pagination{\r\n        display: flex;\r\n        justify-content: space-between;\r\n        gap: 24px;\r\n        \r\n    }\r\n    .posts-list-wrapper{\r\n        width: 100%;\r\n        max-width: 1296px;\r\n        margin: 0 auto;\r\n        padding: 60px 0;  \r\n    }\r\n   .posts-list{\r\n    display: flex;\r\n    align-items: center;\r\n    flex-direction: column;\r\n    gap: 24px;\r\n    margin-bottom: 50px;\r\n      \r\n    \r\n   }\r\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<style>\r\n    .title-wrapper{\r\n        margin-left: 120px;\r\n    }\r\n    .post-list__pagination-item {\r\n        display: flex;\r\n        gap: 8px;\r\n        align-items: center;\r\n        \r\n    }\r\n    .post-list__pagination-item a{\r\n        text-decoration: none;\r\n        color: var(--color-grey);\r\n        \r\n    }\r\n    .post-list__pagination-item a:hover{\r\n        color: #585858;\r\n        \r\n    }\r\n    .post-list__pagination{\r\n        display: flex;\r\n        justify-content: space-between;\r\n        gap: 24px;\r\n        margin-left: 120px;\r\n        margin-right: 120px;\r\n        \r\n    }\r\n    .posts-list-wrapper{\r\n        width: 100%;\r\n        max-width: 1700px;\r\n        margin: 0 auto;\r\n        padding: 60px 0;  \r\n    }\r\n   .posts-list{\r\n    display: flex;\r\n    align-items: center;\r\n    flex-direction: column;\r\n    gap: 24px;\r\n    margin-bottom: 50px;\r\n    margin-left: 120px;\r\n    margin-right: 120px;\r\n      \r\n    \r\n   }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
