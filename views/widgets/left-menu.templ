@@ -2,9 +2,11 @@ package widgets
 
 templ LeftMenu() {
     @LeftMenuStyle()
+    {{ login := ctx.Value("login").(string) }}
+    {{ MyProfileHref := "/profile/" + login }}
     <div class="left-menu">
         
-        <a href="/profile">Мой профиль</a>
+        <a href={ templ.SafeURL(MyProfileHref) }>Мой профиль</a>
         <a href="/news">Новости</a>
         <a href="/messages">Сообщения</a>
         <a href="/friends">Друзья</a>
@@ -17,7 +19,8 @@ templ LeftMenu() {
 templ LeftMenuStyle() {
     <style>
     .left-menu {
-        width: 220px;
+        min-width: 220px;
+        max-width: 220px;
         background-color: #363636;
         color: white;
         padding: 10px 0;

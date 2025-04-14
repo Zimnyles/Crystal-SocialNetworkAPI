@@ -1,0 +1,26 @@
+package views
+
+import "zimniyles/fibergo/views/layout"
+import "strconv"
+
+templ ErrorPage(errorStatus int, msg string) {
+    @layout.Layout(layout.LayoutProps{
+    Title: "Ошибка",
+    MetaDescriptiom: "404",
+    }){
+    <main>
+       <p>page not found</p>
+       {{ error := strconv.Itoa(errorStatus)}}
+       <p>{ error }</p>
+       <p>{ msg }</p>
+        <p> :( </p>
+    </main>
+    }
+
+}
+
+templ ErrorPageStyle() {
+<style>
+
+</style>
+}

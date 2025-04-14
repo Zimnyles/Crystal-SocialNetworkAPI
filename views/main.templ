@@ -14,7 +14,10 @@ templ Main(posts []post.Post, pagesCount int, page int) {
             @MainStyle()
             @layout.HeaderSmall()
             <div class="leftmenu-and-content-wrappper">
-                @widgets.LeftMenu()
+                {{ login := ctx.Value("login").(string) }}
+                if login != ""{
+                    @widgets.LeftMenu()
+                }
                 <div class="postlist-submitform-wrapper">
                 @widgets.PostsList(posts, pagesCount, page)
                 <div class="main_submit-form">

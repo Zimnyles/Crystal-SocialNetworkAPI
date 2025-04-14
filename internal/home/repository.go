@@ -21,12 +21,16 @@ type UserCredentials struct {
     PasswordHash string 
 }
 
+
+
 func NewUsersRepository(dbpool *pgxpool.Pool, customLogger *zerolog.Logger) *UsersRepository {
 	return &UsersRepository{
 		Dbpool:       dbpool,
 		CustomLogger: customLogger,
 	}
 }
+
+
 
 func (r *UsersRepository) GetPasswordByEmail(form LoginForm, logger *zerolog.Logger) (*UserCredentials, error) {
 	query := `
@@ -117,3 +121,4 @@ func (r *UsersRepository) IsEmailExistsForLogin(form LoginForm, logger *zerolog.
 
 	return exists, err
 }
+
