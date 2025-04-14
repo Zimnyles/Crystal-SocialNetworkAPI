@@ -21,6 +21,9 @@ templ Menu() {
             {{ login := ctx.Value("login").(string) }}
             if login == "" {
                 <a  class="menu__right-link" href="login">Войти</a>
+            @components.ButtonLink("/register"){
+                <span>Зарегестрироваться</span>
+                }
             } else {
                 <div class="menu-rightpart-item">
                     <div class="menu-leftpart-item-ico-user">
@@ -31,9 +34,7 @@ templ Menu() {
                 <a class="menu__right-link" hx-trigger="click" hx-get="/api/logout">Выход</a>
             }
             
-            @components.ButtonLink("/register"){
-                <span>Зарегестрироваться</span>
-            }
+            
         </div>
     </div>
 }

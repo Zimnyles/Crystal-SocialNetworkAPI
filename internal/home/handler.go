@@ -3,7 +3,9 @@ package home
 import (
 	"math"
 	"net/http"
+	"zimniyles/fibergo/config"
 	"zimniyles/fibergo/internal/post"
+	"zimniyles/fibergo/pkg/jwt"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/pkg/validator"
 	"zimniyles/fibergo/views"
@@ -15,6 +17,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/rs/zerolog"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type HomeHandler struct {
@@ -30,7 +33,7 @@ type User struct {
 	Name string
 }
 
-func NewHandler(router fiber.Router, customLogger *zerolog.Logger, repository *post.PostRepository, store *session.Store, repositoryH *UsersRepository) {
+func NewHandler(router fiber.Router, customLogger *zerolog.Logger, repository *post.PostRepository, store *session.Store, repositoryH *UsersRepository, authConnfig *config.AuthConfig) {
 	h := &HomeHandler{
 		router:       router,
 		customLogger: customLogger,
@@ -104,8 +107,8 @@ func (h *HomeHandler) apiRegistration(c *fiber.Ctx) error {
 		panic(err)
 	}
 
-	component = components.Notification(msg, components.NotificationSuccess)
-	return tadapter.Render(c, component, http.StatusOK)
+	c.Response().Header.Add("Hx-Redirect", "/")
+	return c.Redirect("/", http.StatusOK)
 
 }
 
@@ -129,35 +132,60 @@ func (h *HomeHandler) register(c *fiber.Ctx) error {
 }
 
 func (h *HomeHandler) apiLogin(c *fiber.Ctx) error {
+
 	form := LoginForm{
 		Login:    c.FormValue("login"),
 		Email:    c.FormValue("email"),
 		Password: c.FormValue("password"),
 	}
 
-	if form.Login == "1" && form.Email == "2" && form.Password == "3" {
-		sess, err := h.store.Get(c)
-		if err != nil {
-			panic(err)
-		}
-		sess.Set("login", form.Login)
-		if err := sess.Save(); err != nil {
-			panic(err)
-		}
+	emailIsExists, _ := h.repositoryH.IsEmailExistsForLogin(form, h.customLogger)
 
-		c.Response().Header.Add("Hx-Redirect", "/")
-		return c.Redirect("/", http.StatusOK)
+	if !emailIsExists {
+		component := components.Notification("Пользователся с такой почтой не существует", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
 	}
 
-	component := components.Notification("Неверный логин или пароль", components.NotificationFail)
-	return tadapter.Render(c, component, http.StatusBadRequest)
+	UserCredentials, _ := h.repositoryH.GetPasswordByEmail(form, h.customLogger)
+	if UserCredentials == nil {
+		h.customLogger.Info().Msg("ошбика сервера 1")
+		component := components.Notification("Ошибка сервера, попробуйте позже", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+
+	err := bcrypt.CompareHashAndPassword([]byte(UserCredentials.PasswordHash), []byte(form.Password))
+	if err != nil {
+		h.customLogger.Info().Msg("ошбика сервера 2")
+		component := components.Notification("Неверный пароль", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+
+	jwt := jwt.NewJWT(config.NewAuthConfig().Secret)
+	jwtToken, err := jwt.Create(form.Email)
+	if err != nil {
+		component := components.Notification("jwt токен не был сгенерирован, ошибка на сервере", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+
+	c.SendString(jwtToken)
+
+	sess, err := h.store.Get(c)
+	if err != nil {
+		panic(err)
+	}
+	sess.Set("login", form.Login)
+	if err := sess.Save(); err != nil {
+		panic(err)
+	}
+
+	c.Response().Header.Add("Hx-Redirect", "/")
+	return c.Redirect("/", http.StatusOK)
 
 }
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
 	PAGE_ITEMS := 2
 	page := c.QueryInt("page", 1)
-	
 
 	count := h.repository.CountAll()
 	posts, err := h.repository.GetAll(PAGE_ITEMS, (page-1)*PAGE_ITEMS)

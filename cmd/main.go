@@ -21,6 +21,7 @@ func main() {
 	config.NewDBConfig()
 	logConfig := config.NewLogConfig()
 	dbConfig := config.NewDBConfig()
+	authConfig := config.NewAuthConfig()
 	customLogger := logger.NewLogger(logConfig)
 
 	app := fiber.New()
@@ -49,7 +50,7 @@ func main() {
 	homeRepository := home.NewUsersRepository(dbpool, customLogger)
 
 	//Handlers
-	home.NewHandler(app, customLogger, postRepository, store, homeRepository)
+	home.NewHandler(app, customLogger, postRepository, store, homeRepository, authConfig)
 	post.NewHandler(app, customLogger, postRepository)
 
 	//Listen and serve

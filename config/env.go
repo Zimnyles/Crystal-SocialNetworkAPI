@@ -15,6 +15,10 @@ func Init() {
 	log.Println(".env file loaded")
 }
 
+type AuthConfig struct{
+	Secret string
+}
+
 type DataBaseConfig struct {
 	Url string
 }
@@ -22,6 +26,12 @@ type DataBaseConfig struct {
 type LogConfig struct {
 	Level  int
 	Format string
+}
+
+func NewAuthConfig() *AuthConfig{
+	return &AuthConfig{
+		Secret: getString("SECRET", ""),
+	}
 }
 
 func NewLogConfig() *LogConfig {
