@@ -13,6 +13,7 @@ templ ProfilePage(userData models.ProfileCredentials) {
         <main>
             @ProfilePageStyle()
             @layout.HeaderSmall()
+            {{ login := ctx.Value("login").(string) }}
             <div class="leftmenu-and-content-wrappper">
                 <div class="left-menu">
                     @widgets.LeftMenu()
@@ -28,26 +29,30 @@ templ ProfilePage(userData models.ProfileCredentials) {
                             <input id="avatarInput" type="file" name="avatar" accept="image/*" style="display: none;">
                         </form>
                         <img class="profile-avatar" src={ userData.AvatarPath } alt="Изображение профиля">
-                        <p id="avatarPreview">Сменить аватар</p>
                         <div class="profile-username">{ userData.Login }</div>
+                        if login == userData.Login {
+                            <p id="avatarPreview">Сменить аватар</p>
+                            
+                            
+                            <script>
+                                const preview = document.getElementById("avatarPreview");
+                                const input = document.getElementById("avatarInput");
+                                const form = document.getElementById("avatarForm");
 
-                        <script>
-                            const preview = document.getElementById("avatarPreview");
-                            const input = document.getElementById("avatarInput");
-                            const form = document.getElementById("avatarForm");
+                                // Клик на текст — открывает выбор файла
+                                preview.addEventListener("click", function () {
+                                    input.click();
+                                });
 
-                            // Клик на текст — открывает выбор файла
-                            preview.addEventListener("click", function () {
-                                input.click();
-                            });
-
-                            // Только после выбора файла — отправляем форму
-                            input.addEventListener("change", function () {
-                                if (input.files.length > 0) {
-                                    form.submit(); // или через HTMX, если хочешь
-                                }
-                            });
-                        </script>
+                                // Только после выбора файла — отправляем форму
+                                input.addEventListener("change", function () {
+                                    if (input.files.length > 0) {
+                                        form.submit(); // или через HTMX, если хочешь
+                                    }
+                                });
+                            </script>
+                        }
+                        
 
                     </div>
 

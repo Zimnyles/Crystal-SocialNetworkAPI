@@ -3,6 +3,7 @@ package home
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -69,13 +70,14 @@ func (r *UsersRepository) addUser(form UserCreateForm, logger *zerolog.Logger) (
 		return "Ошибка сервера, попробуйте позже", fmt.Errorf("невозможно зарегестрировать аккаунт : %w", err)
 	}
 
+
 	query := `
 		INSERT INTO users (email, login, password, createdat) 
 		VALUES (@email, @login, @password, @createdat)
 	`
 	args := pgx.NamedArgs{
 		"email":     form.Email,
-		"login":     form.Login,
+		"login":     strings.ToLower(form.Login),
 		"password":  hashedPassword,
 		"createdat": time.Now(),
 	}

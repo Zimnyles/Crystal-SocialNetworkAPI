@@ -2,6 +2,7 @@ package home
 
 import (
 	"net/http"
+	"strings"
 	"zimniyles/fibergo/config"
 	"zimniyles/fibergo/internal/post"
 	"zimniyles/fibergo/pkg/jwt"
@@ -101,7 +102,7 @@ func (h *HomeHandler) apiRegistration(c *fiber.Ctx) error {
 		return tadapter.Render(c, component, http.StatusBadRequest)
 	}
 
-	sess.Set("login", form.Login)
+	sess.Set("login", strings.ToLower(form.Login))
 	if err := sess.Save(); err != nil {
 		panic(err)
 	}
@@ -172,7 +173,7 @@ func (h *HomeHandler) apiLogin(c *fiber.Ctx) error {
 	if err != nil {
 		panic(err)
 	}
-	sess.Set("login", form.Login)
+	sess.Set("login", strings.ToLower(form.Login))
 	if err := sess.Save(); err != nil {
 		panic(err)
 	}
@@ -184,11 +185,8 @@ func (h *HomeHandler) apiLogin(c *fiber.Ctx) error {
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
 
-	
-
-
 	return c.Redirect("/feed", 302)
-	
+
 }
 
 func (h *HomeHandler) login(c *fiber.Ctx) error {
