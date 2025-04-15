@@ -7,7 +7,9 @@ type ProfileCredentials struct {
 	Email     string `db:"email"`
 	Createdat time.Time `db:"createdat"`
 	Role      string `db:"role"`
+	AvatarPath string `db:"avatarpath"`
 }
+
 
 
 

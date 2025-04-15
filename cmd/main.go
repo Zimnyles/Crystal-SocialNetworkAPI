@@ -47,6 +47,8 @@ func main() {
 		Storage: storage,
 	})
 
+	app.Static("/static", "./static") 
+
 	app.Use(middleware.AuthMiddleware(store))
 	//Repositories
 	postRepository := post.NewPostRepository(dbpool, customLogger)
@@ -58,7 +60,7 @@ func main() {
 	//Handlers
 	home.NewHandler(app, customLogger, postRepository, store, homeRepository, authConfig)
 	post.NewHandler(app, customLogger, postRepository)
-	profile.NewHandler(app, customLogger, profileRepository)
+	profile.NewHandler(app, customLogger, profileRepository,store)
 	announcements.NewHandler(app, customLogger, announcmentsRepository, postRepository)
 	feed.NewFeedHandler(app, customLogger, feedRepository)
 	//Listen and serve

@@ -52,6 +52,7 @@ func LeftMenu() templ.Component {
 	})
 }
 
+// position: sticky;
 func LeftMenuStyle() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -73,7 +74,7 @@ func LeftMenuStyle() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<style>\r\n    .left-menu {\r\n        min-width: 220px;\r\n        max-width: 220px;\r\n        background-color: #363636;\r\n        color: white;\r\n        padding: 10px 0;\r\n        height: 100vh;\r\n        position: sticky;\r\n        top: 0;\r\n    }\r\n    \r\n    .left-menu a {\r\n        display: block;\r\n        color: white;\r\n        text-decoration: none;\r\n        padding: 12px 20px;\r\n        transition: background-color 0.3s;\r\n    }\r\n    \r\n    .left-menu a:hover {\r\n        \r\n    }\r\n    \r\n    .left-menu .menu-title {\r\n        font-weight: bold;\r\n        padding: 15px 20px 5px;\r\n        color: #bdc3c7;\r\n        font-size: 14px;\r\n        text-transform: uppercase;\r\n    }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<style>\r\n    .left-menu {\r\n        min-width: 220px;\r\n        max-width: 220px;\r\n        background-color: #222222;\r\n        color: white;\r\n        padding: 10px 0;\r\n        height: 100vh;\r\n        \r\n        top: 0;\r\n    }\r\n    \r\n    .left-menu a {\r\n        display: block;\r\n        color: white;\r\n        text-decoration: none;\r\n        padding: 12px 20px;\r\n        transition: background-color 0.3s;\r\n    }\r\n    \r\n    .left-menu a:hover {\r\n        \r\n    }\r\n    \r\n    .left-menu .menu-title {\r\n        font-weight: bold;\r\n        padding: 15px 20px 5px;\r\n        color: #bdc3c7;\r\n        font-size: 14px;\r\n        text-transform: uppercase;\r\n    }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

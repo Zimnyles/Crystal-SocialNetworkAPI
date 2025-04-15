@@ -19,10 +19,39 @@ templ ProfilePage(userData models.ProfileCredentials) {
                 </div>
                 <div class="profile-container">
                     <div class="profile-header">
-                        <img class="profile-avatar">
+                        
+                        <form id="avatarForm"
+                              action="/api/upload-avatar"
+                              method="POST"
+                              enctype="multipart/form-data"
+                              >
+                            <input id="avatarInput" type="file" name="avatar" accept="image/*" style="display: none;">
+                        </form>
+                        <img class="profile-avatar" src={ userData.AvatarPath } alt="Изображение профиля">
+                        <p id="avatarPreview">Сменить аватар</p>
                         <div class="profile-username">{ userData.Login }</div>
+
+                        <script>
+                            const preview = document.getElementById("avatarPreview");
+                            const input = document.getElementById("avatarInput");
+                            const form = document.getElementById("avatarForm");
+
+                            // Клик на текст — открывает выбор файла
+                            preview.addEventListener("click", function () {
+                                input.click();
+                            });
+
+                            // Только после выбора файла — отправляем форму
+                            input.addEventListener("change", function () {
+                                if (input.files.length > 0) {
+                                    form.submit(); // или через HTMX, если хочешь
+                                }
+                            });
+                        </script>
+
                     </div>
-                
+
+
                     <div class="profile-details">
                         <div class="detail-item">
                             <span class="detail-label">Логин:</span>
@@ -60,7 +89,10 @@ templ ProfilePageStyle() {
         margin: 0;
         padding: 0;
         display: flex;
-        
+        flex-direction: row;
+        justify-content: center;
+        margin-left: 200px;
+        margin-right: 200px;
         }
         
     
