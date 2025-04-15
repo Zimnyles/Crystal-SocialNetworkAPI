@@ -91,7 +91,25 @@ func ProfilePage(userData models.ProfileCredentials) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</span></div><div class=\"detail-item\"><span class=\"detail-label\">Дата регистрации:</span> <span class=\"detail-value join-date\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z\"></path></svg></span></div></div></div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</span></div><div class=\"detail-item\"><span class=\"detail-label\">Дата регистрации:</span> <span class=\"detail-value join-date\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z\"></path></svg>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			time := userData.Createdat.Format("2006-01-02")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(time)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 40, Col: 42}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</span></span></div></div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -124,12 +142,12 @@ func ProfilePageStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\r\n        .left-menu{\r\n           min-width: 220px;\r\n           max-width: 220px;\r\n        }\r\n\r\n        .leftmenu-and-content-wrappper{\r\n        margin: 0;\r\n        padding: 0;\r\n        display: flex;\r\n        \r\n        }\r\n        \r\n    \r\n        .profile-container {\r\n            width: 100%;\r\n            background: white;\r\n            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n            overflow: hidden;\r\n        }\r\n    \r\n        .profile-header {\r\n            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));\r\n            padding: 30px 20px;\r\n            text-align: center;\r\n            color: white;\r\n        }\r\n    \r\n        .profile-avatar {\r\n            width: 120px;\r\n            height: 120px;\r\n            border-radius: 50%;\r\n            object-fit: cover;\r\n            border: 4px solid white;\r\n            margin-bottom: 15px;\r\n        }\r\n    \r\n        .profile-username {\r\n            font-size: 24px;\r\n            font-weight: bold;\r\n            margin: 10px 0 5px;\r\n        }\r\n    \r\n        .profile-details {\r\n            padding: 20px;\r\n        }\r\n    \r\n        .detail-item {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            padding: 12px 0;\r\n            border-bottom: 1px solid #eee;\r\n        }\r\n    \r\n        .detail-label {\r\n            font-weight: bold;\r\n            color: #777;\r\n        }\r\n    \r\n        .detail-value {\r\n            color: #333;\r\n        }\r\n    \r\n        .join-date {\r\n            display: flex;\r\n            align-items: center;\r\n            gap: 8px;\r\n            color: #666;\r\n        }\r\n    \r\n        .join-date svg {\r\n            width: 16px;\r\n            height: 16px;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<style>\r\n        .left-menu{\r\n           min-width: 220px;\r\n           max-width: 220px;\r\n        }\r\n\r\n        .leftmenu-and-content-wrappper{\r\n        margin: 0;\r\n        padding: 0;\r\n        display: flex;\r\n        \r\n        }\r\n        \r\n    \r\n        .profile-container {\r\n            width: 100%;\r\n            background: white;\r\n            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n            overflow: hidden;\r\n        }\r\n    \r\n        .profile-header {\r\n            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));\r\n            padding: 30px 20px;\r\n            text-align: center;\r\n            color: white;\r\n        }\r\n    \r\n        .profile-avatar {\r\n            width: 120px;\r\n            height: 120px;\r\n            border-radius: 50%;\r\n            object-fit: cover;\r\n            border: 4px solid white;\r\n            margin-bottom: 15px;\r\n        }\r\n    \r\n        .profile-username {\r\n            font-size: 24px;\r\n            font-weight: bold;\r\n            margin: 10px 0 5px;\r\n        }\r\n    \r\n        .profile-details {\r\n            padding: 20px;\r\n        }\r\n    \r\n        .detail-item {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            padding: 12px 0;\r\n            border-bottom: 1px solid #eee;\r\n        }\r\n    \r\n        .detail-label {\r\n            font-weight: bold;\r\n            color: #777;\r\n        }\r\n    \r\n        .detail-value {\r\n            color: #333;\r\n        }\r\n    \r\n        .join-date {\r\n            display: flex;\r\n            align-items: center;\r\n            gap: 8px;\r\n            color: #666;\r\n        }\r\n    \r\n        .join-date svg {\r\n            width: 16px;\r\n            height: 16px;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

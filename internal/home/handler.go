@@ -1,7 +1,6 @@
 package home
 
 import (
-	"math"
 	"net/http"
 	"zimniyles/fibergo/config"
 	"zimniyles/fibergo/internal/post"
@@ -184,18 +183,12 @@ func (h *HomeHandler) apiLogin(c *fiber.Ctx) error {
 }
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
-	PAGE_ITEMS := 2
-	page := c.QueryInt("page", 1)
 
-	count := h.repository.CountAll()
-	posts, err := h.repository.GetAll(PAGE_ITEMS, (page-1)*PAGE_ITEMS)
-	if err != nil {
-		h.customLogger.Error().Msg(err.Error())
-		return c.SendStatus(500)
-	}
+	
 
-	component := views.Main(posts, int(math.Ceil(float64(count/PAGE_ITEMS))), page)
-	return tadapter.Render(c, component, http.StatusOK)
+
+	return c.Redirect("/feed", 302)
+	
 }
 
 func (h *HomeHandler) login(c *fiber.Ctx) error {

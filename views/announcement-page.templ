@@ -1,0 +1,59 @@
+package views
+
+
+import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/views/widgets"
+import "zimniyles/fibergo/internal/post"
+
+templ AnnoncementPage(posts []post.Post, pagesCount int, page int) {
+@layout.Layout(layout.LayoutProps{
+Title: "Котики.ру",
+MetaDescriptiom: "Статьи про котиков",
+}){
+<main>
+    @AnnoncementPageStyle()
+    @layout.HeaderSmall()
+    <div class="leftmenu-and-content-wrappper">
+        {{ login := ctx.Value("login").(string) }}
+        if login != ""{
+        @widgets.LeftMenu()
+        }
+        <div class="postlist-submitform-wrapper">
+            @widgets.PostsList(posts, pagesCount, page)
+            <div class="main_submit-form">
+                @widgets.PostForm()
+
+            </div>
+        </div>
+    </div>
+
+</main>
+}
+
+}
+
+templ AnnoncementPageStyle() {
+<style>
+    .postlist-submitform-wrapper {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .leftmenu-and-content-wrappper {
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    .main_submit-form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgb(239, 253, 255);
+        padding: 60px 0 120px 0;
+    }
+</style>
+}

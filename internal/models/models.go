@@ -8,3 +8,6 @@ type ProfileCredentials struct {
 	Createdat time.Time `db:"createdat"`
 	Role      string `db:"role"`
 }
+
+
+

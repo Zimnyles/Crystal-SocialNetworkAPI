@@ -44,7 +44,7 @@ func LeftMenu() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">Мой профиль</a> <a href=\"/news\">Новости</a> <a href=\"/messages\">Сообщения</a> <a href=\"/friends\">Друзья</a> <a href=\"/groups\">Группы</a> <a href=\"/ads\">Объявления</a> <a href=\"/photos\">Фотографии</a></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">Мой профиль</a> <a href=\"/news\">Новости</a> <a href=\"/messages\">Сообщения</a> <a href=\"/friends\">Друзья</a> <a href=\"/groups\">Группы</a> <a href=\"/announcements\">Объявления</a> <a href=\"/photos\">Фотографии</a></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

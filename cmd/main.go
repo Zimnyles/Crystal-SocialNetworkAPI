@@ -3,6 +3,8 @@ package main
 import (
 	"time"
 	"zimniyles/fibergo/config"
+	"zimniyles/fibergo/internal/announcements"
+	"zimniyles/fibergo/internal/feed"
 	"zimniyles/fibergo/internal/home"
 	"zimniyles/fibergo/internal/post"
 	"zimniyles/fibergo/internal/profile"
@@ -50,12 +52,15 @@ func main() {
 	postRepository := post.NewPostRepository(dbpool, customLogger)
 	homeRepository := home.NewUsersRepository(dbpool, customLogger)
 	profileRepository := profile.NewProfileRepository(dbpool, customLogger)
+	announcmentsRepository := announcements.NewAnnouncementsRepository(dbpool, customLogger)
+	feedRepository := feed.NewFeedRepository(dbpool, customLogger)
 
 	//Handlers
 	home.NewHandler(app, customLogger, postRepository, store, homeRepository, authConfig)
 	post.NewHandler(app, customLogger, postRepository)
 	profile.NewHandler(app, customLogger, profileRepository)
-
+	announcements.NewHandler(app, customLogger, announcmentsRepository, postRepository)
+	feed.NewFeedHandler(app, customLogger, feedRepository)
 	//Listen and serve
 	app.Listen(":3000")
 }

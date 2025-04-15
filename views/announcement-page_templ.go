@@ -12,7 +12,7 @@ import "zimniyles/fibergo/views/layout"
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/internal/post"
 
-func Main(posts []post.Post, pagesCount int, page int) templ.Component {
+func AnnoncementPage(posts []post.Post, pagesCount int, page int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -49,7 +49,7 @@ func Main(posts []post.Post, pagesCount int, page int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = MainStyle().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = AnnoncementPageStyle().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -68,7 +68,23 @@ func Main(posts []post.Post, pagesCount int, page int) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"postlist-submitform-wrapper\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = widgets.PostsList(posts, pagesCount, page).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"main_submit-form\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = widgets.PostForm().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -85,7 +101,7 @@ func Main(posts []post.Post, pagesCount int, page int) templ.Component {
 	})
 }
 
-func MainStyle() templ.Component {
+func AnnoncementPageStyle() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -106,7 +122,7 @@ func MainStyle() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n    .postlist-submitform-wrapper{\r\n        margin: 0;\r\n        padding: 0;\r\n        display: flex;\r\n        flex-direction: column;\r\n        \r\n    }\r\n\r\n    .leftmenu-and-content-wrappper{\r\n        margin: 0;\r\n        padding: 0;\r\n        display: flex;\r\n    }\r\n    .main_submit-form {\r\n        display: flex;\r\n        align-items:  center;\r\n        justify-content: center;\r\n        background: rgb(239, 253, 255);\r\n        padding: 60px 0 120px 0;\r\n    }\r\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\r\n    .postlist-submitform-wrapper {\r\n        margin: 0;\r\n        padding: 0;\r\n        display: flex;\r\n        flex-direction: column;\r\n\r\n    }\r\n\r\n    .leftmenu-and-content-wrappper {\r\n        margin: 0;\r\n        padding: 0;\r\n        display: flex;\r\n    }\r\n\r\n    .main_submit-form {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        background: rgb(239, 253, 255);\r\n        padding: 60px 0 120px 0;\r\n    }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
