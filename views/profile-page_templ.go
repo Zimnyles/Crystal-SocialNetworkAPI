@@ -66,14 +66,14 @@ func ProfilePage(userData models.ProfileCredentials) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"profile-container\"><div class=\"profile-header\"><form id=\"avatarForm\" action=\"/api/upload-avatar\" method=\"POST\" enctype=\"multipart/form-data\"><input id=\"avatarInput\" type=\"file\" name=\"avatar\" accept=\"image/*\" style=\"display: none;\"></form><img class=\"profile-avatar\" src=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"profile-container\"><div class=\"profile-header\"><form id=\"avatarForm\" action=\"/api/upload-avatar\" method=\"POST\" enctype=\"multipart/form-data\"><input id=\"avatarInput\" type=\"file\" name=\"avatar\" accept=\"image/*\" style=\"display: none;\"></form><img id=\"avatarImage\" class=\"profile-avatar\" crossorigin=\"anonymous\" src=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(userData.AvatarPath)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 31, Col: 77}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 31, Col: 119}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -86,7 +86,7 @@ func ProfilePage(userData models.ProfileCredentials) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(userData.Login)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 32, Col: 70}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 33, Col: 70}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -97,43 +97,67 @@ func ProfilePage(userData models.ProfileCredentials) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			if login == userData.Login {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<p id=\"avatarPreview\">Сменить аватар</p><script>\r\n                                const preview = document.getElementById(\"avatarPreview\");\r\n                                const input = document.getElementById(\"avatarInput\");\r\n                                const form = document.getElementById(\"avatarForm\");\r\n\r\n                                // Клик на текст — открывает выбор файла\r\n                                preview.addEventListener(\"click\", function () {\r\n                                    input.click();\r\n                                });\r\n\r\n                                // Только после выбора файла — отправляем форму\r\n                                input.addEventListener(\"change\", function () {\r\n                                    if (input.files.length > 0) {\r\n                                        form.submit(); // или через HTMX, если хочешь\r\n                                    }\r\n                                });\r\n                            </script>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<p id=\"avatarPreview\">Сменить аватар</p><script>\r\n                                const preview = document.getElementById(\"avatarPreview\");\r\n                                const input = document.getElementById(\"avatarInput\");\r\n                                const form = document.getElementById(\"avatarForm\");\r\n\r\n                                preview.addEventListener(\"click\", function () {\r\n                                    input.click();\r\n                                });\r\n\r\n                                \r\n                                input.addEventListener(\"change\", function () {\r\n                                    if (input.files.length > 0) {\r\n                                        form.submit(); \r\n                                    }\r\n                                });\r\n                            </script>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div><div class=\"profile-details\"><div class=\"detail-item\"><span class=\"detail-label\">Логин:</span> <span class=\"detail-value\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+
+			var role string
+			if userData.Role == "0" {
+				role = "Пользователь"
+			} else {
+				role = "Администратор"
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div class=\"profile-details\"><div class=\"detail-item\"><span class=\"detail-label\">Логин:</span> <span class=\"detail-value\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(userData.Login)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 63, Col: 71}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 70, Col: 71}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</span></div><div class=\"detail-item\"><span class=\"detail-label\">Дата регистрации:</span> <span class=\"detail-value join-date\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z\"></path></svg>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			time := userData.Createdat.Format("2006-01-02")
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</span></div><div class=\"detail-item\"><span class=\"detail-label\">Роль:</span> <span class=\"detail-value\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(time)
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(role)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 74, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 75, Col: 61}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</span></span></div></div></div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</span></div><div class=\"detail-item\"><span class=\"detail-label\">Дата регистрации:</span> <span class=\"detail-value join-date\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z\"></path></svg>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			time := userData.Createdat.Format("2006-01-02")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(time)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 86, Col: 42}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</span></span></div></div></div></div><script>\r\n                window.addEventListener('DOMContentLoaded', function () {\r\n                    const img = document.getElementById('avatarImage');\r\n\r\n                    if (!img) {\r\n                        console.error('Изображение не найдено!');\r\n                        return;\r\n                    }\r\n\r\n                    const colorThief = new ColorThief();\r\n\r\n                    function applyColor() {\r\n                        try {\r\n                            const color = colorThief.getColor(img);\r\n                            const rgbColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;\r\n\r\n                            const header = document.querySelector('.profile-header');\r\n                            if (header) {\r\n                                header.style.background = rgbColor;\r\n                                console.log('Цвет применён:', rgbColor);\r\n                            } else {\r\n                                console.error('Элемент .profile-header не найден');\r\n                            }\r\n                        } catch (error) {\r\n                            console.error('Ошибка при получении цвета:', error);\r\n                        }\r\n                    }\r\n\r\n                    if (img.complete && img.naturalWidth !== 0) {\r\n                        applyColor();\r\n                    } else {\r\n                        img.addEventListener('load', applyColor);\r\n                        img.addEventListener('error', function () {\r\n                            console.error('Ошибка загрузки изображения');\r\n                        });\r\n                    }\r\n                });\r\n            </script></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -166,12 +190,12 @@ func ProfilePageStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var7 == nil {
-			templ_7745c5c3_Var7 = templ.NopComponent
+		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var8 == nil {
+			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<style>\r\n        .left-menu{\r\n           min-width: 220px;\r\n           max-width: 220px;\r\n        }\r\n\r\n        .leftmenu-and-content-wrappper{\r\n        margin: 0;\r\n        padding: 0;\r\n        display: flex;\r\n        flex-direction: row;\r\n        justify-content: center;\r\n        margin-left: 200px;\r\n        margin-right: 200px;\r\n        }\r\n        \r\n    \r\n        .profile-container {\r\n            width: 100%;\r\n            background: white;\r\n            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n            overflow: hidden;\r\n        }\r\n    \r\n        .profile-header {\r\n            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));\r\n            padding: 30px 20px;\r\n            text-align: center;\r\n            color: white;\r\n        }\r\n    \r\n        .profile-avatar {\r\n            width: 120px;\r\n            height: 120px;\r\n            border-radius: 50%;\r\n            object-fit: cover;\r\n            border: 4px solid white;\r\n            margin-bottom: 15px;\r\n        }\r\n    \r\n        .profile-username {\r\n            font-size: 24px;\r\n            font-weight: bold;\r\n            margin: 10px 0 5px;\r\n        }\r\n    \r\n        .profile-details {\r\n            padding: 20px;\r\n        }\r\n    \r\n        .detail-item {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            padding: 12px 0;\r\n            border-bottom: 1px solid #eee;\r\n        }\r\n    \r\n        .detail-label {\r\n            font-weight: bold;\r\n            color: #777;\r\n        }\r\n    \r\n        .detail-value {\r\n            color: #333;\r\n        }\r\n    \r\n        .join-date {\r\n            display: flex;\r\n            align-items: center;\r\n            gap: 8px;\r\n            color: #666;\r\n        }\r\n    \r\n        .join-date svg {\r\n            width: 16px;\r\n            height: 16px;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<style>\r\n        .left-menu{\r\n           min-width: 220px;\r\n           max-width: 220px;\r\n        }\r\n\r\n        .leftmenu-and-content-wrappper{\r\n        margin: 0;\r\n        padding: 0;\r\n        display: flex;\r\n        flex-direction: row;\r\n        justify-content: center;\r\n        margin-left: 300px;\r\n        margin-right: 300px;\r\n        max-width: 1320px;\r\n        }\r\n        \r\n    \r\n        .profile-container {\r\n            color: var(--color-white);\r\n            margin-top: 15px;\r\n            border-radius: 20px;\r\n            width: 100%;\r\n            background: #222222;\r\n            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n            overflow: hidden;\r\n        }\r\n    \r\n        .profile-header {\r\n            background: #8c7ce8;\r\n            padding: 30px 20px; \r\n            text-align: center;\r\n            color: white;\r\n        }\r\n    \r\n        .profile-avatar {\r\n            width: 120px;\r\n            height: 120px;\r\n            border-radius: 50%;\r\n            object-fit: cover;\r\n            border: 4px solid white;\r\n            margin-bottom: 15px;\r\n        }\r\n    \r\n        .profile-username {\r\n            font-size: 24px;\r\n            font-weight: bold;\r\n            margin: 10px 0 5px;\r\n        }\r\n    \r\n        .profile-details {\r\n            padding: 20px;\r\n        }\r\n    \r\n        .detail-item {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            padding: 12px 0;\r\n            border-bottom: 1px solid #eee;\r\n        }\r\n    \r\n        .detail-label {\r\n            font-weight: bold;\r\n            \r\n        }\r\n    \r\n        .detail-value {\r\n            \r\n        }\r\n    \r\n        .join-date {\r\n            display: flex;\r\n            align-items: center;\r\n            gap: 8px;\r\n        }\r\n    \r\n        .join-date svg {\r\n            width: 16px;\r\n            height: 16px;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

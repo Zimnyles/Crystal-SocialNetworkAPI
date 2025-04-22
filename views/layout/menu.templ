@@ -11,7 +11,7 @@ templ Menu() {
             <a href="/"><img src="/public/images/logo.png" width="160" height="48"></a>//height
             <div class="menu-leftpart-item">
                 <div class="menu-leftpart-item-ico">
-                    <img src="/public/icons/location-w.svg" alt="location ico" />
+                    <img src="/public/icons/location-w.svg" width="24px" height="24" alt="location ico" />
                 </div>
                 <a class="menu__right-link">Уфа</a>
             </div>
@@ -24,24 +24,24 @@ templ Menu() {
         }else{
             menu__right_islogined = "menu__right_unlog"
         } }}
-        <div class={ menu__right_islogined }  >
-            <a class="menu__right-link-fav">Избранное</a>
-            if login == "" {
-                <a  class="menu__right-link" href="login">Войти</a>
-            @components.ButtonLink("/register"){
-                <span>Зарегестрироваться</span>
-                }
-            } else {
-                <div class="menu-rightpart-item">
-                    <div class="menu-leftpart-item-ico-user">
-                        <img width="24px" height="24px" src="/public/icons/user2.svg" alt="user ico" />
+        <div class="menu-rightpart"> 
+            <div class={ menu__right_islogined }  >
+                <a class="menu__right-link-fav">Избранное</a>
+                if login == "" {
+                    <a  class="menu__right-link" href="login">Войти</a>
+                @components.ButtonLink("/register"){
+                    <span>Зарегестрироваться</span>
+                    }
+                } else {
+                    <div class="menu-rightpart-item">
+                        <div class="menu-leftpart-item-ico-user">
+                            <img width="24px" height="24px" src="/public/icons/user2.svg" alt="user ico" />
+                        </div>
+                        <span class="menu-right-login">{ login } </span>
                     </div>
-                    <span class="menu-right-login">{ login } </span>
-                </div>
-                <a class="menu__right-link" hx-trigger="click" hx-get="/api/logout">Выход</a>
-            }
-            
-            
+                    <a class="menu__right-link" hx-trigger="click" hx-get="/api/logout">Выход</a>
+                }
+            </div>
         </div>
     </div>
 }
@@ -49,6 +49,18 @@ templ Menu() {
 templ MenuStyle() {
     
     <style>
+
+        .menu {
+        display: flex;
+        justify-content: space-between; /* Равномерное распределение */
+        padding: 10px 300px; /* Отступы 300px слева и справа */
+        margin: 0 auto; /* Центрирование */
+        align-items: center;
+        width: 100%;
+        max-width: 1920px; /* Максимальная ширина */
+        box-sizing: border-box; /* Чтобы padding не увеличивал ширину */
+        }
+
         .menu-right-login{
             text-decoration: none;
             color: var(--color-white);
@@ -89,21 +101,17 @@ templ MenuStyle() {
 
         }
 
-        .menu {
+        .menu-rightpart{
             display: flex;
-
-            padding: 10px 0;
-            max-width: 1850px;
-            vertical-align: middle;
+            flex-direction: row;
             align-items: center;
-            width: 100%;
         }
-    
+        
+            
         .menu__right {
             display: flex;
             gap: 20px;
             align-items: center;
-            margin-left: 140vh;
     
         }
 
@@ -111,7 +119,6 @@ templ MenuStyle() {
             display: flex;
             gap: 20px;
             align-items: center;
-            margin-left: 125vh;
         }
     
         .menu__right-link {
@@ -139,5 +146,23 @@ templ MenuStyle() {
         .menu__right-link:hover {
             color: #9f9f9f;
         }
+
+        .menu-leftpart-item-ico img,
+        .menu-leftpart-item-ico-user img {
+        display: block; 
+        width: 24px; 
+        height: 24px;
+        object-fit: contain; 
+        vertical-align: middle; 
+        }
+
+        .menu-leftpart a img {  
+        width: 160px;
+        height: 48px;
+        object-fit: contain; 
+        display: block;      
+        flex-shrink: 0;     
+        }
+
     </style>
 }

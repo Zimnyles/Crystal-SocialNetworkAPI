@@ -28,7 +28,8 @@ templ ProfilePage(userData models.ProfileCredentials) {
                               >
                             <input id="avatarInput" type="file" name="avatar" accept="image/*" style="display: none;">
                         </form>
-                        <img class="profile-avatar" src={ userData.AvatarPath } alt="Изображение профиля">
+                        <img id="avatarImage" class="profile-avatar"  crossorigin="anonymous" src={ userData.AvatarPath } alt="Изображение профиля">
+                    
                         <div class="profile-username">{ userData.Login }</div>
                         if login == userData.Login {
                             <p id="avatarPreview">Сменить аватар</p>
@@ -39,15 +40,14 @@ templ ProfilePage(userData models.ProfileCredentials) {
                                 const input = document.getElementById("avatarInput");
                                 const form = document.getElementById("avatarForm");
 
-                                // Клик на текст — открывает выбор файла
                                 preview.addEventListener("click", function () {
                                     input.click();
                                 });
 
-                                // Только после выбора файла — отправляем форму
+                                
                                 input.addEventListener("change", function () {
                                     if (input.files.length > 0) {
-                                        form.submit(); // или через HTMX, если хочешь
+                                        form.submit(); 
                                     }
                                 });
                             </script>
@@ -56,11 +56,23 @@ templ ProfilePage(userData models.ProfileCredentials) {
 
                     </div>
 
+                    {{ 
+                        var role string
+                        if userData.Role == "0" {
+                            role = "Пользователь"} else{
+                                role = "Администратор"
+                            }
+                    }}
 
                     <div class="profile-details">
                         <div class="detail-item">
                             <span class="detail-label">Логин:</span>
                             <span class="detail-value">{ userData.Login }</span>
+                        </div>
+
+                        <div class="detail-item">
+                            <span class="detail-label">Роль:</span>
+                            <span class="detail-value">{ role }</span>
                         </div>
                 
                         <div class="detail-item">
@@ -77,6 +89,45 @@ templ ProfilePage(userData models.ProfileCredentials) {
                     </div>
                 </div>
             </div>
+            
+            <script>
+                window.addEventListener('DOMContentLoaded', function () {
+                    const img = document.getElementById('avatarImage');
+
+                    if (!img) {
+                        console.error('Изображение не найдено!');
+                        return;
+                    }
+
+                    const colorThief = new ColorThief();
+
+                    function applyColor() {
+                        try {
+                            const color = colorThief.getColor(img);
+                            const rgbColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+
+                            const header = document.querySelector('.profile-header');
+                            if (header) {
+                                header.style.background = rgbColor;
+                                console.log('Цвет применён:', rgbColor);
+                            } else {
+                                console.error('Элемент .profile-header не найден');
+                            }
+                        } catch (error) {
+                            console.error('Ошибка при получении цвета:', error);
+                        }
+                    }
+
+                    if (img.complete && img.naturalWidth !== 0) {
+                        applyColor();
+                    } else {
+                        img.addEventListener('load', applyColor);
+                        img.addEventListener('error', function () {
+                            console.error('Ошибка загрузки изображения');
+                        });
+                    }
+                });
+            </script>
         </main>
     }
 }
@@ -96,21 +147,25 @@ templ ProfilePageStyle() {
         display: flex;
         flex-direction: row;
         justify-content: center;
-        margin-left: 200px;
-        margin-right: 200px;
+        margin-left: 300px;
+        margin-right: 300px;
+        max-width: 1320px;
         }
         
     
         .profile-container {
+            color: var(--color-white);
+            margin-top: 15px;
+            border-radius: 20px;
             width: 100%;
-            background: white;
+            background: #222222;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
     
         .profile-header {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
-            padding: 30px 20px;
+            background: #8c7ce8;
+            padding: 30px 20px; 
             text-align: center;
             color: white;
         }
@@ -143,18 +198,17 @@ templ ProfilePageStyle() {
     
         .detail-label {
             font-weight: bold;
-            color: #777;
+            
         }
     
         .detail-value {
-            color: #333;
+            
         }
     
         .join-date {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #666;
         }
     
         .join-date svg {

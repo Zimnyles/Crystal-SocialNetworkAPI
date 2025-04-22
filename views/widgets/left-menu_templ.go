@@ -35,7 +35,7 @@ func LeftMenu() templ.Component {
 		}
 		login := ctx.Value("login").(string)
 		MyProfileHref := "/profile/" + login
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"left-menu\"><a href=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"left-menu\"><div class=\"link-wrapper\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/user2.svg\" alt=\"user ico\" class=\"icon\"> <a href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -44,7 +44,7 @@ func LeftMenu() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">Мой профиль</a> <a href=\"/news\">Новости</a> <a href=\"/messages\">Сообщения</a> <a href=\"/friends\">Друзья</a> <a href=\"/groups\">Группы</a> <a href=\"/announcements\">Объявления</a> <a href=\"/photos\">Фотографии</a></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"link\">Мой профиль</a></div><div class=\"link-wrapper\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/feed.svg\" alt=\"feed ico\" class=\"icon\"> <a href=\"/feed\" class=\"link\">Новости</a></div><div class=\"link-wrapper\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/chats.svg\" alt=\"chats ico\" class=\"icon\"> <a href=\"/messages\">Сообщения</a></div><div class=\"link-wrapper\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/friends.svg\" alt=\"friends ico\" class=\"icon\"> <a href=\"/friends\">Друзья</a></div><div class=\"link-wrapper\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/group.svg\" alt=\"groups ico\" class=\"icon\"> <a href=\"/groups\">Группы</a></div><div class=\"link-wrapper\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/ann.svg\" alt=\"user ico\" class=\"icon\"> <a href=\"/announcements\">Объявления</a></div><div class=\"link-wrapper\"><a href=\"/photos\">Фотографии</a></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -74,7 +74,7 @@ func LeftMenuStyle() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<style>\r\n    .left-menu {\r\n        min-width: 220px;\r\n        max-width: 220px;\r\n        background-color: #222222;\r\n        color: white;\r\n        padding: 10px 0;\r\n        height: 100vh;\r\n        \r\n        top: 0;\r\n    }\r\n    \r\n    .left-menu a {\r\n        display: block;\r\n        color: white;\r\n        text-decoration: none;\r\n        padding: 12px 20px;\r\n        transition: background-color 0.3s;\r\n    }\r\n    \r\n    .left-menu a:hover {\r\n        \r\n    }\r\n    \r\n    .left-menu .menu-title {\r\n        font-weight: bold;\r\n        padding: 15px 20px 5px;\r\n        color: #bdc3c7;\r\n        font-size: 14px;\r\n        text-transform: uppercase;\r\n    }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<style>\r\n\r\n    .link{\r\n        padding-left: 0px;\r\n    }\r\n\r\n    .icon{\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .link-wrapper:hover{\r\n        background-color: #303030;\r\n        \r\n    }\r\n    \r\n    .link-wrapper{\r\n        display: flex;\r\n        flex-direction: row;\r\n        justify-content: left;\r\n        align-items: center;\r\n        border-radius: 20px;\r\n    }\r\n\r\n    .left-menu {\r\n        min-width: 220px;\r\n        max-width: 220px;\r\n        background-color: #0c0c0c;\r\n        color: white;\r\n        height: 100vh;\r\n        \r\n        top: 0;\r\n    }\r\n    \r\n    .left-menu a {\r\n        display: block;\r\n        color: white;\r\n        text-decoration: none;\r\n        padding: 15px 10px;\r\n        transition: background-color 0.3s;\r\n    }\r\n    \r\n    .left-menu a:hover {\r\n        \r\n    }\r\n    \r\n    .left-menu .menu-title {\r\n        font-weight: bold;\r\n        padding: 15px 20px 5px;\r\n        color: #bdc3c7;\r\n        font-size: 14px;\r\n        text-transform: uppercase;\r\n    }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

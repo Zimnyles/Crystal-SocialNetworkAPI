@@ -25,6 +25,6 @@ func NewFeedHandler(router fiber.Router, customLogger *zerolog.Logger, feedRepos
 }
 
 func (h *FeedHandler) feed(c *fiber.Ctx) error {
-	component := views.ErrorPage(500, "в разработке")
-	return tadapter.Render(c, component, 500)
+	component := views.FeedPage()
+	return tadapter.Render(c, component, 200)
 }
