@@ -1,4 +1,4 @@
 /.env
 /tmp
 /postgres-data
-/public/images
+/public
