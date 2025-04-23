@@ -62,7 +62,7 @@ func main() {
 	post.NewHandler(app, customLogger, postRepository)
 	profile.NewHandler(app, customLogger, profileRepository,store)
 	announcements.NewHandler(app, customLogger, announcmentsRepository, postRepository)
-	feed.NewFeedHandler(app, customLogger, feedRepository)
+	feed.NewFeedHandler(app, customLogger, feedRepository, store)
 	//Listen and serve
 	app.Listen(":3000")
 }
