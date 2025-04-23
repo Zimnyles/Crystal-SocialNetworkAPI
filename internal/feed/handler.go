@@ -25,7 +25,8 @@ func NewFeedHandler(router fiber.Router, customLogger *zerolog.Logger, feedRepos
 	}
 	profileGroup := h.router.Group("/feed")
 	profileGroup.Get("/", h.feed)
-	h.router.Get("/createpost", h.postcreate)
+	h.router.Get("/createpost", h.postCreate)
+	h.router.Post("api/createpost", h.apiPostCreate)
 }
 
 func (h *FeedHandler) feed(c *fiber.Ctx) error {
@@ -33,11 +34,20 @@ func (h *FeedHandler) feed(c *fiber.Ctx) error {
 	return tadapter.Render(c, component, 200)
 }
 
-func (h *FeedHandler) postcreate(c *fiber.Ctx) error {
+func (h *FeedHandler) postCreate(c *fiber.Ctx) error {
 	_, err := h.store.Get(c)
 	if err != nil {
 		panic(err)
 	}
-	component := views.FeedPage()
+	component := views.CreatePostPage()
+	return tadapter.Render(c, component, 200)
+}
+
+func (h *FeedHandler) apiPostCreate(c *fiber.Ctx) error {
+	_, err := h.store.Get(c)
+	if err != nil {
+		panic(err)
+	}
+	component := views.CreatePostPage()
 	return tadapter.Render(c, component, 200)
 }

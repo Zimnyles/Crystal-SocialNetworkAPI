@@ -1,0 +1,121 @@
+package views
+
+import "zimniyles/fibergo/views/widgets"
+import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/views/components"
+
+templ CreatePostPage() {
+    @CreatePostPageStyle()
+    @layout.Layout(layout.LayoutProps{
+    Title: "Котики.ру",
+    MetaDescriptiom: "Статьи про котиков",
+    }){
+    <main>
+        @layout.HeaderSmall()
+        <div id="postform">
+        </div>
+        <div class="leftmenu-and-content-wrappper">
+            <div>
+                {{ login := ctx.Value("login").(string) }}
+                if login != ""{
+                @widgets.LeftMenu()
+                }
+            </div>
+            <div class="content-wrapper">
+                <div class="new-post--wrapper">
+                    <div class="post-form" hx-ext="response-targets">
+                        <div id="post-result"></div>
+                        <p class="post-form__text">Уточните все необходимые данные</p>
+                        <form hx-post="/api/createpost" hx-trigger="submit" hx-target="#post-result" hx-target-error="#post-result"
+                            hx-swap="innerHTML swap:1s" hx-on::after-request="if(event.detail.successful) this.reset()">
+                            <div class="post-form__inputs">
+                                @components.NewPostTextInput(components.InputProps{
+                                Name: "content",
+                                Placeholder: "Напишите что-нибудь",
+                                })
+                            </div>
+                    
+                    
+                            @components.SubmitButton(){
+                            <span class="post-form__submit">Опубликовать</span>
+                            <div class="post-form__loader"></div>
+                            }
+                    
+                    
+                        </form>
+                    </div>
+                    
+
+                </div>
+                
+            </div>
+        </div>
+    </main>
+    }
+}
+
+templ CreatePostPageStyle() {
+    <style>
+
+    .post-form{
+        max-width: 1100px;
+        width: 100%;
+        display: flexbox;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .icon{
+        margin-left: 15px;
+    }
+
+    .content-wrapper{
+        position: relative;
+        display: flexbox;
+        
+       
+        max-width: 1100px;
+        width: 100%;
+        color: var(--color-white);
+    }
+    .new-post--wrapper{
+        
+        width: 100%;
+        
+        justify-content: center;
+        background: #222222;
+        overflow: hidden;
+        border-radius: 20px;
+        margin-top: 15px;
+        border: #797979;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-form__text{
+        margin-left: 30px;
+    }
+
+    .content{
+        
+        border-radius: 20px;
+        margin-top: 15px;
+        width: 100%;
+        background: #222222;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    
+    .leftmenu-and-content-wrappper {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-left: 300px;
+        margin-right: 300px;
+        max-width: 1320px;
+        }
+
+    
+    
+    </style>
+}

@@ -2,24 +2,28 @@ package components
 
 templ NewPostButton(href string) {
     @NewPostButtonStyle()
-    <a class="link-button" href={templ.URL(href)}>
+    <a class="newpost-button" href={templ.URL(href)}>
     { children... }
     </a>
 }
 
 templ NewPostButtonStyle() {
     <style>
-        .link-button{
+        .newpost-button{
             display: flex;
             align-items: center;
             text-align: center;
             justify-content: center;
             width: 100%;
             padding: 15px 20px;
-            background-color: #303030;
+            background-color: #222222;
             color: var(--color-white);
             text-decoration: none;
             border-radius: 8px;
+        }
+
+        .newpost-button:hover{
+            background-color: #303030
         }
         
     </style>

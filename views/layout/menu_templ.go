@@ -35,7 +35,7 @@ func Menu() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"menu\"><div class=\"menu-leftpart\"><a href=\"/\"><img src=\"/public/images/logo.png\" width=\"160\" height=\"48\"></a><div class=\"menu-leftpart-item\"><div class=\"menu-leftpart-item-ico\"><img src=\"/public/icons/location-w.svg\" width=\"24px\" height=\"24\" alt=\"location ico\"></div><a class=\"menu__right-link\">Уфа</a></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"menu\"><div class=\"menu-leftpart\"><a href=\"/\"><img src=\"/public/images/logo2.png\" width=\"160\" height=\"48\"></a><div class=\"menu-leftpart-item\"><div class=\"menu-leftpart-item-ico\"><img src=\"/public/icons/location-w.svg\" width=\"24px\" height=\"24\" alt=\"location ico\"></div><a class=\"menu__right-link\">Уфа</a></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
