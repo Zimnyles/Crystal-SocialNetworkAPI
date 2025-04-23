@@ -38,14 +38,14 @@ func NewPostTextInput(props InputProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<input placeholder=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<textarea placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/NewPostTextInput.templ`, Line: 11, Col: 37}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/NewPostTextInput.templ`, Line: 13, Col: 40}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -58,13 +58,13 @@ func NewPostTextInput(props InputProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/NewPostTextInput.templ`, Line: 11, Col: 55}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/NewPostTextInput.templ`, Line: 13, Col: 58}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" class=\"input\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" class=\"input\"></textarea>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -93,7 +93,7 @@ func NewPostTextInputStyle() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n    \r\n\r\n    .input {\r\n        color: #ffffff ;\r\n        max-width: 1030px;\r\n        margin-left: 30px;\r\n        margin-right: 30px;\r\n        width: 100%;\r\n        height: 80px;\r\n        padding: 20px;\r\n        border: none;\r\n        border-radius: 20px;\r\n        background-color: #222222; \r\n\r\n    }\r\n\r\n    .input::placeholder {\r\n        color: var(--color-grey);\r\n    }\r\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n    \r\n\r\n    .input {\r\n        resize: none;\r\n        margin-top: 20px;\r\n        color: #ffffff ;\r\n        max-width: 1030px;\r\n        margin-left: 30px;\r\n        margin-right: 30px;\r\n        width: 100%;\r\n        height: 25vh;\r\n        padding: 20px;\r\n        border: none;\r\n        border-radius: 20px;\r\n        background-color: #222222; \r\n\r\n    }\r\n\r\n    .input::placeholder {\r\n        color: var(--color-grey);\r\n    }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -7,10 +7,10 @@ import "zimniyles/fibergo/views/components"
 templ CreatePostPage() {
     @CreatePostPageStyle()
     @layout.Layout(layout.LayoutProps{
-    Title: "Котики.ру",
-    MetaDescriptiom: "Статьи про котиков",
+    Title: "Crystals",
+    MetaDescriptiom: "Crystals social network",
     }){
-    <main>
+    <main>  
         @layout.HeaderSmall()
         <div id="postform">
         </div>
@@ -22,25 +22,54 @@ templ CreatePostPage() {
                 }
             </div>
             <div class="content-wrapper">
+                <div class="title">
+                    <p>Здесь вы можете поделиться своими мыслями!</p>
+                </div>
                 <div class="new-post--wrapper">
                     <div class="post-form" hx-ext="response-targets">
                         <div id="post-result"></div>
-                        <p class="post-form__text">Уточните все необходимые данные</p>
-                        <form hx-post="/api/createpost" hx-trigger="submit" hx-target="#post-result" hx-target-error="#post-result"
+                        <form hx-post="/api/createpost" hx-encoding="multipart/form-data" enctype="multipart/form-data" hx-trigger="submit" hx-target="#post-result" hx-target-error="#post-result"
                             hx-swap="innerHTML swap:1s" hx-on::after-request="if(event.detail.successful) this.reset()">
+
                             <div class="post-form__inputs">
                                 @components.NewPostTextInput(components.InputProps{
                                 Name: "content",
                                 Placeholder: "Напишите что-нибудь",
                                 })
                             </div>
-                    
-                    
+                            <div class="post-form__inputs">
+                                <label for="imageInput" class="file-upload-button">
+                                    <span>Нажмите, чтобы выбрать фото</span>
+                                    <input id="imageInput" type="file" name="image" accept="image/*" class="file-upload-input">
+                                </label>
+                                <div id="image-preview" class="image-preview"></div>
+                            
+                            </div>
+
+                            <script>
+                                document.getElementById('imageInput').addEventListener('change', function (e) {
+                                    const label = this.parentElement;
+                                    const span = label.querySelector('span');
+
+                                    if (this.files.length > 0) {
+                                        // Если файл выбран, меняем класс и текст
+                                        label.classList.remove('file-upload-button');
+                                        label.classList.add('file-upload-button--loaded'); // новый класс
+                                        span.textContent = 'Файл загружен, нажмите снова, если хотите выбрать другое изображение';
+                                    } else {
+                                        // Если файл не выбран, возвращаем исходное состояние
+                                        label.classList.add('file-upload-button');
+                                        label.classList.remove('file-upload-button--loaded');
+                                        span.textContent = 'Нажмите, чтобы выбрать фото';
+                                    }
+                                });
+                            </script>
+                        <div class="submit-button--wraper">
                             @components.SubmitButton(){
                             <span class="post-form__submit">Опубликовать</span>
                             <div class="post-form__loader"></div>
                             }
-                    
+                        </div>
                     
                         </form>
                     </div>
@@ -57,7 +86,70 @@ templ CreatePostPage() {
 templ CreatePostPageStyle() {
     <style>
 
+    .submit-button--wraper{
+        text-align: center;
+        max-width: 1045px;
+        width: 100%;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .post-form__inputs label input { display: none; }
+
+    .file-upload-button {
+        text-align: center;
+        height: 90px;
+        max-width: 1100px;
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        background-color: #303030;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        border: none;
+        gap: 8px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+    }
+
+    .file-upload-button--loaded {
+        margin-bottom: 20px;
+        margin-top: 20px;
+        height: 90px;
+        text-align: center;
+        max-width: 1100px;
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        background-color: #4CAF50 ;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        border: none;
+        gap: 8px;
+    }
+
+    .title{
+        text-align: center;
+        border-radius: 20px;
+        margin-top: 15px;
+        width: 100%;
+        background: #222222;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
     .post-form{
+        
         max-width: 1100px;
         width: 100%;
         display: flexbox;

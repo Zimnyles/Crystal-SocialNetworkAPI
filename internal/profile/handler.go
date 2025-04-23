@@ -62,6 +62,9 @@ func (h *ProfileHandler) apiUploadAvatar(c *fiber.Ctx) error {
 	}
 
 	login := sess.Get("login").(string)
+	if login == "" {
+
+	}
 
 	err = h.repository.UpdateUserAvatar(login, newAvatarPath)
 	h.customLogger.Info().Msg("1")

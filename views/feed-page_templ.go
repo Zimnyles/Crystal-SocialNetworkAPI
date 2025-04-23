@@ -101,8 +101,8 @@ func FeedPage() templ.Component {
 			return nil
 		})
 		templ_7745c5c3_Err = layout.Layout(layout.LayoutProps{
-			Title:           "Котики.ру",
-			MetaDescriptiom: "Статьи про котиков",
+			Title:           "Crystals",
+			MetaDescriptiom: "Crystals social network",
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

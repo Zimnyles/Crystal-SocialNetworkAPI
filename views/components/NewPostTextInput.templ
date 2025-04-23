@@ -8,7 +8,10 @@ Name string
 templ NewPostTextInput(props InputProps) {
 @NewPostTextInputStyle()
 
-<input placeholder={props.Placeholder} name={props.Name} class="input" />
+
+
+<textarea placeholder={props.Placeholder} name={props.Name} class="input" > </textarea>
+
 
 
 }
@@ -19,12 +22,14 @@ templ NewPostTextInputStyle() {
     
 
     .input {
+        resize: none;
+        margin-top: 20px;
         color: #ffffff ;
         max-width: 1030px;
         margin-left: 30px;
         margin-right: 30px;
         width: 100%;
-        height: 80px;
+        height: 25vh;
         padding: 20px;
         border: none;
         border-radius: 20px;

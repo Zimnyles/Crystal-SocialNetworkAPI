@@ -68,7 +68,7 @@ func CreatePostPage() templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"content-wrapper\"><div class=\"new-post--wrapper\"><div class=\"post-form\" hx-ext=\"response-targets\"><div id=\"post-result\"></div><p class=\"post-form__text\">Уточните все необходимые данные</p><form hx-post=\"/api/createpost\" hx-trigger=\"submit\" hx-target=\"#post-result\" hx-target-error=\"#post-result\" hx-swap=\"innerHTML swap:1s\" hx-on::after-request=\"if(event.detail.successful) this.reset()\"><div class=\"post-form__inputs\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"content-wrapper\"><div class=\"title\"><p>Здесь вы можете поделиться своими мыслями!</p></div><div class=\"new-post--wrapper\"><div class=\"post-form\" hx-ext=\"response-targets\"><div id=\"post-result\"></div><form hx-post=\"/api/createpost\" hx-encoding=\"multipart/form-data\" enctype=\"multipart/form-data\" hx-trigger=\"submit\" hx-target=\"#post-result\" hx-target-error=\"#post-result\" hx-swap=\"innerHTML swap:1s\" hx-on::after-request=\"if(event.detail.successful) this.reset()\"><div class=\"post-form__inputs\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -79,7 +79,7 @@ func CreatePostPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><div class=\"post-form__inputs\"><label for=\"imageInput\" class=\"file-upload-button\"><span>Нажмите, чтобы выбрать фото</span> <input id=\"imageInput\" type=\"file\" name=\"image\" accept=\"image/*\" class=\"file-upload-input\"></label><div id=\"image-preview\" class=\"image-preview\"></div></div><script>\r\n                                document.getElementById('imageInput').addEventListener('change', function (e) {\r\n                                    const label = this.parentElement;\r\n                                    const span = label.querySelector('span');\r\n\r\n                                    if (this.files.length > 0) {\r\n                                        // Если файл выбран, меняем класс и текст\r\n                                        label.classList.remove('file-upload-button');\r\n                                        label.classList.add('file-upload-button--loaded'); // новый класс\r\n                                        span.textContent = 'Файл загружен, нажмите снова, если хотите выбрать другое изображение';\r\n                                    } else {\r\n                                        // Если файл не выбран, возвращаем исходное состояние\r\n                                        label.classList.add('file-upload-button');\r\n                                        label.classList.remove('file-upload-button--loaded');\r\n                                        span.textContent = 'Нажмите, чтобы выбрать фото';\r\n                                    }\r\n                                });\r\n                            </script><div class=\"submit-button--wraper\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -105,15 +105,15 @@ func CreatePostPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</form></div></div></div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></form></div></div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
 		templ_7745c5c3_Err = layout.Layout(layout.LayoutProps{
-			Title:           "Котики.ру",
-			MetaDescriptiom: "Статьи про котиков",
+			Title:           "Crystals",
+			MetaDescriptiom: "Crystals social network",
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -143,7 +143,7 @@ func CreatePostPageStyle() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<style>\r\n\r\n    .post-form{\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        display: flexbox;\r\n        flex-direction: row;\r\n        align-items: center;\r\n        justify-content: center;\r\n    }\r\n\r\n    .icon{\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .content-wrapper{\r\n        position: relative;\r\n        display: flexbox;\r\n        \r\n       \r\n        max-width: 1100px;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n    }\r\n    .new-post--wrapper{\r\n        \r\n        width: 100%;\r\n        \r\n        justify-content: center;\r\n        background: #222222;\r\n        overflow: hidden;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        border: #797979;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .post-form__text{\r\n        margin-left: 30px;\r\n    }\r\n\r\n    .content{\r\n        \r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n    \r\n    .leftmenu-and-content-wrappper {\r\n        display: flex;\r\n        flex-direction: row;\r\n        justify-content: center;\r\n        margin-left: 300px;\r\n        margin-right: 300px;\r\n        max-width: 1320px;\r\n        }\r\n\r\n    \r\n    \r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<style>\r\n\r\n    .submit-button--wraper{\r\n        text-align: center;\r\n        max-width: 1045px;\r\n        width: 100%;\r\n        margin-left: 20px;\r\n        margin-right: 20px;\r\n    }\r\n\r\n    .post-form__inputs label input { display: none; }\r\n\r\n    .file-upload-button {\r\n        text-align: center;\r\n        height: 90px;\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        padding: 10px 20px;\r\n        background-color: #303030;\r\n        color: white;\r\n        cursor: pointer;\r\n        transition: background-color 0.3s;\r\n        font-size: 14px;\r\n        border: none;\r\n        gap: 8px;\r\n        margin-top: 20px;\r\n        margin-bottom: 20px;\r\n\r\n    }\r\n\r\n    .file-upload-button--loaded {\r\n        margin-bottom: 20px;\r\n        margin-top: 20px;\r\n        height: 90px;\r\n        text-align: center;\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        padding: 10px 20px;\r\n        background-color: #4CAF50 ;\r\n        color: white;\r\n        border-radius: 6px;\r\n        cursor: pointer;\r\n        transition: background-color 0.3s;\r\n        font-size: 14px;\r\n        border: none;\r\n        gap: 8px;\r\n    }\r\n\r\n    .title{\r\n        text-align: center;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n\r\n    .post-form{\r\n        \r\n        max-width: 1100px;\r\n        width: 100%;\r\n        display: flexbox;\r\n        flex-direction: row;\r\n        align-items: center;\r\n        justify-content: center;\r\n    }\r\n\r\n    .icon{\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .content-wrapper{\r\n        position: relative;\r\n        display: flexbox;\r\n        \r\n       \r\n        max-width: 1100px;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n    }\r\n    .new-post--wrapper{\r\n        \r\n        width: 100%;\r\n        \r\n        justify-content: center;\r\n        background: #222222;\r\n        overflow: hidden;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        border: #797979;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .post-form__text{\r\n        margin-left: 30px;\r\n    }\r\n\r\n    .content{\r\n        \r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n    \r\n    .leftmenu-and-content-wrappper {\r\n        display: flex;\r\n        flex-direction: row;\r\n        justify-content: center;\r\n        margin-left: 300px;\r\n        margin-right: 300px;\r\n        max-width: 1320px;\r\n        }\r\n\r\n    \r\n    \r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
