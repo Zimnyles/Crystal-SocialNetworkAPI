@@ -10,6 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/views/components"
 
 func FeedPage() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -56,7 +57,7 @@ func FeedPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"leftmenu-and-content-wrappper\"><div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div id=\"postform\"></div><div class=\"leftmenu-and-content-wrappper\"><div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -67,7 +68,33 @@ func FeedPage() templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"content-wrapper\"><div class=\"new-post--wrapper\"><p>1</p></div><div class=\"content\"><p>2</p></div></div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"content-wrapper\"><div class=\"new-post--wrapper\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var3 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+				templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+				if !templ_7745c5c3_IsBuffer {
+					defer func() {
+						templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+						if templ_7745c5c3_Err == nil {
+							templ_7745c5c3_Err = templ_7745c5c3_BufErr
+						}
+					}()
+				}
+				ctx = templ.InitializeContext(ctx)
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<img width=\"24px\" height=\"24px\" src=\"/public/icons/plus.svg\" alt=\"plus ico\" class=\"icon\"> <span>Опубликовать запиcь</span>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				return nil
+			})
+			templ_7745c5c3_Err = components.NewPostButton("/createpost").Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div><div class=\"content\"><p>2</p></div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -100,12 +127,12 @@ func FeedPageStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n    .content-wrapper{\r\n        position: relative;\r\n        display: block;\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n    }\r\n    .new-post--wrapper{\r\n        \r\n        background: #222222;\r\n        overflow: hidden;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        border: #797979;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .content{\r\n        \r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n    \r\n    .leftmenu-and-content-wrappper {\r\n        display: flex;\r\n        flex-direction: row;\r\n        justify-content: center;\r\n        margin-left: 300px;\r\n        margin-right: 300px;\r\n        max-width: 1320px;\r\n        }\r\n\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\r\n    .icon{\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .content-wrapper{\r\n        position: relative;\r\n        display: block;\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n    }\r\n    .new-post--wrapper{\r\n        width: 100%;\r\n        display: flex;\r\n        flex-direction: row;\r\n        background: #222222;\r\n        overflow: hidden;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        border: #797979;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .content{\r\n        \r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n    \r\n    .leftmenu-and-content-wrappper {\r\n        display: flex;\r\n        flex-direction: row;\r\n        justify-content: center;\r\n        margin-left: 300px;\r\n        margin-right: 300px;\r\n        max-width: 1320px;\r\n        }\r\n\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

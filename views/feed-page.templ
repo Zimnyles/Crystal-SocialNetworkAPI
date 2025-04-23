@@ -2,6 +2,7 @@ package views
 
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/views/components"
 
 templ FeedPage() {
     @FeedPageStyle()
@@ -11,6 +12,8 @@ templ FeedPage() {
     }){
         <main>
             @layout.HeaderSmall()
+            <div id="postform">
+            </div>
             <div class="leftmenu-and-content-wrappper">
                 <div >
                     {{ login := ctx.Value("login").(string) }}
@@ -20,7 +23,10 @@ templ FeedPage() {
                 </div>
                 <div class="content-wrapper">
                     <div class="new-post--wrapper">
-                        <p>1</p>
+                        @components.NewPostButton("/createpost"){
+                            <img width="24px" height="24px" src="/public/icons/plus.svg" alt="plus ico" class="icon" />
+                            <span>Опубликовать запиcь</span>
+                        }
                     </div>
                     <div class="content">
                         <p>2</p>
@@ -33,6 +39,10 @@ templ FeedPage() {
 
 templ FeedPageStyle(){
     <style>
+    .icon{
+        margin-left: 15px;
+    }
+
     .content-wrapper{
         position: relative;
         display: block;
@@ -41,7 +51,9 @@ templ FeedPageStyle(){
         color: var(--color-white);
     }
     .new-post--wrapper{
-        
+        width: 100%;
+        display: flex;
+        flex-direction: row;
         background: #222222;
         overflow: hidden;
         border-radius: 20px;

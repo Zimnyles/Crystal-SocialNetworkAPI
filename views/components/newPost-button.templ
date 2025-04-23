@@ -1,0 +1,26 @@
+package components
+
+templ NewPostButton(href string) {
+    @NewPostButtonStyle()
+    <a class="link-button" href={templ.URL(href)}>
+    { children... }
+    </a>
+}
+
+templ NewPostButtonStyle() {
+    <style>
+        .link-button{
+            display: flex;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px 20px;
+            background-color: #303030;
+            color: var(--color-white);
+            text-decoration: none;
+            border-radius: 8px;
+        }
+        
+    </style>
+}
