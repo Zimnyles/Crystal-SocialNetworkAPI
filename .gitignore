@@ -1,5 +1,5 @@
 /.env
 /tmp
 /postgres-data
-/public/iamges/postimages
-/public/iamges/useravatars
+/static/iamges/postimages
+/static/iamges/useravatars
