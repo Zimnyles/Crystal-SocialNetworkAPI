@@ -3,8 +3,10 @@ package views
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/views/layout"
 import "zimniyles/fibergo/views/components"
+import "zimniyles/fibergo/internal/models"
 
-templ FeedPage() {
+
+templ FeedPage(posts []models.FeedPost, pagesCount int, page int) {
     @FeedPageStyle()
     @layout.Layout(layout.LayoutProps{
     Title: "Crystals",
@@ -28,9 +30,12 @@ templ FeedPage() {
                             <span>Опубликовать запиcь</span>
                         }
                     </div>
-                    <div class="content">
-                        <p>2</p>
-                    </div>
+                    
+                        <div class="postlist-submitform-wrapper">
+                            @widgets.FeedPostsList(posts, pagesCount, page)
+                            
+                        </div>
+                    
                 </div>
             </div>
         </main>

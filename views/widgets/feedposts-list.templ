@@ -1,0 +1,87 @@
+package widgets
+
+import "zimniyles/fibergo/views/components"
+import "fmt"
+import "zimniyles/fibergo/internal/models"
+
+templ FeedPostsList(posts []models.FeedPost, pagesCount int, page int) {
+@FeedPostsListStyle()
+    <div class="posts-list-wrapper">
+    
+        <div class="posts-list">
+            for _, post := range posts {
+                @components.FeedPostCard(components.FeedPostCardProps{
+                    CreatorLogin: post.CreatorLogin,
+                    Content: post.Content,
+                    ImagePath: post.ImagePath,
+                    CreatedAt: post.CreatedAt,   
+                    CreatorAvatarPath: post.CreatorAvatarPath,  
+                    })
+            }    
+        </div>
+        <div class="post-list__pagination">
+            <div class="post-list__pagination-item">
+                if page != 1 {
+                    <img src="/public/icons/arrowleft.svg" alt="left arrow">
+                    <a href={templ.SafeURL(fmt.Sprintf("/?page=%d", page-1))}>Предыдущие</a>
+                }
+            </div>
+            <div class="post-list__pagination-item">
+                if page != pagesCount {
+                    <img src="/public/icons/arrowright.svg" alt="right arrow">
+                    <a href={templ.SafeURL(fmt.Sprintf("/?page=%d", page+1))}>Следущие</a>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+templ FeedPostsListStyle() {
+<style>
+    .title-wrapper{
+        margin-left: 120px;
+    }
+    .post-list__pagination-item {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        
+    }
+    .post-list__pagination-item a{
+        text-decoration: none;
+        color: var(--color-grey);
+        
+    }
+    .post-list__pagination-item a:hover{
+        color: #585858;
+        
+    }
+    .post-list__pagination{
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        margin-left: 120px;
+        margin-right: 120px;
+        
+    }
+    .posts-list-wrapper{
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 15px 0;  
+    }
+    
+   .posts-list{
+        max-width: 1100px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 30px;
+        
+      
+    
+   }
+</style>
+}

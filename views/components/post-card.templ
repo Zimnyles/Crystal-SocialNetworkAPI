@@ -18,7 +18,7 @@ type PostCardProps struct{
 
 templ PostCard(props PostCardProps ) {
     {{ date:= elapsed.LocalTime(props.Createdat, "ru") }}
-    @PostCatdStyle()
+    @PostCardStyle()
     <div class="post-card">
         <div>
             <span class="post-card__createdat">{ date }</span>
@@ -54,7 +54,7 @@ templ PostCard(props PostCardProps ) {
 }
 
 
-templ PostCatdStyle() {
+templ PostCardStyle() {
 <style>
     .post-card__title__wrapper {
         display: grid;

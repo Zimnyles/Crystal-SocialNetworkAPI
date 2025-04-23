@@ -1,6 +1,7 @@
 package feed
 
 import (
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -35,8 +36,19 @@ func NewFeedHandler(router fiber.Router, customLogger *zerolog.Logger, feedRepos
 }
 
 func (h *FeedHandler) feed(c *fiber.Ctx) error {
-	component := views.FeedPage()
-	return tadapter.Render(c, component, 200)
+	PAGE_ITEMS := 10
+	page := c.QueryInt("page", 1)
+	count := h.repository.CountAll()
+
+	posts, err := h.repository.GetAll(PAGE_ITEMS, (page-1)*PAGE_ITEMS)
+	if err != nil {
+		h.customLogger.Error().Msg(err.Error())
+		return c.SendStatus(500)
+	}
+
+	component := views.FeedPage(posts, int(math.Ceil(float64(count/PAGE_ITEMS))), page)
+	return tadapter.Render(c, component, http.StatusOK)
+
 }
 
 func (h *FeedHandler) postCreate(c *fiber.Ctx) error {
@@ -82,12 +94,12 @@ func (h *FeedHandler) apiPostCreate(c *fiber.Ctx) error {
 	}
 
 	err = h.repository.AddNewFeedPost(authedLogin, content, filepath)
-		if err != nil {
-			h.customLogger.Error().Msg(err.Error())
-			component := components.Notification("Произошла ошибка на сервере, попробуйте повторить попытку позже", components.NotificationFail)
-			return tadapter.Render(c, component, http.StatusBadRequest)
-		}
-	
+	if err != nil {
+		h.customLogger.Error().Msg(err.Error())
+		component := components.Notification("Произошла ошибка на сервере, попробуйте повторить попытку позже", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+
 	msg := "Всё получилось! Пост можно увидеть на странице Новости или в своем профиле."
 	component := components.Notification(msg, components.NotificationSuccess)
 	return tadapter.Render(c, component, http.StatusOK)
