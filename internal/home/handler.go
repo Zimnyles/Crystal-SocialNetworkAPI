@@ -5,7 +5,6 @@ import (
 	"strings"
 	"zimniyles/fibergo/config"
 	"zimniyles/fibergo/internal/post"
-	"zimniyles/fibergo/pkg/jwt"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/pkg/validator"
 	"zimniyles/fibergo/views"
@@ -159,15 +158,6 @@ func (h *HomeHandler) apiLogin(c *fiber.Ctx) error {
 		component := components.Notification("Неверный пароль", components.NotificationFail)
 		return tadapter.Render(c, component, http.StatusBadRequest)
 	}
-
-	jwt := jwt.NewJWT(config.NewAuthConfig().Secret)
-	jwtToken, err := jwt.Create(form.Email)
-	if err != nil {
-		component := components.Notification("jwt токен не был сгенерирован, ошибка на сервере", components.NotificationFail)
-		return tadapter.Render(c, component, http.StatusBadRequest)
-	}
-
-	c.SendString(jwtToken)
 
 	sess, err := h.store.Get(c)
 	if err != nil {

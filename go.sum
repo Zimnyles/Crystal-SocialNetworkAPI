@@ -1,3 +1,5 @@
+github.com/MicahParks/keyfunc/v2 v2.1.0 h1:6ZXKb9Rp6qp1bDbJefnG7cTH8yMN1IC/4nf+GVjO99k=
+github.com/MicahParks/keyfunc/v2 v2.1.0/go.mod h1:rW42fi+xgLJ2FRRXAfNx9ZA8WpD4OeE/yHVMteCkw9k=
 github.com/a-h/parse v0.0.0-20250122154542-74294addb73e h1:HjVbSQHy+dnlS6C3XajZ69NYAb5jbGNfHanvm1+iYlo=
 github.com/a-h/parse v0.0.0-20250122154542-74294addb73e/go.mod h1:3mnrkvGpurZ4ZrTDbYU84xhwXW2TjTKShSwjRi2ihfQ=
 github.com/a-h/templ v0.3.850 h1:kNCe4CJABjY618ullJakyI5aP2RJ0JkTU04i0qgxFpI=
@@ -21,6 +23,8 @@ github.com/gobuffalo/validate v2.0.4+incompatible/go.mod h1:N+EtDe0J8252BgfzQUCh
 github.com/godbus/dbus/v5 v5.0.4/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
 github.com/gofiber/contrib/fiberzerolog v1.0.2 h1:LMa/luarQVeINoRwZLHtLQYepLPDIwUNB5OmdZKk+s8=
 github.com/gofiber/contrib/fiberzerolog v1.0.2/go.mod h1:aTPsgArSgxRWcUeJ/K6PiICz3mbQENR1QOR426QwOoQ=
+github.com/gofiber/contrib/jwt v1.1.0 h1:ka5WjWsZ2cd0irvfpmH9hIKj+fflvVRzQxJ7Nv1H3tE=
+github.com/gofiber/contrib/jwt v1.1.0/go.mod h1:CpIwrkUQ3Q6IP8y9n3f0wP9bOnSKx39EDp2fBVgMFVk=
 github.com/gofiber/fiber/v2 v2.52.6 h1:Rfp+ILPiYSvvVuIPvxrBns+HJp8qGLDnLJawAu27XVI=
 github.com/gofiber/fiber/v2 v2.52.6/go.mod h1:YEcBbO/FB+5M1IZNBP9FO3J9281zgPAreiI1oqg8nDw=
 github.com/gofiber/fiber/v3 v3.0.0-beta.4 h1:KzDSavvhG7m81NIsmnu5l3ZDbVS4feCidl4xlIfu6V0=

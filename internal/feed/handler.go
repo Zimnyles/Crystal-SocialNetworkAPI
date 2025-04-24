@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 	"zimniyles/fibergo/pkg/generator"
+	"zimniyles/fibergo/pkg/middleware"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/views"
 	"zimniyles/fibergo/views/components"
@@ -31,7 +32,7 @@ func NewFeedHandler(router fiber.Router, customLogger *zerolog.Logger, feedRepos
 	}
 	profileGroup := h.router.Group("/feed")
 	profileGroup.Get("/", h.feed)
-	h.router.Get("/createpost", h.postCreate)
+	h.router.Get("/createpost", middleware.AuthRequired(h.store), h.postCreate)
 	h.router.Post("api/createpost", h.apiPostCreate)
 }
 

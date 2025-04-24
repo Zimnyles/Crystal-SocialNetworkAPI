@@ -3,6 +3,7 @@ module zimniyles/fibergo
 go 1.23.5
 
 require (
+	github.com/MicahParks/keyfunc/v2 v2.1.0 // indirect
 	github.com/a-h/parse v0.0.0-20250122154542-74294addb73e // indirect
 	github.com/a-h/templ v0.3.850 // indirect
 	github.com/andybalholm/brotli v1.1.1 // indirect
@@ -13,6 +14,7 @@ require (
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/gobuffalo/validate v2.0.4+incompatible // indirect
 	github.com/gofiber/contrib/fiberzerolog v1.0.2 // indirect
+	github.com/gofiber/contrib/jwt v1.1.0 // indirect
 	github.com/gofiber/fiber/v2 v2.52.6 // indirect
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4 // indirect
 	github.com/gofiber/schema v1.3.0 // indirect
