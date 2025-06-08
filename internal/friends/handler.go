@@ -29,6 +29,8 @@ func NewFriendsHandler(router fiber.Router, customLogger *zerolog.Logger, feedRe
 }
 
 func (h *FriendsHandler) friends(c *fiber.Ctx) error {
+	
+
 	component := views.FriendsPage()
 	return tadapter.Render(c, component, 200)
 }

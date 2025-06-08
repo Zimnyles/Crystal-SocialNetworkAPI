@@ -1,6 +1,8 @@
 package people
 
 import (
+	"math"
+	"net/http"
 	"zimniyles/fibergo/pkg/middleware"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/views"
@@ -29,6 +31,17 @@ func NewPeopleHandler(router fiber.Router, customLogger *zerolog.Logger, feedRep
 }
 
 func (h *PeopleHandler) people(c *fiber.Ctx) error {
-	component := views.PeoplePage()
-	return tadapter.Render(c, component, 200)
+	PAGE_ITEMS := 10
+	page := c.QueryInt("page", 1)
+	count := h.repository.CountAll()
+
+	users, err := h.repository.GetAll(PAGE_ITEMS, (page-1)*PAGE_ITEMS)
+	if err != nil {
+		h.customLogger.Error().Msg(err.Error())
+		return c.SendStatus(500)
+	}
+
+	component := views.PeoplePage(users, int(math.Ceil(float64(count/PAGE_ITEMS))), page)
+	return tadapter.Render(c, component, http.StatusOK)
+
 }

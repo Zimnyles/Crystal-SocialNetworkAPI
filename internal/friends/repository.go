@@ -16,3 +16,4 @@ func NewFriendsRepository(dbpool *pgxpool.Pool, customLogger *zerolog.Logger) *F
 		CustomLogger: customLogger,
 	}
 }
+

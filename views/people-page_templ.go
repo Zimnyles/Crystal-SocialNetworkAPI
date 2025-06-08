@@ -10,8 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "zimniyles/fibergo/views/layout"
 import "zimniyles/fibergo/views/widgets"
+import "zimniyles/fibergo/internal/models"
 
-func PeoplePage() templ.Component {
+func PeoplePage(users []models.PeopleProfileCredentials, pagesCount int, page int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -64,7 +65,15 @@ func PeoplePage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><div class=\"peoplelist-header\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/search.svg\" alt=\"search ico\" class=\"icon-search\"> <textarea placeholder=\"Поиск людей\" class=\"input\"></textarea></div></div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><div class=\"peoplelist-header\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/search.svg\" alt=\"search ico\" class=\"icon-search\"> <textarea placeholder=\"Поиск людей\" class=\"input\"></textarea></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = widgets.PeopleList(users, pagesCount, page).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -102,7 +111,7 @@ func PeoplePageStyle() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n    .icon-search{\r\n        margin-left: 20px;\r\n    }\r\n    .input {\r\n        white-space: nowrap;\r\n        overflow-x: hidden;\r\n        overflow-y: hidden;\r\n        resize: none;\r\n        color: #ffffff ;\r\n        width: 100%;\r\n        height: 55px;\r\n        padding: 20px;\r\n        border: none;\r\n        border-radius: 20px;\r\n        background-color: #222222; \r\n        outline: none;\r\n\r\n    }\r\n\r\n    .input::placeholder {\r\n        color: var(--color-grey);\r\n    }\r\n    .page-container {\r\n        display: flex;\r\n        width: 100%;\r\n        padding: 0 300px;\r\n        box-sizing: border-box;\r\n    }\r\n    .main-content {\r\n        margin-top: 15px;\r\n        flex-grow: 1;\r\n\r\n    }\r\n\r\n    .peoplelist-header label input { display: none; }\r\n\r\n    .peoplelist-header {\r\n        align-items: center;\r\n        justify-content: center;\r\n        border-radius: 20px;\r\n        display: flex;\r\n        flex-direction: row;\r\n        background-color: #222222; \r\n        width: 100%;\r\n    }\r\n\r\n\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<style>\r\n    .icon-search{\r\n        margin-left: 20px;\r\n    }\r\n    .input {\r\n        white-space: nowrap;\r\n        overflow-x: hidden;\r\n        overflow-y: hidden;\r\n        resize: none;\r\n        color: #ffffff ;\r\n        width: 100%;\r\n        height: 54px;\r\n        padding: 20px;\r\n        border: none;\r\n        border-radius: 20px;\r\n        background-color: #222222; \r\n        outline: none;\r\n\r\n    }\r\n\r\n    .input::placeholder {\r\n        color: var(--color-grey);\r\n    }\r\n    .page-container {\r\n        display: flex;\r\n        width: 100%;\r\n        padding: 0 300px;\r\n        box-sizing: border-box;\r\n    }\r\n    .main-content {\r\n        margin-top: 15px;\r\n        flex-grow: 1;\r\n\r\n    }\r\n\r\n    .peoplelist-header label input { display: none; }\r\n\r\n    .peoplelist-header {\r\n        align-items: center;\r\n        justify-content: center;\r\n        border-radius: 20px;\r\n        display: flex;\r\n        flex-direction: row;\r\n        background-color: #222222; \r\n        width: 100%;\r\n    }\r\n\r\n\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
