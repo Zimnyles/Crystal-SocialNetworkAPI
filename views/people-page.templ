@@ -1,0 +1,81 @@
+package views
+
+import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/views/widgets"
+
+templ PeoplePage() {
+    @layout.Layout(layout.LayoutProps{
+    Title: "Люди",
+    MetaDescriptiom: "Люди",
+    }){
+    <main>
+        @layout.HeaderSmall()
+        @PeoplePageStyle()
+        <div class="page-container">
+            <div class="left-menu">
+                @widgets.LeftMenu()
+            </div>
+    
+            <div class="main-content">
+                <div class="peoplelist-header">
+                    <img width="18px" height="18px" src="/public/icons/search.svg" alt="search ico" class="icon-search" />
+                    <textarea placeholder="Поиск людей" class="input"></textarea>
+                </div>
+    
+            </div>
+        </div>
+    </main>
+    }
+}
+
+templ PeoplePageStyle() {
+    <style>
+    .icon-search{
+        margin-left: 20px;
+    }
+    .input {
+        white-space: nowrap;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        resize: none;
+        color: #ffffff ;
+        width: 100%;
+        height: 55px;
+        padding: 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: #222222; 
+        outline: none;
+
+    }
+
+    .input::placeholder {
+        color: var(--color-grey);
+    }
+    .page-container {
+        display: flex;
+        width: 100%;
+        padding: 0 300px;
+        box-sizing: border-box;
+    }
+    .main-content {
+        margin-top: 15px;
+        flex-grow: 1;
+
+    }
+
+    .peoplelist-header label input { display: none; }
+
+    .peoplelist-header {
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: row;
+        background-color: #222222; 
+        width: 100%;
+    }
+
+
+    </style>
+}

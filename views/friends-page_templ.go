@@ -9,9 +9,9 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "zimniyles/fibergo/views/layout"
-import "strconv"
+import "zimniyles/fibergo/views/widgets"
 
-func ErrorPage(errorStatus int, msg string) templ.Component {
+func FriendsPage() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -44,46 +44,35 @@ func ErrorPage(errorStatus int, msg string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><p>page not found</p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			error := strconv.Itoa(errorStatus)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<p>")
+			templ_7745c5c3_Err = layout.HeaderSmall().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(error)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/error-page.templ`, Line: 14, Col: 17}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			templ_7745c5c3_Err = FriendsPageStyle().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p><p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"page-container\"><div class=\"left-menu\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(msg)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/error-page.templ`, Line: 15, Col: 15}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			templ_7745c5c3_Err = widgets.LeftMenu().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</p><p>:( </p></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><div class=\"friends-header\"><div class=\"friendslist-header\"><!-- Заголовок списка друзей --><span>Ваши друзья</span></div><div class=\"friendsrequest-header\"><span>Запросы в друзья</span><!-- Заголовок запросов в друзья --></div></div><div class=\"friends-content\"><div class=\"page-firendslist\"><!-- Список друзей --></div><div class=\"page-friendsrequests\"><!-- Запросы в друзья --></div></div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
 		templ_7745c5c3_Err = layout.Layout(layout.LayoutProps{
-			Title:           "Ошибка",
-			MetaDescriptiom: "404",
+			Title:           "Друзья",
+			MetaDescriptiom: "Ваши друзья",
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -92,7 +81,7 @@ func ErrorPage(errorStatus int, msg string) templ.Component {
 	})
 }
 
-func ErrorPageStyle() templ.Component {
+func FriendsPageStyle() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -108,12 +97,12 @@ func ErrorPageStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<style>\r\n\r\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n    .page-container {\r\n        display: flex;\r\n        width: 100%;\r\n        padding: 0 300px;\r\n        box-sizing: border-box;\r\n    }\r\n\r\n   \r\n\r\n    .main-content {\r\n        margin-top: 15px;\r\n        flex-grow: 1;\r\n    }\r\n\r\n    .friends-header {\r\n        display: flex;\r\n        gap: 15px;\r\n        margin-bottom: 15px;\r\n    }\r\n\r\n    .friendslist-header {\r\n        flex: 2;\r\n        height: 54px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n    }\r\n\r\n    .friendsrequest-header {\r\n        flex: 1;\r\n        height: 54px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n    }\r\n\r\n    .friends-content {\r\n        display: flex;\r\n        gap: 15px;\r\n    }\r\n\r\n    .page-firendslist {\r\n        flex: 2;\r\n        height: 900px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .page-friendsrequests {\r\n        flex: 1;\r\n        height: 900px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

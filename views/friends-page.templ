@@ -1,0 +1,118 @@
+package views
+
+import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/views/widgets"
+
+templ FriendsPage() {
+@layout.Layout(layout.LayoutProps{
+Title: "Друзья",
+MetaDescriptiom: "Ваши друзья",
+}){
+<main>
+    @layout.HeaderSmall()
+    @FriendsPageStyle()
+    <div class="page-container">
+        <div class="left-menu">
+            @widgets.LeftMenu()
+        </div>
+
+        <div class="main-content">
+            <div class="friends-header">
+                <div class="friendslist-header">
+                    <!-- Заголовок списка друзей -->
+                    <span>Ваши друзья</span>
+                </div>
+                <div class="friendsrequest-header">
+                    <span>Запросы в друзья</span>
+                    <!-- Заголовок запросов в друзья -->
+                </div>
+            </div>
+
+            <div class="friends-content">
+                <div class="page-firendslist">
+                    <!-- Список друзей -->
+                </div>
+                <div class="page-friendsrequests">
+                    <!-- Запросы в друзья -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+}
+}
+
+templ FriendsPageStyle() {
+<style>
+    .page-container {
+        display: flex;
+        width: 100%;
+        padding: 0 300px;
+        box-sizing: border-box;
+    }
+
+   
+
+    .main-content {
+        margin-top: 15px;
+        flex-grow: 1;
+    }
+
+    .friends-header {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .friendslist-header {
+        flex: 2;
+        height: 54px;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+        color: var(--color-white);
+        text-decoration: none;
+    }
+
+    .friendsrequest-header {
+        flex: 1;
+        height: 54px;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+        color: var(--color-white);
+        text-decoration: none;
+    }
+
+    .friends-content {
+        display: flex;
+        gap: 15px;
+    }
+
+    .page-firendslist {
+        flex: 2;
+        height: 900px;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-friendsrequests {
+        flex: 1;
+        height: 900px;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+}

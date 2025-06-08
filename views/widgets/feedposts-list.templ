@@ -3,6 +3,7 @@ package widgets
 import "zimniyles/fibergo/views/components"
 import "fmt"
 import "zimniyles/fibergo/internal/models"
+import "strconv"
 
 templ FeedPostsList(posts []models.FeedPost, pagesCount int, page int) {
 @FeedPostsListStyle()
@@ -23,13 +24,17 @@ templ FeedPostsList(posts []models.FeedPost, pagesCount int, page int) {
             <div class="post-list__pagination-item">
                 if page != 1 {
                     <img src="/public/icons/arrowleft.svg" alt="left arrow">
-                    <a href={templ.SafeURL(fmt.Sprintf("/?page=%d", page-1))}>Предыдущие</a>
+                    <a href={templ.SafeURL(fmt.Sprintf("/feed?page=%d", page-1))}>Предыдущие</a>
                 }
+            </div>
+            <div class="post-list__pagination-pagenum">
+                {{ pageNum := strconv.Itoa(page) }}
+                { pageNum } 
             </div>
             <div class="post-list__pagination-item">
                 if page != pagesCount {
                     <img src="/public/icons/arrowright.svg" alt="right arrow">
-                    <a href={templ.SafeURL(fmt.Sprintf("/?page=%d", page+1))}>Следущие</a>
+                    <a href={templ.SafeURL(fmt.Sprintf("/feed?page=%d", page+1))}>Следущие</a>
                 }
             </div>
         </div>
@@ -45,8 +50,25 @@ templ FeedPostsListStyle() {
         display: flex;
         gap: 8px;
         align-items: center;
+        max-width: 100px;
+        width: 100%;
+
         
     }
+
+    .post-list__pagination-pagenum{
+        display: flex;
+        max-height: 54px;
+        max-width: 100px;
+        width: 100%;
+        height: 100%;
+        background-color: #222222; 
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        text-align: center;
+    }
+
     .post-list__pagination-item a{
         text-decoration: none;
         color: var(--color-grey);
@@ -57,6 +79,8 @@ templ FeedPostsListStyle() {
         
     }
     .post-list__pagination{
+        max-height: 54px;
+        height: 100%;
         display: flex;
         justify-content: space-between;
         gap: 24px;

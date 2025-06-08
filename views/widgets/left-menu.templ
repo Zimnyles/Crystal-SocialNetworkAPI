@@ -22,14 +22,15 @@ templ LeftMenu() {
             <a href="/friends">Друзья</a>
         </div>
         <div class="link-wrapper">
+            <img width="18px" height="18px" src="/public/icons/people.svg" alt="people ico" class="icon" />
+            <a href="/people">Люди</a>
+        </div>
+        <div class="link-wrapper">
             <img width="18px" height="18px" src="/public/icons/group.svg" alt="groups ico" class="icon" />
             <a href="/groups">Группы</a>
         </div>
         <div class="link-wrapper">
-            <img width="18px" height="18px" src="/public/icons/ann.svg" alt="user ico" class="icon" />
-            <a href="/announcements">Объявления</a>
-        </div>
-        <div class="link-wrapper">
+            <img width="18px" height="18px" src="/public/icons/photos.svg" alt="photos ico" class="icon" />
             <a href="/photos">Фотографии</a>
         </div>
     </div>
@@ -57,6 +58,7 @@ templ LeftMenuStyle() {
         justify-content: left;
         align-items: center;
         border-radius: 20px;
+        transition: all 0.3s ease-in-out
     }
 
     .left-menu {
