@@ -12,7 +12,7 @@ import "zimniyles/fibergo/views/layout"
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/internal/models"
 
-func PeoplePage(users []models.PeopleProfileCredentials, pagesCount int, page int) templ.Component {
+func PeoplePage(users []models.PeopleProfileCredentials, pagesCount int, page int, link string, userLogin string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -65,15 +65,15 @@ func PeoplePage(users []models.PeopleProfileCredentials, pagesCount int, page in
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><div class=\"peoplelist-header\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/search.svg\" alt=\"search ico\" class=\"icon-search\"> <textarea placeholder=\"Поиск людей\" class=\"input\"></textarea></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><form hx-post=\"/api/findpeople\" hx-encoding=\"multipart/form-data\" enctype=\"multipart/form-data\" hx-trigger=\"submit\" hx-target=\"#post-result\" hx-target-error=\"#post-result\" hx-swap=\"innerHTML swap:1s\" hx-on::after-request=\"if(event.detail.successful) this.reset()\"><div class=\"peoplelist-header\"><div class=\"search-wrapper\"><div class=\"icon-search-wrapper\"><img width=\"18px\" height=\"18px\" src=\"/public/icons/search.svg\" alt=\"search ico\" class=\"icon-search\"></div><div class=\"textarea-wrapper\"><textarea placeholder=\"Поиск людей\" class=\"input\" name=\"content\"></textarea></div></div><button class=\"search-button\"><span>Поиск</span></button></div></form><div id=\"post-result\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = widgets.PeopleList(users, pagesCount, page).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = widgets.PeopleList(users, pagesCount, page, link, userLogin).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -111,7 +111,7 @@ func PeoplePageStyle() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<style>\r\n    .icon-search{\r\n        margin-left: 20px;\r\n    }\r\n    .input {\r\n        white-space: nowrap;\r\n        overflow-x: hidden;\r\n        overflow-y: hidden;\r\n        resize: none;\r\n        color: #ffffff ;\r\n        width: 100%;\r\n        height: 54px;\r\n        padding: 20px;\r\n        border: none;\r\n        border-radius: 20px;\r\n        background-color: #222222; \r\n        outline: none;\r\n\r\n    }\r\n\r\n    .input::placeholder {\r\n        color: var(--color-grey);\r\n    }\r\n    .page-container {\r\n        display: flex;\r\n        width: 100%;\r\n        padding: 0 300px;\r\n        box-sizing: border-box;\r\n    }\r\n    .main-content {\r\n        margin-top: 15px;\r\n        flex-grow: 1;\r\n\r\n    }\r\n\r\n    .peoplelist-header label input { display: none; }\r\n\r\n    .peoplelist-header {\r\n        align-items: center;\r\n        justify-content: center;\r\n        border-radius: 20px;\r\n        display: flex;\r\n        flex-direction: row;\r\n        background-color: #222222; \r\n        width: 100%;\r\n    }\r\n\r\n\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<style>\r\n\r\n    .search-wrapper{\r\n        display: flex;\r\n        flex-direction: row;\r\n        align-items: center;\r\n        justify-content: center;\r\n        min-width: 875px;\r\n        width: 100;\r\n    }\r\n\r\n    .icon-search {\r\n        margin-left: 20px;\r\n        \r\n    }\r\n    .icon-search-wrapper {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        min-height: 54px;\r\n        height: 100%;\r\n        background-color: #222222;\r\n        border-radius: 20px 0px 0px 20px;\r\n    }\r\n\r\n    .input {\r\n        white-space: nowrap;\r\n        overflow-x: hidden;\r\n        overflow-y: hidden;\r\n        resize: none;\r\n        background-color: #222222;\r\n        outline: none;\r\n        border: none;\r\n        color: white;\r\n        min-width: 800px;\r\n        width: 100%;\r\n        \r\n    }\r\n\r\n    .textarea-wrapper{\r\n        width: 100%;\r\n        height: 54px;\r\n        padding: 20px;\r\n        border: none;\r\n        border-radius: 0px 20px 20px 0px;\r\n        background-color: #222222;\r\n        max-width: 837px;\r\n        \r\n        \r\n    }\r\n\r\n    .input::placeholder {\r\n        color: var(--color-grey);\r\n    }\r\n\r\n    .page-container {\r\n        display: flex;\r\n        width: 100%;\r\n        padding: 0 300px;\r\n        box-sizing: border-box;\r\n    }\r\n\r\n    .main-content {\r\n        margin-top: 15px;\r\n        flex-grow: 1;\r\n    }\r\n\r\n    .peoplelist-header label input {\r\n        display: none;\r\n    }\r\n\r\n    .peoplelist-header {\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        border-radius: 20px;\r\n        display: flex;\r\n        flex-direction: row;\r\n\r\n        max-width: 1100px;\r\n        width: 100%;\r\n    }\r\n\r\n    .search-button {\r\n        display: flex;\r\n        margin-left: 15px;\r\n        min-width: 185px;\r\n        width: 100%;\r\n        background-color: #222222;\r\n        white-space: nowrap;\r\n        padding: 0 20px;\r\n        height: 54px;\r\n        border-radius: 20px;\r\n        align-items: center;\r\n        justify-content: center;\r\n        color: white;\r\n        outline: none;\r\n        text-decoration: none;\r\n        border: none;\r\n        transition: all 0.3s ease-in-out\r\n    }\r\n\r\n    .search-button:hover{\r\n        background-color: #303030;\r\n    }\r\n\r\n    .search-button:active{\r\n        background-color: #303030;\r\n    }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

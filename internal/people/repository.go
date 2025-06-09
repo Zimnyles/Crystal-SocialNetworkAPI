@@ -29,30 +29,42 @@ func (r *PeopleRepository) CountAll() int {
 
 }
 
-func (r *PeopleRepository) GetAll(limit, offset int) ([]models.PeopleProfileCredentials, error) {
-	query := `
+func (r *PeopleRepository) GetAll(limit, offset int, searchTerm string) ([]models.PeopleProfileCredentials, error) {
+    query := `
     SELECT 
         u.login,
         u.avatarpath,
         u.role
     FROM 
         users u
+    `
+    
+    args := pgx.NamedArgs{
+        "limit":  limit,
+        "offset": offset,
+    }
+
+    // Добавляем условие поиска, если searchTerm не пустой
+    if searchTerm != "" {
+        query += ` WHERE u.login ILIKE '%' || @searchTerm || '%'`
+        args["searchTerm"] = searchTerm
+    }
+
+    query += `
     ORDER BY 
         u.createdat DESC
-	LIMIT @limit OFFSET @offset
-	`
-	args := pgx.NamedArgs{
-		"limit":  limit,
-		"offset": offset,
-	}
-	rows, err := r.Dbpool.Query(context.Background(), query, args)
+    LIMIT @limit OFFSET @offset
+    `
 
-	if err != nil {
-		return nil, err
-	}
-	users, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.PeopleProfileCredentials])
-	if err != nil {
-		return nil, err
-	}
-	return users, nil
+    rows, err := r.Dbpool.Query(context.Background(), query, args)
+    if err != nil {
+        return nil, err
+    }
+    
+    users, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.PeopleProfileCredentials])
+    if err != nil {
+        return nil, err
+    }
+    
+    return users, nil
 }

@@ -7,35 +7,76 @@ type PeopleProfileCardCredentials struct{
     Role int 
 }
 
-templ PeopleCard(userCredentials PeopleProfileCardCredentials) {
+templ PeopleCard(userCredentials PeopleProfileCardCredentials, userLogin string) {
     @PeopleCardStyle()
-    <div class="people-card--wrapper">
-        <div class="card">
-            <div class="wrapper">
-                <div class="avatar">
-                    <img class="profile-avatar" crossorigin="anonymous" src={ userCredentials.AvatarPath} alt="Изображение профиля">
-                </div>
-                <div class="user-info-wrapper">
-                    <div class="login">
-                        { userCredentials.Login}
+    if userCredentials.Login != userLogin {
+        <div class="people-card--wrapper">
+            <div class="card">
+                <div class="wrapper">
+                    <div class="avatar">
+                        <img class="profile-avatar" crossorigin="anonymous" src={ userCredentials.AvatarPath}
+                            alt="Изображение профиля">
                     </div>
-                    <div class="role">
-                        {{ var userRole string}}
-                        {{ if userCredentials.Role == 0 { userRole = "Пользователь"} }}
-                        {{ if userCredentials.Role == 1 { userRole = "Администратор"} }}
-                        { userRole }
+                    <div class="user-info-wrapper">
+                        if userCredentials.Role == 0 {
+                        <div class="login">
+                            { userCredentials.Login}
+                        </div>
+                        } else {
+                        <div class="loginadmin">
+                            { userCredentials.Login}
+                        </div>
+                        }
+        
+                        <div class="role">
+                            {{ var userRole string}}
+                            {{ if userCredentials.Role == 0 { userRole = "Пользователь"} }}
+                            {{ if userCredentials.Role == 1 { userRole = "Администратор"} }}
+                            { userRole }
+                        </div>
                     </div>
                 </div>
+        
             </div>
-            
+            <div class="addfriend">
+                <img width="50px" height="50px" src="/public/icons/addfriend.svg" alt="people ico" class="iconaddfriend" />
+            </div>
+            <div class="sendmessage">
+                <img width="50px" height="50px" src="/public/icons/message.svg" alt="people ico" class="iconchat" />
+            </div>
         </div>
-        <div class="addfriend">
-            1
+    } else {
+        <div class="people-card--wrapper">
+            <div class="card-user">
+                <div class="wrapper">
+                    <div class="avatar">
+                        <img class="profile-avatar" crossorigin="anonymous" src={ userCredentials.AvatarPath}
+                            alt="Изображение профиля">
+                    </div>
+                    <div class="user-info-wrapper">
+                        if userCredentials.Role == 0 {
+                        <div class="login">
+                            { userCredentials.Login}
+                        </div>
+                        } else {
+                        <div class="loginadmin">
+                            { userCredentials.Login}
+                        </div>
+                        }
+        
+                        <div class="role">
+                            {{ var userRole string}}
+                            {{ if userCredentials.Role == 0 { userRole = "Пользователь"} }}
+                            {{ if userCredentials.Role == 1 { userRole = "Администратор"} }}
+                            { userRole }
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
         </div>
-        <div class="sendmessage">
-            2
-        </div>
-    </div>
+    }
+    
 
 }
 
@@ -82,6 +123,9 @@ templ PeopleCardStyle() {
         
         .sendmessage
         {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 20px;
             max-width: 90px;
             margin-left: 15px;
@@ -89,8 +133,16 @@ templ PeopleCardStyle() {
             min-height: 90px;
             height: 100%;
             background-color: #222222;
+            transition: all 0.3s ease-in-out
+        }
+
+        .sendmessage:hover{
+            background-color: #303030;
         }
         .addfriend{
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 20px;
             max-width: 90px;
             margin-left: 15px;
@@ -98,9 +150,15 @@ templ PeopleCardStyle() {
             min-height: 90px;
             height: 100%;
             background-color: #222222;
+            transition: all 0.3s ease-in-out
+        }
+
+        .addfriend:hover{
+            background-color: #303030;
         }
 
         .card{
+            transition: all 0.3s ease-in-out;
             display: flex;
             flex-direction: row;
             border-radius: 20px;
@@ -112,6 +170,27 @@ templ PeopleCardStyle() {
             align-items: center;
 
         }
+
+        .card-user{
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: row;
+            border-radius: 20px;
+            max-width: 1100px;
+            width: 100%;
+            min-height: 90px;
+            height: 100%;
+            background-color: #222222;
+            align-items: center;
+        }
+
+        .card:hover{
+            background-color: #303030;
+        
+        }
     
+        .loginadmin{
+            color: rgb(255, 143, 143);
+        }
     </style>
 }

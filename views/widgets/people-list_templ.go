@@ -13,7 +13,7 @@ import "zimniyles/fibergo/views/components"
 import "fmt"
 import "strconv"
 
-func PeopleList(users []models.PeopleProfileCredentials, pagesCount int, page int) templ.Component {
+func PeopleList(users []models.PeopleProfileCredentials, pagesCount int, page int, link string, userLogin string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -47,64 +47,74 @@ func PeopleList(users []models.PeopleProfileCredentials, pagesCount int, page in
 				Login:      users.Login,
 				AvatarPath: users.AvatarPath,
 				Role:       users.Role,
-			}).Render(ctx, templ_7745c5c3_Buffer)
+			}, userLogin).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><div class=\"people-list__pagination\"><div class=\"people-list__pagination-item\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><div class=\"people-list__pagination\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if page != 1 {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<img src=\"/public/icons/arrowleft.svg\" alt=\"left arrow\"> <a href=\"")
+		if link == "/people?page=%d" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"people-list__pagination-item\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var2 templ.SafeURL = templ.SafeURL(fmt.Sprintf("/people?page=%d", page-1))
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var2)))
+			if page != 1 {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<img src=\"/public/icons/arrowleft.svg\" alt=\"left arrow\"> <a href=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var2 templ.SafeURL = templ.SafeURL(fmt.Sprintf("/people?page=%d", page-1))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var2)))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\">Предыдущие</a>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div><div class=\"people-list__pagination-pagenum\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\">Предыдущие</a>")
+			pageNum := strconv.Itoa(page)
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(pageNum)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/people-list.templ`, Line: 31, Col: 29}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div><div class=\"people-list__pagination-item\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if page != pagesCount {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<img src=\"/public/icons/arrowright.svg\" alt=\"right arrow\"> <a href=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var4 templ.SafeURL = templ.SafeURL(fmt.Sprintf("/people?page=%d", page+1))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var4)))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">Следущие</a>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div><div class=\"people-list__pagination-pagenum\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		pageNum := strconv.Itoa(page)
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(pageNum)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/people-list.templ`, Line: 30, Col: 25}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div><div class=\"people-list__pagination-item\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if page != pagesCount {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<img src=\"/public/icons/arrowright.svg\" alt=\"right arrow\"> <a href=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var4 templ.SafeURL = templ.SafeURL(fmt.Sprintf("/people?page=%d", page+1))
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var4)))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\">Следущие</a>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -133,7 +143,7 @@ func PeopleListStyle() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<style>\r\n        .title-wrapper {\r\n            margin-left: 120px;\r\n        }\r\n    \r\n        .people-list__pagination-item {\r\n            display: flex;\r\n            gap: 8px;\r\n            align-items: center;\r\n            max-width: 100px;\r\n            width: 100%;\r\n    \r\n    \r\n        }\r\n    \r\n        .people-list__pagination-pagenum {\r\n            display: flex;\r\n            max-height: 54px;\r\n            max-width: 100px;\r\n            width: 100%;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            justify-content: center;\r\n            align-items: center;\r\n            border-radius: 20px;\r\n            text-align: center;\r\n        }\r\n    \r\n        .people-list__pagination-item a {\r\n            text-decoration: none;\r\n            color: var(--color-grey);\r\n    \r\n        }\r\n    \r\n        .people-list__pagination-item a:hover {\r\n            color: #585858;\r\n    \r\n        }\r\n    \r\n        .people-list__pagination {\r\n            max-height: 54px;\r\n            height: 100%;\r\n            display: flex;\r\n            justify-content: space-between;\r\n            gap: 24px;\r\n            margin-left: 120px;\r\n            margin-right: 120px;\r\n    \r\n        }\r\n    \r\n        .people-list-wrapper {\r\n            width: 100%;\r\n            max-width: 1100px;\r\n            margin: 0 auto;\r\n            padding: 15px 0;\r\n        }\r\n    \r\n        .people-list {\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            display: flex;\r\n            align-items: center;\r\n            flex-direction: column;\r\n            gap: 15px;\r\n            margin-bottom: 30px;\r\n    \r\n    \r\n    \r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<style>\r\n        .title-wrapper {\r\n            margin-left: 120px;\r\n        }\r\n    \r\n        .people-list__pagination-item {\r\n            display: flex;\r\n            gap: 8px;\r\n            align-items: center;\r\n            max-width: 100px;\r\n            width: 100%;\r\n    \r\n    \r\n        }\r\n    \r\n        .people-list__pagination-pagenum {\r\n            display: flex;\r\n            min-height: 54px;\r\n            max-width: 100px;\r\n            width: 100%;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            justify-content: center;\r\n            align-items: center;\r\n            border-radius: 20px;\r\n            text-align: center;\r\n            color: white;\r\n        }\r\n    \r\n        .people-list__pagination-item a {\r\n            text-decoration: none;\r\n            color: var(--color-grey);\r\n    \r\n        }\r\n    \r\n        .people-list__pagination-item a:hover {\r\n            color: #585858;\r\n    \r\n        }\r\n    \r\n        .people-list__pagination {\r\n            max-height: 54px;\r\n            height: 100%;\r\n            display: flex;\r\n            justify-content: space-between;\r\n            gap: 24px;\r\n            margin-left: 120px;\r\n            margin-right: 120px;\r\n    \r\n        }\r\n    \r\n        .people-list-wrapper {\r\n            width: 100%;\r\n            max-width: 1100px;\r\n            margin: 0 auto;\r\n            padding: 15px 0;\r\n        }\r\n    \r\n        .people-list {\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            display: flex;\r\n            align-items: center;\r\n            flex-direction: column;\r\n            gap: 15px;\r\n            margin-bottom: 30px;\r\n    \r\n    \r\n    \r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
