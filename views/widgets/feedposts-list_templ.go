@@ -92,7 +92,7 @@ func FeedPostsList(posts []models.FeedPost, pagesCount int, page int) templ.Comp
 			return templ_7745c5c3_Err
 		}
 		if page != pagesCount {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<img src=\"/public/icons/arrowright.svg\" alt=\"right arrow\"> <a href=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -101,7 +101,7 @@ func FeedPostsList(posts []models.FeedPost, pagesCount int, page int) templ.Comp
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\">Следущие</a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\">Следущие</a> <img src=\"/public/icons/arrowright.svg\" alt=\"right arrow\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

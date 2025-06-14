@@ -8,6 +8,7 @@ type ProfileCredentials struct {
 	Createdat  time.Time `db:"createdat"`
 	Role       string    `db:"role"`
 	AvatarPath string    `db:"avatarpath"`
+
 }
 
 type FeedPost struct {
@@ -23,4 +24,5 @@ type PeopleProfileCredentials struct {
 	Login      string `db:"login"`
 	AvatarPath string `db:"avatarpath"`
 	Role       int    `db:"role"`
+	IsFriendToUser bool 
 }

@@ -187,10 +187,6 @@ func (h *HomeHandler) login(c *fiber.Ctx) error {
 
 func (h *HomeHandler) error(c *fiber.Ctx) error {
 
-	h.customLogger.Info().
-		Bool("isAdmin", true).
-		Str("email", "a@a.ru").
-		Int("id", 10).
-		Msg("инфо")
-	return c.SendString("error")
+	component := views.ErrorPage(500, "server error")
+	return tadapter.Render(c, component, http.StatusInternalServerError)
 }

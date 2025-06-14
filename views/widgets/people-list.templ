@@ -32,8 +32,8 @@ templ PeopleList(users []models.PeopleProfileCredentials, pagesCount int, page i
                 </div>
                 <div class="people-list__pagination-item">
                     if page != pagesCount {
-                    <img src="/public/icons/arrowright.svg" alt="right arrow">
                     <a href={templ.SafeURL(fmt.Sprintf("/people?page=%d", page+1))}>Следущие</a>
+                    <img src="/public/icons/arrowright.svg" alt="right arrow">
                     }
                 </div>
             } else  {

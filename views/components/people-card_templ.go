@@ -114,55 +114,55 @@ func PeopleCard(userCredentials PeopleProfileCardCredentials, userLogin string) 
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></div></div></div><div class=\"addfriend\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/addfriend.svg\" alt=\"people ico\" class=\"iconaddfriend\"></div><div class=\"sendmessage\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/message.svg\" alt=\"people ico\" class=\"iconchat\"></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<div class=\"people-card--wrapper\"><div class=\"card-user\"><div class=\"wrapper\"><div class=\"avatar\"><img class=\"profile-avatar\" crossorigin=\"anonymous\" src=\"")
+			addfriendLink := "api/addfriend/" + userCredentials.Login
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<div class=\"addfriend\" hx-post=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(userCredentials.AvatarPath)
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(addfriendLink)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 53, Col: 108}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 42, Col: 58}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" alt=\"Изображение профиля\"></div><div class=\"user-info-wrapper\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" hx-trigger=\"click\" hx-swap=\"innerHTML\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/addfriend.svg\" alt=\"people ico\" class=\"iconaddfriend\"></div><div class=\"sendmessage\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/message.svg\" alt=\"people ico\" class=\"iconchat\"></div></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"people-card--wrapper\"><div class=\"card-user\"><div class=\"wrapper\"><div class=\"avatar\"><img class=\"profile-avatar\" crossorigin=\"anonymous\" src=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(userCredentials.AvatarPath)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 54, Col: 108}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" alt=\"Изображение профиля\"></div><div class=\"user-info-wrapper\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if userCredentials.Role == 0 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"login\">")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var7 string
-				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(userCredentials.Login)
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 59, Col: 51}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</div>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-			} else {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<div class=\"loginadmin\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<div class=\"login\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(userCredentials.Login)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 63, Col: 51}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 60, Col: 51}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -172,8 +172,26 @@ func PeopleCard(userCredentials PeopleProfileCardCredentials, userLogin string) 
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
+			} else {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<div class=\"loginadmin\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var9 string
+				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(userCredentials.Login)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 64, Col: 51}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<div class=\"role\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<div class=\"role\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -184,16 +202,16 @@ func PeopleCard(userCredentials PeopleProfileCardCredentials, userLogin string) 
 			if userCredentials.Role == 1 {
 				userRole = "Администратор"
 			}
-			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(userRole)
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(userRole)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 71, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/people-card.templ`, Line: 72, Col: 38}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div></div></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</div></div></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -218,12 +236,12 @@ func PeopleCardStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var10 == nil {
-			templ_7745c5c3_Var10 = templ.NopComponent
+		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var11 == nil {
+			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<style>\r\n        .wrapper{\r\n            margin-left: 15px;\r\n            flex-direction: row;\r\n            display: flex;\r\n            justify-content: left;\r\n            align-items: center;\r\n        }\r\n\r\n        .profile-avatar {\r\n\r\n            width: 60px;\r\n            height: 60px;\r\n            border-radius: 50%;\r\n            object-fit: cover;\r\n            \r\n        }\r\n\r\n        .avatar{\r\n            width: 60px;\r\n            height: 60px;\r\n        }\r\n\r\n        .people-card--wrapper{\r\n            display: flex;\r\n            flex-direction: row;\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            \r\n            min-height: 90px;\r\n            height: 100%;\r\n        }\r\n\r\n        .user-info-wrapper{\r\n            margin-left: 15px;\r\n            display: flex;\r\n            flex-direction: column;\r\n            color: white;\r\n        }\r\n        \r\n        .sendmessage\r\n        {\r\n            display: flex;\r\n            align-items: center;\r\n            justify-content: center;\r\n            border-radius: 20px;\r\n            max-width: 90px;\r\n            margin-left: 15px;\r\n            width: 100%;\r\n            min-height: 90px;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            transition: all 0.3s ease-in-out\r\n        }\r\n\r\n        .sendmessage:hover{\r\n            background-color: #303030;\r\n        }\r\n        .addfriend{\r\n            display: flex;\r\n            align-items: center;\r\n            justify-content: center;\r\n            border-radius: 20px;\r\n            max-width: 90px;\r\n            margin-left: 15px;\r\n            width: 100%;\r\n            min-height: 90px;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            transition: all 0.3s ease-in-out\r\n        }\r\n\r\n        .addfriend:hover{\r\n            background-color: #303030;\r\n        }\r\n\r\n        .card{\r\n            transition: all 0.3s ease-in-out;\r\n            display: flex;\r\n            flex-direction: row;\r\n            border-radius: 20px;\r\n            max-width: 890px;\r\n            width: 100%;\r\n            min-height: 90px;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            align-items: center;\r\n\r\n        }\r\n\r\n        .card-user{\r\n            transition: all 0.3s ease-in-out;\r\n            display: flex;\r\n            flex-direction: row;\r\n            border-radius: 20px;\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            min-height: 90px;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            align-items: center;\r\n        }\r\n\r\n        .card:hover{\r\n            background-color: #303030;\r\n        \r\n        }\r\n    \r\n        .loginadmin{\r\n            color: rgb(255, 143, 143);\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<style>\r\n        .wrapper{\r\n            margin-left: 15px;\r\n            flex-direction: row;\r\n            display: flex;\r\n            justify-content: left;\r\n            align-items: center;\r\n        }\r\n\r\n        .profile-avatar {\r\n\r\n            width: 60px;\r\n            height: 60px;\r\n            border-radius: 50%;\r\n            object-fit: cover;\r\n            \r\n        }\r\n\r\n        .avatar{\r\n            width: 60px;\r\n            height: 60px;\r\n        }\r\n\r\n        .people-card--wrapper{\r\n            display: flex;\r\n            flex-direction: row;\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            \r\n            min-height: 90px;\r\n            height: 100%;\r\n        }\r\n\r\n        .user-info-wrapper{\r\n            margin-left: 15px;\r\n            display: flex;\r\n            flex-direction: column;\r\n            color: white;\r\n        }\r\n        \r\n        .sendmessage\r\n        {\r\n            display: flex;\r\n            align-items: center;\r\n            justify-content: center;\r\n            border-radius: 20px;\r\n            max-width: 90px;\r\n            margin-left: 15px;\r\n            width: 100%;\r\n            min-height: 90px;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            transition: all 0.3s ease-in-out\r\n        }\r\n\r\n        .sendmessage:hover{\r\n            background-color: #303030;\r\n        }\r\n        .addfriend{\r\n            display: flex;\r\n            align-items: center;\r\n            justify-content: center;\r\n            border-radius: 20px;\r\n            max-width: 90px;\r\n            margin-left: 15px;\r\n            width: 100%;\r\n            min-height: 90px;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            transition: all 0.3s ease-in-out\r\n        }\r\n\r\n        .addfriend:hover{\r\n            background-color: #303030;\r\n        }\r\n\r\n        .card{\r\n            transition: all 0.3s ease-in-out;\r\n            display: flex;\r\n            flex-direction: row;\r\n            border-radius: 20px;\r\n            max-width: 890px;\r\n            width: 100%;\r\n            min-height: 90px;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            align-items: center;\r\n\r\n        }\r\n\r\n        .card-user{\r\n            transition: all 0.3s ease-in-out;\r\n            display: flex;\r\n            flex-direction: row;\r\n            border-radius: 20px;\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            min-height: 90px;\r\n            height: 100%;\r\n            background-color: #222222;\r\n            align-items: center;\r\n        }\r\n\r\n        .card:hover{\r\n            background-color: #303030;\r\n        \r\n        }\r\n    \r\n        .loginadmin{\r\n            color: rgb(255, 143, 143);\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

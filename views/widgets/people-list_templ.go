@@ -95,7 +95,7 @@ func PeopleList(users []models.PeopleProfileCredentials, pagesCount int, page in
 				return templ_7745c5c3_Err
 			}
 			if page != pagesCount {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<img src=\"/public/icons/arrowright.svg\" alt=\"right arrow\"> <a href=\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<a href=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -104,7 +104,7 @@ func PeopleList(users []models.PeopleProfileCredentials, pagesCount int, page in
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">Следущие</a>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">Следущие</a> <img src=\"/public/icons/arrowright.svg\" alt=\"right arrow\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
