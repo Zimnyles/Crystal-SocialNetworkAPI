@@ -1,0 +1,165 @@
+package components
+
+type RequestCredentials struct{
+    Login string 
+    AvatarPath string 
+    FriendshipStatus string 
+}
+
+templ FriendRequest(credentials RequestCredentials) {
+    @FriendRequestStyle()
+        {{ status := credentials.FriendshipStatus }}
+        <div class="request-wrapper">
+            if status == "pendingIncoming" {
+                <div class="user-info-wrapper-many">
+                    <div class="request-avatar-wrapper"><img class="request-avatar" src={ credentials.AvatarPath }></div>
+                    <div class="login-and-status-wrapper">
+                        { truncateString(credentials.Login, 9) }
+                        if status == "pendingIncoming" {
+                        <div>Входящая завяка</div>
+                        } else {
+                        <div>Исходящая завяка</div>
+                        }
+                    </div>
+                </div>
+                <div class="accept-button">
+                    <img width="50px" height="50px" src="/public/icons/addfriend.svg" class="approve-icon">
+                </div>
+                <div class="reject-button">
+                    <img width="50px" height="50px" src="/public/icons/deny.svg" class="reject-icon">
+                </div>
+            } else {
+                <div class="user-info-wrapper-solo">
+                    <div class="request-avatar-wrapper"><img class="request-avatar" src={ credentials.AvatarPath }></div>
+                    <div class="login-and-status-wrapper">
+                        { credentials.Login }
+                        if status == "pendingIncoming" {
+                        <div>Входящая завяка</div>
+                        } else {
+                        <div>Исходящая завяка</div>
+                        }
+                    </div>
+                </div>
+                <div class="reject-button-solo">
+                    <img width="50px" height="50px" src="/public/icons/deny.svg" class="reject">
+                </div>
+            }
+
+            
+        </div>
+        
+}
+
+func truncateString(str string, num int) string {
+    if len(str) <= num {
+        return str
+    }
+    return str[:num] + "..."
+}
+
+templ FriendRequestStyle() {
+    <style>
+    .accept-button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 68px;
+        max-width: 68px;
+        width: 100%;
+        min-height: 90px;
+        height: 100%;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 15px;
+    }
+
+    .reject-button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 68px;
+        min-width: 68px;
+        width: 100%;
+        min-height: 90px;
+        height: 100%;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 15px;
+    }
+
+    .reject-button-solo{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+        max-width: 68px;
+        width: 100%;
+        min-height: 90px;
+        height: 100%;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-and-status-wrapper{
+        display: flex;
+        flex-direction: column;
+        margin-left: 15px;
+    }
+    .user-info-wrapper-many{
+        display: flex;
+        flex-direction: row;
+        color: white;
+        align-items: center;
+        justify-content: left;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        min-height: 90px;
+        height: 100%;
+        padding-left: 15px;
+        max-width: 191px;
+        width: 100%;
+    }
+    .user-info-wrapper-solo{
+        display: flex;
+        flex-direction: row;
+        color: white;
+        align-items: center;
+        justify-content: left;
+        background: #222222;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        min-height: 90px;
+        height: 100%;
+        padding-left: 15px;
+        max-width: 284px;
+        width: 100%;
+    }
+    .request-avatar-wrapper{
+        max-width: 60px;
+        max-height: 60px;
+    }
+    .request-avatar{
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .request-wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: left;
+        min-width: 357px;
+        width: 100%;
+        margin-bottom: 15px;
+
+    }
+
+
+
+    </style>
+}

@@ -10,8 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "zimniyles/fibergo/views/layout"
 import "zimniyles/fibergo/views/widgets"
+import "zimniyles/fibergo/internal/models"
 
-func FriendsPage() templ.Component {
+func FriendsPage(FriendPageCredentials models.FriendPageCredentials) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -64,7 +65,23 @@ func FriendsPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><div class=\"friends-header\"><div class=\"friendslist-header\"><!-- Заголовок списка друзей --><span>Ваши друзья</span></div><div class=\"friendsrequest-header\"><span>Запросы в друзья</span><!-- Заголовок запросов в друзья --></div></div><div class=\"friends-content\"><div class=\"page-firendslist\"><!-- Список друзей --></div><div class=\"page-friendsrequests\"><!-- Запросы в друзья --></div></div></div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><div class=\"friends-header\"><div class=\"friendslist-header\"><!-- Заголовок списка друзей --><span>Ваши друзья</span></div><div class=\"friendsrequest-header\"><span>Запросы в друзья</span></div></div><div class=\"friends-content\"><div class=\"page-firendslist\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = widgets.FriendList(FriendPageCredentials.Friends).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><div class=\"page-friendsrequests\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = widgets.FriendRequestList(FriendPageCredentials.FriendRequests).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -102,7 +119,7 @@ func FriendsPageStyle() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n    .page-container {\r\n        display: flex;\r\n        width: 100%;\r\n        padding: 0 300px;\r\n        box-sizing: border-box;\r\n    }\r\n\r\n   \r\n\r\n    .main-content {\r\n        margin-top: 15px;\r\n        flex-grow: 1;\r\n    }\r\n\r\n    .friends-header {\r\n        display: flex;\r\n        gap: 15px;\r\n        margin-bottom: 15px;\r\n    }\r\n\r\n    .friendslist-header {\r\n        flex: 2;\r\n        height: 54px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n    }\r\n\r\n    .friendsrequest-header {\r\n        flex: 1;\r\n        height: 54px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n    }\r\n\r\n    .friends-content {\r\n        display: flex;\r\n        gap: 15px;\r\n    }\r\n\r\n    .page-firendslist {\r\n        flex: 2;\r\n        height: 900px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .page-friendsrequests {\r\n        flex: 1;\r\n        height: 900px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\r\n    .page-container {\r\n        display: flex;\r\n        width: 100%;\r\n        padding: 0 300px;\r\n        box-sizing: border-box;\r\n    }\r\n\r\n   \r\n\r\n    .main-content {\r\n        margin-top: 15px;\r\n        flex-grow: 1;\r\n    }\r\n\r\n    .friends-header {\r\n        display: flex;\r\n        gap: 15px;\r\n        margin-bottom: 15px;\r\n    }\r\n\r\n    .friendslist-header {\r\n        flex: 2;\r\n        height: 54px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n    }\r\n\r\n    .friendsrequest-header {\r\n        flex: 1;\r\n        height: 54px;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n    }\r\n\r\n    .friends-content {\r\n        display: flex;\r\n        gap: 15px;\r\n    }\r\n\r\n    .page-firendslist {\r\n        flex: 2;\r\n        \r\n    }\r\n\r\n    .page-friendsrequests {\r\n        flex: 1;\r\n        \r\n    }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

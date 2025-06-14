@@ -1,0 +1,23 @@
+package widgets
+
+import "zimniyles/fibergo/internal/models"
+import "zimniyles/fibergo/views/components"
+
+templ FriendRequestList(FriendRequestListCred []models.FriendRequestList) {
+    @FriendRequestListStyle()
+    <div class="requests-wrapper">
+        for _, request := range FriendRequestListCred {
+            @components.FriendRequest(components.RequestCredentials{
+                Login: request.Login,
+                AvatarPath: request.AvatarPath,
+                FriendshipStatus: request.FriendshipStatus,
+            })
+        }
+    </div>
+
+}
+
+templ FriendRequestListStyle() {
+    <style>
+    </style>
+}

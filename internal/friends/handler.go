@@ -1,6 +1,7 @@
 package friends
 
 import (
+	"zimniyles/fibergo/internal/models"
 	"zimniyles/fibergo/pkg/middleware"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/views"
@@ -29,8 +30,23 @@ func NewFriendsHandler(router fiber.Router, customLogger *zerolog.Logger, feedRe
 }
 
 func (h *FriendsHandler) friends(c *fiber.Ctx) error {
-	
 
-	component := views.FriendsPage()
+	sess, err := h.store.Get(c)
+	if err != nil {
+		panic(err)
+	}
+
+	login := sess.Get("login").(string)
+	userID, _ := h.repository.GetIDfromLogin(login)
+
+	friends, _ := h.repository.GetAcceptedFriends(userID)
+	requests, _ := h.repository.GetAllFriendRequests(userID)
+
+	friendsData := models.FriendPageCredentials{
+		Friends:        friends,
+		FriendRequests: requests,
+	}
+
+	component := views.FriendsPage(friendsData)
 	return tadapter.Render(c, component, 200)
 }
