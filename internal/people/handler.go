@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"net/http"
+	"zimniyles/fibergo/internal/models"
 	"zimniyles/fibergo/pkg/middleware"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/views"
@@ -18,11 +19,20 @@ import (
 type PeopleHandler struct {
 	router       fiber.Router
 	customLogger *zerolog.Logger
-	repository   *PeopleRepository
+	repository   PeopleRepo
 	store        *session.Store
 }
 
-func NewPeopleHandler(router fiber.Router, customLogger *zerolog.Logger, feedRepository *PeopleRepository, store *session.Store) {
+type PeopleRepo interface {
+	GetIDfromLogin(login string) (int, error)
+	IsLoginExists(login string, logger *zerolog.Logger) (bool, error)
+	AddFriend(userID int, friendID int) (*friendshipStatus, error)
+	GetAll(userID, limit, offset int, search string) ([]models.PeopleProfileCredentials, error)
+	CountAll() int
+	CountNonFriends(userID int) (int, error)
+}
+
+func NewPeopleHandler(router fiber.Router, customLogger *zerolog.Logger, feedRepository PeopleRepo, store *session.Store) {
 	h := &PeopleHandler{
 		router:       router,
 		customLogger: customLogger,
@@ -96,36 +106,35 @@ func (h *PeopleHandler) apiFindPeople(c *fiber.Ctx) error {
 }
 
 func (h *PeopleHandler) people(c *fiber.Ctx) error {
-    sess, err := h.store.Get(c)
-    if err != nil {
-        panic(err)
-    }
+	sess, err := h.store.Get(c)
+	if err != nil {
+		panic(err)
+	}
 
-    login := sess.Get("login").(string)
-    userID, _ := h.repository.GetIDfromLogin(login)
+	login := sess.Get("login").(string)
+	userID, _ := h.repository.GetIDfromLogin(login)
 
-    PAGE_ITEMS := 10
-    page := c.QueryInt("page", 1)
-    
-    count, err := h.repository.CountNonFriends(userID)
-    if err != nil {
-        h.customLogger.Error().Msg(err.Error())
-        return c.SendStatus(500)
-    }
+	PAGE_ITEMS := 10
+	page := c.QueryInt("page", 1)
 
-    users, err := h.repository.GetAll(userID, PAGE_ITEMS, (page-1)*PAGE_ITEMS, "")
-    if err != nil {
-        h.customLogger.Error().Msg(err.Error())
-        return c.SendStatus(500)
-    }
+	count, err := h.repository.CountNonFriends(userID)
+	if err != nil {
+		h.customLogger.Error().Msg(err.Error())
+		return c.SendStatus(500)
+	}
 
-    totalPages := int(math.Ceil(float64(count) / float64(PAGE_ITEMS)))
-    
+	users, err := h.repository.GetAll(userID, PAGE_ITEMS, (page-1)*PAGE_ITEMS, "")
+	if err != nil {
+		h.customLogger.Error().Msg(err.Error())
+		return c.SendStatus(500)
+	}
 
-    if page > totalPages && totalPages > 0 {
-        return c.Redirect(fmt.Sprintf("/people?page=%d", totalPages), fiber.StatusSeeOther)
-    }
+	totalPages := int(math.Ceil(float64(count) / float64(PAGE_ITEMS)))
 
-    component := views.PeoplePage(users, totalPages, page, "/people?page=%d", login)
-    return tadapter.Render(c, component, http.StatusOK)
+	if page > totalPages && totalPages > 0 {
+		return c.Redirect(fmt.Sprintf("/people?page=%d", totalPages), fiber.StatusSeeOther)
+	}
+
+	component := views.PeoplePage(users, totalPages, page, "/people?page=%d", login)
+	return tadapter.Render(c, component, http.StatusOK)
 }
