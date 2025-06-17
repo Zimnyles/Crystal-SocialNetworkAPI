@@ -42,3 +42,31 @@ type FriendRequestList struct {
 	AvatarPath       string `db:"avatarpath"`
 	FriendshipStatus string `db:"status"`
 }
+
+type Message struct {
+	Sender    string
+	Receiver  string
+	Content   string
+	Timestamp time.Time
+}
+
+type Chat struct {
+	Messages []Message
+	Users    map[string]bool
+}
+
+func NewChat() *Chat {
+    return &Chat{
+        Messages: make([]Message, 0),
+        Users:    make(map[string]bool),
+    }
+}
+
+func (c *Chat) AddMessage(msg Message) {
+    msg.Timestamp = time.Now()
+    c.Messages = append(c.Messages, msg)
+}
+
+func (c *Chat) AddUser(username string) {
+    c.Users[username] = true
+}

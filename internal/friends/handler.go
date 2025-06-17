@@ -1,10 +1,12 @@
 package friends
 
 import (
+	"net/http"
 	"zimniyles/fibergo/internal/models"
 	"zimniyles/fibergo/pkg/middleware"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/views"
+	"zimniyles/fibergo/views/components"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
@@ -14,19 +16,67 @@ import (
 type FriendsHandler struct {
 	router       fiber.Router
 	customLogger *zerolog.Logger
-	repository   *FriendsRepository
+	repository   FriendsRepo
 	store        *session.Store
 }
 
-func NewFriendsHandler(router fiber.Router, customLogger *zerolog.Logger, feedRepository *FriendsRepository, store *session.Store) {
+type FriendsRepo interface {
+	GetAllFriendRequests(userID int) ([]models.FriendRequestList, error)
+	GetAcceptedFriends(userID int) ([]models.FriendList, error)
+	GetIDfromLogin(login string) (int, error)
+	AcceptFriendship(userId int, friendId int) bool
+	DeclineFriendship(userId int, friendId int) (bool)
+}
+
+func NewFriendsHandler(router fiber.Router, customLogger *zerolog.Logger, friendsRepository FriendsRepo, store *session.Store) {
 	h := &FriendsHandler{
 		router:       router,
 		customLogger: customLogger,
-		repository:   feedRepository,
+		repository:   friendsRepository,
 		store:        store,
 	}
-	profileGroup := h.router.Group("/friends")
-	profileGroup.Get("/", middleware.AuthRequired(h.store), h.friends)
+
+	friendsGroup := h.router.Group("/friends")
+	friendsGroup.Get("/", middleware.AuthRequired(h.store), h.friends)
+
+	h.router.Post("api/acceptfriendship/:username", middleware.AuthRequired(h.store), h.apiAcceptFriendship)
+	h.router.Post("api/declinefriendship/:username", middleware.AuthRequired(h.store), h.apiDeclineFriendship)
+}
+
+func (h *FriendsHandler) apiAcceptFriendship(c *fiber.Ctx) error {
+	friendLogin := c.Params("username")
+
+	userID := getUserID(h.store, c, h.repository)
+	friendID, err := h.repository.GetIDfromLogin(friendLogin)
+	if err != nil {
+		panic(err)
+	}
+
+	isAccepted := h.repository.AcceptFriendship(userID, friendID)
+	if !isAccepted {
+		component := components.Notification("Произошла ошибка на сервере, попробуйте повторить попытку позже", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+	return nil
+}
+
+func (h *FriendsHandler) apiDeclineFriendship(c *fiber.Ctx) error {
+
+	friendLogin := c.Params("username")
+
+	userID := getUserID(h.store, c, h.repository)
+	friendID, err := h.repository.GetIDfromLogin(friendLogin)
+	if err != nil {
+		panic(err)
+	}
+
+	isAccepted := h.repository.DeclineFriendship(userID, friendID)
+	if !isAccepted {
+		component := components.Notification("Произошла ошибка на сервере, попробуйте повторить попытку позже", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+	return nil
+
 }
 
 func (h *FriendsHandler) friends(c *fiber.Ctx) error {
@@ -49,4 +99,15 @@ func (h *FriendsHandler) friends(c *fiber.Ctx) error {
 
 	component := views.FriendsPage(friendsData)
 	return tadapter.Render(c, component, 200)
+}
+
+func getUserID(store *session.Store, c *fiber.Ctx, friendsRepository FriendsRepo) int {
+	sess, err := store.Get(c)
+	if err != nil {
+		panic(err)
+	}
+	login := sess.Get("login").(string)
+	userID, _ := friendsRepository.GetIDfromLogin(login)
+
+	return userID
 }

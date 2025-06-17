@@ -1,0 +1,13 @@
+package components
+
+import "strconv"
+
+templ ErrorComponent(errorStatus int, msg string) {
+    <div color="white">
+        <p>page not found</p>
+        {{ error := strconv.Itoa(errorStatus) }}
+        <p>{ error }</p>
+        <p>{ msg }</p>
+        <p> :( </p>
+    </div>
+}

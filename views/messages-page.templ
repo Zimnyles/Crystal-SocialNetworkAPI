@@ -30,7 +30,10 @@ MetaDescriptiom: "Crystals social network",
                     <div class="messanger--leftpart">
                         <p>left</p>
                     </div>
-                    <div class="messanger--rightpart">
+
+                    {{ link:= "/messages/" + login }}
+
+                    <div class="messanger--rightpart" hx-swap="innerHTML" hx-trigger="click" hx-get={ link }>
                         <p>right</p>
                     </div>
                 </div>

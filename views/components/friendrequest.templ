@@ -8,8 +8,9 @@ type RequestCredentials struct{
 
 templ FriendRequest(credentials RequestCredentials) {
     @FriendRequestStyle()
+    @FriendRequestScript()
         {{ status := credentials.FriendshipStatus }}
-        <div class="request-wrapper">
+        <div class="request-wrapper" id={"friend-request-" + credentials.Login}>
             if status == "pendingIncoming" {
                 <div class="user-info-wrapper-many">
                     <div class="request-avatar-wrapper"><img class="request-avatar" src={ credentials.AvatarPath }></div>
@@ -22,12 +23,23 @@ templ FriendRequest(credentials RequestCredentials) {
                         }
                     </div>
                 </div>
-                <div class="accept-button">
-                    <img width="50px" height="50px" src="/public/icons/addfriend.svg" class="approve-icon">
-                </div>
-                <div class="reject-button">
-                    <img width="50px" height="50px" src="/public/icons/deny.svg" class="reject-icon">
-                </div>
+
+                {{ acceptFriendship := "api/acceptfriendship/" + credentials.Login }}
+                {{ declineFriendship := "api/declinefriendship/" + credentials.Login }}
+
+                    <div class="accept-button" hx-post={ acceptFriendship } hx-trigger="click" _="on click
+                                    add .fade-out to closest .request-wrapper
+                                    then wait 300ms
+                                    then remove closest .request-wrapper">
+                        <img width="50px" height="50px" src="/public/icons/addfriend.svg">
+                    </div>
+
+                    <div class="reject-button" hx-post={ declineFriendship } hx-trigger="click" _="on click
+                                    add .fade-out to closest .request-wrapper
+                                    then wait 300ms
+                                    then remove closest .request-wrapper">
+                        <img width="50px" height="50px" src="/public/icons/deny.svg" class="reject-icon">
+                    </div>
             } else {
                 <div class="user-info-wrapper-solo">
                     <div class="request-avatar-wrapper"><img class="request-avatar" src={ credentials.AvatarPath }></div>
@@ -40,7 +52,13 @@ templ FriendRequest(credentials RequestCredentials) {
                         }
                     </div>
                 </div>
-                <div class="reject-button-solo">
+
+                {{ declineFriendship := "api/declinefriendship/" + credentials.Login }}
+
+                <div class="reject-button-solo" hx-post={ declineFriendship } hx-trigger="click" _="on click
+                                    add .fade-out to closest .request-wrapper
+                                    then wait 300ms
+                                    then remove closest .request-wrapper">
                     <img width="50px" height="50px" src="/public/icons/deny.svg" class="reject">
                 </div>
             }
@@ -55,6 +73,10 @@ func truncateString(str string, num int) string {
         return str
     }
     return str[:num] + "..."
+}
+
+templ FriendRequestScript() {
+    <script src="https://unpkg.com/hyperscript.org@0.9.7"></script>
 }
 
 templ FriendRequestStyle() {
@@ -73,7 +95,6 @@ templ FriendRequestStyle() {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         margin-left: 15px;
     }
-
     .reject-button{
         display: flex;
         align-items: center;
@@ -88,7 +109,6 @@ templ FriendRequestStyle() {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         margin-left: 15px;
     }
-
     .reject-button-solo{
         display: flex;
         align-items: center;
@@ -102,7 +122,6 @@ templ FriendRequestStyle() {
         border-radius: 20px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
-
     .login-and-status-wrapper{
         display: flex;
         flex-direction: column;
@@ -155,11 +174,29 @@ templ FriendRequestStyle() {
         justify-content: left;
         min-width: 357px;
         width: 100%;
+        transition: all 0.3s ease;
         margin-bottom: 15px;
-
+        opacity: 1;
+        height: auto;
+        transform: scale(1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
     }
-
-
-
+    .request-wrapper.fade-out {
+        opacity: 0;
+        height: 0 !important;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        transform: scale(0.95);
+    }  
+    .request-wrapper.fade-out * {
+        
+    }
+    .accept-button:active img {
+        transform: scale(0.9);
+        transition: transform 0.1s ease;
+    }
     </style>
 }
+

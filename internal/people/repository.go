@@ -117,6 +117,7 @@ func (r *PeopleRepository) CountNonFriends(currentUserID int) (int, error) {
                 SELECT 1 FROM friends 
                 WHERE (user_id = @currentUserID AND friend_id = u.id AND status = 'accepted')
                    OR (user_id = u.id AND friend_id = @currentUserID AND status = 'accepted')
+                   
             )
             AND NOT EXISTS (
                 

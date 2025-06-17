@@ -67,7 +67,25 @@ func MessagesPage() templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"content-wrapper\"><div><div class=\"messanger--footer\"><span>Ваши чаты</span></div><div class=\"messanger--content-wrapper\"><div class=\"messanger--leftpart\"><p>left</p></div><div class=\"messanger--rightpart\"><p>right</p></div></div></div></div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"content-wrapper\"><div><div class=\"messanger--footer\"><span>Ваши чаты</span></div><div class=\"messanger--content-wrapper\"><div class=\"messanger--leftpart\"><p>left</p></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			link := "/messages/" + login
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"messanger--rightpart\" hx-swap=\"innerHTML\" hx-trigger=\"click\" hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(link)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/messages-page.templ`, Line: 36, Col: 106}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"><p>right</p></div></div></div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -100,12 +118,12 @@ func MessagesPageStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n\r\n    .messanger--rightpart{\r\n        max-width: 800px;\r\n        width: 100%;\r\n        background-color: #222222;\r\n        margin-left: 10px;\r\n    }\r\n\r\n    .messanger--leftpart{\r\n        \r\n        max-width: 300px;\r\n        width: 100%;\r\n        background-color: #222222;\r\n    }\r\n\r\n    .icon {\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .messanger--content-wrapper{\r\n        display: flex;\r\n        flex-direction: initial;\r\n        margin-top: 15px;\r\n    \r\n    }\r\n\r\n    .messanger--footer{\r\n        height: 54px;\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        padding: 15px 20px;\r\n        background-color: #222222;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n        border-radius: 8px;\r\n        max-width: 1100px;\r\n        margin-top: 15px;\r\n    }\r\n\r\n    .content-wrapper {\r\n        position: relative;\r\n        display: block;\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n    }\r\n\r\n    .messanger--wrapper {\r\n        width: 100%;\r\n        display: flex;\r\n        flex-direction: row;\r\n        background: #222222;\r\n        overflow: hidden;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        border: #797979;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .content {\r\n\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n\r\n    .leftmenu-and-content-wrappper {\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: center;\r\n            margin-left: 300px;\r\n            margin-right: 300px;\r\n            max-width: 1320px;\r\n    }\r\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\r\n\r\n    .messanger--rightpart{\r\n        max-width: 800px;\r\n        width: 100%;\r\n        background-color: #222222;\r\n        margin-left: 10px;\r\n    }\r\n\r\n    .messanger--leftpart{\r\n        \r\n        max-width: 300px;\r\n        width: 100%;\r\n        background-color: #222222;\r\n    }\r\n\r\n    .icon {\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .messanger--content-wrapper{\r\n        display: flex;\r\n        flex-direction: initial;\r\n        margin-top: 15px;\r\n    \r\n    }\r\n\r\n    .messanger--footer{\r\n        height: 54px;\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        padding: 15px 20px;\r\n        background-color: #222222;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n        border-radius: 8px;\r\n        max-width: 1100px;\r\n        margin-top: 15px;\r\n    }\r\n\r\n    .content-wrapper {\r\n        position: relative;\r\n        display: block;\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n    }\r\n\r\n    .messanger--wrapper {\r\n        width: 100%;\r\n        display: flex;\r\n        flex-direction: row;\r\n        background: #222222;\r\n        overflow: hidden;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        border: #797979;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .content {\r\n\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n\r\n    .leftmenu-and-content-wrappper {\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: center;\r\n            margin-left: 300px;\r\n            margin-right: 300px;\r\n            max-width: 1320px;\r\n    }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

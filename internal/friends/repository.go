@@ -23,7 +23,7 @@ func NewFriendsRepository(dbpool *pgxpool.Pool, customLogger *zerolog.Logger) *F
 }
 
 func (r *FriendsRepository) GetAllFriendRequests(userID int) ([]models.FriendRequestList, error) {
-    query := `
+	query := `
         SELECT 
             u.login,
             u.avatarpath,
@@ -37,38 +37,38 @@ func (r *FriendsRepository) GetAllFriendRequests(userID int) ([]models.FriendReq
             (f.friend_id = @userID AND f.user_id = u.id)
         WHERE f.status = 'pending'`
 
-    args := pgx.NamedArgs{
-        "userID": userID,
-    }
+	args := pgx.NamedArgs{
+		"userID": userID,
+	}
 
-    rows, err := r.Dbpool.Query(context.Background(), query, args)
-    if err != nil {
-        return nil, fmt.Errorf("error querying all friend requests: %w", err)
-    }
-    defer rows.Close()
+	rows, err := r.Dbpool.Query(context.Background(), query, args)
+	if err != nil {
+		return nil, fmt.Errorf("error querying all friend requests: %w", err)
+	}
+	defer rows.Close()
 
-    var requests []models.FriendRequestList
-    for rows.Next() {
-        var req models.FriendRequestList
-        if err := rows.Scan(
-            &req.Login,
-            &req.AvatarPath,
-            &req.FriendshipStatus,
-        ); err != nil {
-            return nil, fmt.Errorf("error scanning friend request: %w", err)
-        }
-        requests = append(requests, req)
-    }
+	var requests []models.FriendRequestList
+	for rows.Next() {
+		var req models.FriendRequestList
+		if err := rows.Scan(
+			&req.Login,
+			&req.AvatarPath,
+			&req.FriendshipStatus,
+		); err != nil {
+			return nil, fmt.Errorf("error scanning friend request: %w", err)
+		}
+		requests = append(requests, req)
+	}
 
-    if err := rows.Err(); err != nil {
-        return nil, fmt.Errorf("error during rows iteration: %w", err)
-    }
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error during rows iteration: %w", err)
+	}
 
-    return requests, nil
+	return requests, nil
 }
 
 func (r *FriendsRepository) GetAcceptedFriends(userID int) ([]models.FriendList, error) {
-    query := `
+	query := `
         SELECT 
             u.login,
             u.avatarpath,
@@ -79,34 +79,34 @@ func (r *FriendsRepository) GetAcceptedFriends(userID int) ([]models.FriendList,
             (f.friend_id = @userID AND f.user_id = u.id)
         WHERE f.status = 'accepted'`
 
-    args := pgx.NamedArgs{
-        "userID": userID,
-    }
+	args := pgx.NamedArgs{
+		"userID": userID,
+	}
 
-    rows, err := r.Dbpool.Query(context.Background(), query, args)
-    if err != nil {
-        return nil, fmt.Errorf("error querying accepted friends: %w", err)
-    }
-    defer rows.Close()
+	rows, err := r.Dbpool.Query(context.Background(), query, args)
+	if err != nil {
+		return nil, fmt.Errorf("error querying accepted friends: %w", err)
+	}
+	defer rows.Close()
 
-    var friends []models.FriendList
-    for rows.Next() {
-        var friend models.FriendList
-        if err := rows.Scan(
-            &friend.Login,
-            &friend.AvatarPath,
-            &friend.FriendshipStatus,
-        ); err != nil {
-            return nil, fmt.Errorf("error scanning friend data: %w", err)
-        }
-        friends = append(friends, friend)
-    }
+	var friends []models.FriendList
+	for rows.Next() {
+		var friend models.FriendList
+		if err := rows.Scan(
+			&friend.Login,
+			&friend.AvatarPath,
+			&friend.FriendshipStatus,
+		); err != nil {
+			return nil, fmt.Errorf("error scanning friend data: %w", err)
+		}
+		friends = append(friends, friend)
+	}
 
-    if err := rows.Err(); err != nil {
-        return nil, fmt.Errorf("error during rows iteration: %w", err)
-    }
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error during rows iteration: %w", err)
+	}
 
-    return friends, nil
+	return friends, nil
 }
 
 func (r *FriendsRepository) GetIDfromLogin(login string) (int, error) {
@@ -118,12 +118,34 @@ func (r *FriendsRepository) GetIDfromLogin(login string) (int, error) {
 	args := pgx.NamedArgs{
 		"login": login,
 	}
-    
-    var userId int
-    err := r.Dbpool.QueryRow(context.Background(), query, args).Scan(&userId)
-    if err != nil {
+
+	var userId int
+	err := r.Dbpool.QueryRow(context.Background(), query, args).Scan(&userId)
+	if err != nil {
 		return 0, fmt.Errorf("cannot get user ID, server error: %w", err)
 	}
-    return userId, nil
+	return userId, nil
 
+}
+
+func (r *FriendsRepository) AcceptFriendship(userId int, friendId int) (bool) {
+	query := `
+        UPDATE friends 
+        SET status = 'accepted',
+            updated_at = CURRENT_TIMESTAMP
+        WHERE (user_id = $1 AND friend_id = $2 AND status = 'pending')
+           OR (user_id = $2 AND friend_id = $1 AND status = 'pending')`
+    
+    _, err := r.Dbpool.Exec(context.Background(), query, userId, friendId)
+    return err == nil
+}
+
+func (r *FriendsRepository) DeclineFriendship(userId int, friendId int) (bool) {
+	query := `
+        DELETE FROM friends
+        WHERE (user_id = $1 AND friend_id = $2)
+           OR (user_id = $2 AND friend_id = $1)`
+    
+    _, err := r.Dbpool.Exec(context.Background(), query, userId, friendId)
+    return err == nil
 }
