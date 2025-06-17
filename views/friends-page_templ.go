@@ -65,7 +65,7 @@ func FriendsPage(FriendPageCredentials models.FriendPageCredentials) templ.Compo
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><div class=\"friends-header\"><div class=\"friendslist-header\"><!-- Заголовок списка друзей --><span>Ваши друзья</span></div><div class=\"friendsrequest-header\"><span>Запросы в друзья</span></div></div><div class=\"friends-content\"><div class=\"page-firendslist\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"main-content\"><div class=\"friends-header\"><div class=\"friendslist-header\"><!-- Заголовок списка друзей --><span>Ваши друзья</span></div><div class=\"friendsrequest-header\"><span>Запросы в друзья</span></div></div><div class=\"friends-content\"><div class=\"page-firendslist\" hx-swap=\"innerHTML\" hx-target=\"this\"><!-- Добавьте hx-target -->")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

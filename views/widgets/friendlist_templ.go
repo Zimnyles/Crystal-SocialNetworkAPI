@@ -9,6 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "zimniyles/fibergo/internal/models"
+import "zimniyles/fibergo/views/components"
 
 func FriendList(FriendList []models.FriendList) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -32,6 +33,26 @@ func FriendList(FriendList []models.FriendList) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = FriendListStyle().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		login := ctx.Value("login").(string)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"people-list-wrapper\"><div class=\"people-list\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, users := range FriendList {
+			templ_7745c5c3_Err = components.PeopleCard(components.PeopleProfileCardCredentials{
+				Login:      users.Login,
+				AvatarPath: users.AvatarPath,
+				Role:       users.Role,
+				IsFriend:   1,
+			}, login).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -60,7 +81,7 @@ func FriendListStyle() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<style>\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<style>\r\n    .people-list-wrapper {\r\n            width: 100%;\r\n            max-width: 1100px;\r\n            margin: 0 auto;\r\n        }\r\n    \r\n        .people-list {\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            display: flex;\r\n            align-items: center;\r\n            flex-direction: column;\r\n            margin-bottom: 30px;\r\n    \r\n    \r\n    \r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

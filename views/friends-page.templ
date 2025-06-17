@@ -29,7 +29,7 @@ MetaDescriptiom: "Ваши друзья",
             </div>
 
             <div class="friends-content">
-                <div class="page-firendslist">
+                <div class="page-firendslist" hx-swap="innerHTML" hx-target="this"> <!-- Добавьте hx-target -->
                     @widgets.FriendList(FriendPageCredentials.Friends)
                 </div>
                 <div class="page-friendsrequests">

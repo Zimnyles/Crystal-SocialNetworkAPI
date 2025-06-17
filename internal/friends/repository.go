@@ -72,7 +72,8 @@ func (r *FriendsRepository) GetAcceptedFriends(userID int) ([]models.FriendList,
         SELECT 
             u.login,
             u.avatarpath,
-            f.status
+            f.status,
+            u.role
         FROM friends f
         JOIN users u ON 
             (f.user_id = @userID AND f.friend_id = u.id) OR
@@ -96,6 +97,7 @@ func (r *FriendsRepository) GetAcceptedFriends(userID int) ([]models.FriendList,
 			&friend.Login,
 			&friend.AvatarPath,
 			&friend.FriendshipStatus,
+            &friend.Role,
 		); err != nil {
 			return nil, fmt.Errorf("error scanning friend data: %w", err)
 		}

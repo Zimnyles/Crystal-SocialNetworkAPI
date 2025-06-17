@@ -122,20 +122,20 @@ func FriendRequest(credentials RequestCredentials) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" hx-trigger=\"click\" _=\"on click\r\n                                    add .fade-out to closest .request-wrapper\r\n                                    then wait 300ms\r\n                                    then remove closest .request-wrapper\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/addfriend.svg\"></div><div class=\"reject-button\" hx-post=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" hx-target=\".page-firendslist\" hx-swap=\"innerHTML\" hx-trigger=\"click\" _=\"on htmx:afterRequest\r\n                               add .fade-out to closest .request-wrapper\r\n                               then wait 300ms\r\n                               then remove closest .request-wrapper\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/addfriend.svg\"></div><div class=\"reject-button\" hx-post=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(declineFriendship)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/friendrequest.templ`, Line: 37, Col: 74}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/friendrequest.templ`, Line: 38, Col: 74}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" hx-trigger=\"click\" _=\"on click\r\n                                    add .fade-out to closest .request-wrapper\r\n                                    then wait 300ms\r\n                                    then remove closest .request-wrapper\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/deny.svg\" class=\"reject-icon\"></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" hx-trigger=\"click\" hx-swap=\"none\" _=\"on click\r\n                            add .fade-out to closest .request-wrapper\r\n                            then wait 300ms\r\n                            then remove closest .request-wrapper\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/deny.svg\" class=\"reject-icon\"></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -147,7 +147,7 @@ func FriendRequest(credentials RequestCredentials) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(credentials.AvatarPath)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/friendrequest.templ`, Line: 45, Col: 112}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/friendrequest.templ`, Line: 46, Col: 112}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -160,7 +160,7 @@ func FriendRequest(credentials RequestCredentials) templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(credentials.Login)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/friendrequest.templ`, Line: 47, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/friendrequest.templ`, Line: 48, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -193,13 +193,13 @@ func FriendRequest(credentials RequestCredentials) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(declineFriendship)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/friendrequest.templ`, Line: 58, Col: 75}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/friendrequest.templ`, Line: 59, Col: 75}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\" hx-trigger=\"click\" _=\"on click\r\n                                    add .fade-out to closest .request-wrapper\r\n                                    then wait 300ms\r\n                                    then remove closest .request-wrapper\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/deny.svg\" class=\"reject\"></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\" hx-trigger=\"click\" _=\"on click\r\n                                    add .fade-out to closest .request-wrapper\r\n                                    then wait 300ms\r\n                                    then remove closest .request-wrapper\" hx-swap=\"none\"><img width=\"50px\" height=\"50px\" src=\"/public/icons/deny.svg\" class=\"reject\"></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -269,7 +269,7 @@ func FriendRequestStyle() templ.Component {
 			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<style>\r\n    .accept-button{\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        min-width: 68px;\r\n        max-width: 68px;\r\n        width: 100%;\r\n        min-height: 90px;\r\n        height: 100%;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        margin-left: 15px;\r\n    }\r\n    .reject-button{\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        max-width: 68px;\r\n        min-width: 68px;\r\n        width: 100%;\r\n        min-height: 90px;\r\n        height: 100%;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        margin-left: 15px;\r\n    }\r\n    .reject-button-solo{\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        margin-left: 15px;\r\n        max-width: 68px;\r\n        width: 100%;\r\n        min-height: 90px;\r\n        height: 100%;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n    .login-and-status-wrapper{\r\n        display: flex;\r\n        flex-direction: column;\r\n        margin-left: 15px;\r\n    }\r\n    .user-info-wrapper-many{\r\n        display: flex;\r\n        flex-direction: row;\r\n        color: white;\r\n        align-items: center;\r\n        justify-content: left;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        min-height: 90px;\r\n        height: 100%;\r\n        padding-left: 15px;\r\n        max-width: 191px;\r\n        width: 100%;\r\n    }\r\n    .user-info-wrapper-solo{\r\n        display: flex;\r\n        flex-direction: row;\r\n        color: white;\r\n        align-items: center;\r\n        justify-content: left;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        min-height: 90px;\r\n        height: 100%;\r\n        padding-left: 15px;\r\n        max-width: 284px;\r\n        width: 100%;\r\n    }\r\n    .request-avatar-wrapper{\r\n        max-width: 60px;\r\n        max-height: 60px;\r\n    }\r\n    .request-avatar{\r\n        width: 60px;\r\n        height: 60px;\r\n        border-radius: 50%;\r\n        object-fit: cover;\r\n    }\r\n    .request-wrapper{\r\n        display: flex;\r\n        flex-direction: row;\r\n        align-items: center;\r\n        justify-content: left;\r\n        min-width: 357px;\r\n        width: 100%;\r\n        transition: all 0.3s ease;\r\n        margin-bottom: 15px;\r\n        opacity: 1;\r\n        height: auto;\r\n        transform: scale(1);\r\n        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\r\n        overflow: hidden;\r\n    }\r\n    .request-wrapper.fade-out {\r\n        opacity: 0;\r\n        height: 0 !important;\r\n        margin-bottom: 0;\r\n        padding-top: 0;\r\n        padding-bottom: 0;\r\n        transform: scale(0.95);\r\n    }  \r\n    .request-wrapper.fade-out * {\r\n        \r\n    }\r\n    .accept-button:active img {\r\n        transform: scale(0.9);\r\n        transition: transform 0.1s ease;\r\n    }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<style>\r\n    .accept-button{\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        min-width: 68px;\r\n        max-width: 68px;\r\n        width: 100%;\r\n        min-height: 90px;\r\n        height: 100%;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .accept-button:hover{\r\n        background-color: #303030;\r\n    }\r\n\r\n    .reject-button{\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        max-width: 68px;\r\n        min-width: 68px;\r\n        width: 100%;\r\n        min-height: 90px;\r\n        height: 100%;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .reject-button:hover{\r\n        background-color: #303030;\r\n    }\r\n\r\n    .reject-button-solo{\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        margin-left: 15px;\r\n        max-width: 68px;\r\n        width: 100%;\r\n        min-height: 90px;\r\n        height: 100%;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n    .login-and-status-wrapper{\r\n        display: flex;\r\n        flex-direction: column;\r\n        margin-left: 15px;\r\n    }\r\n    .user-info-wrapper-many{\r\n        display: flex;\r\n        flex-direction: row;\r\n        color: white;\r\n        align-items: center;\r\n        justify-content: left;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        min-height: 90px;\r\n        height: 100%;\r\n        padding-left: 15px;\r\n        max-width: 191px;\r\n        width: 100%;\r\n    }\r\n    .user-info-wrapper-solo{\r\n        display: flex;\r\n        flex-direction: row;\r\n        color: white;\r\n        align-items: center;\r\n        justify-content: left;\r\n        background: #222222;\r\n        border-radius: 20px;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        min-height: 90px;\r\n        height: 100%;\r\n        padding-left: 15px;\r\n        max-width: 284px;\r\n        width: 100%;\r\n    }\r\n    .request-avatar-wrapper{\r\n        max-width: 60px;\r\n        max-height: 60px;\r\n    }\r\n    .request-avatar{\r\n        width: 60px;\r\n        height: 60px;\r\n        border-radius: 50%;\r\n        object-fit: cover;\r\n    }\r\n    .request-wrapper {\r\n        display: flex;\r\n        flex-direction: row;\r\n        align-items: center;\r\n        justify-content: left;\r\n        min-width: 357px;\r\n        width: 100%;\r\n        margin-bottom: 15px;\r\n        opacity: 1;\r\n        height: auto;\r\n        transform: scale(1);\r\n        transition: \r\n            opacity 0.3s ease-out,\r\n            height 0.3s ease-out 0.1s, \r\n            margin 0.3s ease-out,\r\n            padding 0.3s ease-out,\r\n            transform 0.3s ease-out;\r\n        overflow: hidden;\r\n    }\r\n    .request-wrapper.fade-out {\r\n        opacity: 0;\r\n        height: 0 !important;\r\n        margin-bottom: 0;\r\n        padding-top: 0;\r\n        padding-bottom: 0;\r\n        transform: scale(0.95);\r\n        pointer-events: none; \r\n    }  \r\n    .request-wrapper.fade-out * {\r\n        \r\n    }\r\n    .accept-button:active img {\r\n        transform: scale(0.9);\r\n        transition: transform 0.3s ease;\r\n    }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

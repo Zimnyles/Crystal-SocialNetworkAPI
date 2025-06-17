@@ -35,6 +35,7 @@ type FriendList struct {
 	Login            string `db:"login"`
 	AvatarPath       string `db:"avatarpath"`
 	FriendshipStatus string `db:"status"`
+	Role int `db:"role"`
 }
 
 type FriendRequestList struct {

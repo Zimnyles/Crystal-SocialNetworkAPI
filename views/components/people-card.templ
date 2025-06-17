@@ -4,13 +4,15 @@ package components
 type PeopleProfileCardCredentials struct{
     Login string 
     AvatarPath string 
-    Role int 
+    Role int
+    IsFriend int
 }
 
 templ PeopleCard(userCredentials PeopleProfileCardCredentials, userLogin string) {
     @PeopleCardStyle()
+    @PeopleCardScript()
     if userCredentials.Login != userLogin {
-        <div class="people-card--wrapper">
+        <div class="people-card--wrapper" id={"friend-request-" + userCredentials.Login}>
             <div class="card">
                 <div class="wrapper">
                     <div class="avatar">
@@ -39,12 +41,26 @@ templ PeopleCard(userCredentials PeopleProfileCardCredentials, userLogin string)
         
             </div>
             {{ addfriendLink := "api/addfriend/" + userCredentials.Login }}
+            {{ declineFriendship := "api/declinefriendship/" + userCredentials.Login }}
+
+            if userCredentials.IsFriend == 1 {
+                <div class="reject-button-friend" hx-post={ declineFriendship } hx-trigger="click" hx-target="this" hx-swap="none" _="on click
+                        add .fade-out to closest .people-card--wrapper
+                        then wait 300ms
+                        then remove closest .people-card--wrapper">
+                    <img width="50px" height="50px" src="/public/icons/deny.svg" class="reject-icon">
+                </div>
+                <div class="sendmessage">
+                    <img width="50px" height="50px" src="/public/icons/message.svg" alt="people ico" class="iconchat" />
+                </div>
+            } else {
             <div class="addfriend" hx-post={ addfriendLink } hx-trigger="click" hx-swap="innerHTML">
                 <img width="50px" height="50px" src="/public/icons/addfriend.svg" alt="people ico" class="iconaddfriend" />
             </div>
             <div class="sendmessage">
                 <img width="50px" height="50px" src="/public/icons/message.svg" alt="people ico" class="iconchat" />
             </div>
+            }
         </div>
     } else {
         <div class="people-card--wrapper">
@@ -81,6 +97,10 @@ templ PeopleCard(userCredentials PeopleProfileCardCredentials, userLogin string)
 
 }
 
+templ PeopleCardScript() {
+<script src="https://unpkg.com/hyperscript.org@0.9.7"></script>
+}
+
 templ PeopleCardStyle() {
     <style>
         .wrapper{
@@ -108,11 +128,37 @@ templ PeopleCardStyle() {
         .people-card--wrapper{
             display: flex;
             flex-direction: row;
-            max-width: 1100px;
-            width: 100%;
-            
+            max-width: 1100px; 
             min-height: 90px;
             height: 100%;
+            flex-direction: row;
+            align-items: center;
+            justify-content: left;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            opacity: 1;
+            height: auto;
+            transform: scale(1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+
+        .people-card--wrapper.fade-out {
+            opacity: 0;
+            height: 0 !important;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            transform: scale(0.95);
+        }  
+        .people-card--wrapper.fade-out * {
+            
+        }
+        .accept-button:active img {
+            transform: scale(0.9);
+            transition: transform 0.1s ease;
         }
 
         .user-info-wrapper{
@@ -152,6 +198,24 @@ templ PeopleCardStyle() {
             height: 100%;
             background-color: #222222;
             transition: all 0.3s ease-in-out
+        }
+
+        .reject-button-friend{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            max-width: 90px;
+            margin-left: 15px;
+            width: 100%;
+            min-height: 90px;
+            height: 100%;
+            background-color: #222222;
+            transition: all 0.3s ease-in-out
+        }
+        
+        .reject-button-friend:hover{
+            background-color: #303030;
         }
 
         .addfriend:hover{

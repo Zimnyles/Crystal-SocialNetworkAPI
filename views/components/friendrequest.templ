@@ -27,17 +27,18 @@ templ FriendRequest(credentials RequestCredentials) {
                 {{ acceptFriendship := "api/acceptfriendship/" + credentials.Login }}
                 {{ declineFriendship := "api/declinefriendship/" + credentials.Login }}
 
-                    <div class="accept-button" hx-post={ acceptFriendship } hx-trigger="click" _="on click
-                                    add .fade-out to closest .request-wrapper
-                                    then wait 300ms
-                                    then remove closest .request-wrapper">
+                    <div class="accept-button" hx-post={ acceptFriendship } hx-target=".page-firendslist" hx-swap="innerHTML"
+                        hx-trigger="click" _="on htmx:afterRequest
+                               add .fade-out to closest .request-wrapper
+                               then wait 300ms
+                               then remove closest .request-wrapper">
                         <img width="50px" height="50px" src="/public/icons/addfriend.svg">
                     </div>
 
-                    <div class="reject-button" hx-post={ declineFriendship } hx-trigger="click" _="on click
-                                    add .fade-out to closest .request-wrapper
-                                    then wait 300ms
-                                    then remove closest .request-wrapper">
+                    <div class="reject-button" hx-post={ declineFriendship } hx-trigger="click" hx-swap="none" _="on click
+                            add .fade-out to closest .request-wrapper
+                            then wait 300ms
+                            then remove closest .request-wrapper">
                         <img width="50px" height="50px" src="/public/icons/deny.svg" class="reject-icon">
                     </div>
             } else {
@@ -58,7 +59,7 @@ templ FriendRequest(credentials RequestCredentials) {
                 <div class="reject-button-solo" hx-post={ declineFriendship } hx-trigger="click" _="on click
                                     add .fade-out to closest .request-wrapper
                                     then wait 300ms
-                                    then remove closest .request-wrapper">
+                                    then remove closest .request-wrapper" hx-swap="none">
                     <img width="50px" height="50px" src="/public/icons/deny.svg" class="reject">
                 </div>
             }
@@ -76,7 +77,7 @@ func truncateString(str string, num int) string {
 }
 
 templ FriendRequestScript() {
-    <script src="https://unpkg.com/hyperscript.org@0.9.7"></script>
+<script src="https://unpkg.com/hyperscript.org@0.9.7"></script>
 }
 
 templ FriendRequestStyle() {
@@ -95,6 +96,11 @@ templ FriendRequestStyle() {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         margin-left: 15px;
     }
+
+    .accept-button:hover{
+        background-color: #303030;
+    }
+
     .reject-button{
         display: flex;
         align-items: center;
@@ -109,6 +115,11 @@ templ FriendRequestStyle() {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         margin-left: 15px;
     }
+
+    .reject-button:hover{
+        background-color: #303030;
+    }
+
     .reject-button-solo{
         display: flex;
         align-items: center;
@@ -167,19 +178,23 @@ templ FriendRequestStyle() {
         border-radius: 50%;
         object-fit: cover;
     }
-    .request-wrapper{
+    .request-wrapper {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: left;
         min-width: 357px;
         width: 100%;
-        transition: all 0.3s ease;
         margin-bottom: 15px;
         opacity: 1;
         height: auto;
         transform: scale(1);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: 
+            opacity 0.3s ease-out,
+            height 0.3s ease-out 0.1s, 
+            margin 0.3s ease-out,
+            padding 0.3s ease-out,
+            transform 0.3s ease-out;
         overflow: hidden;
     }
     .request-wrapper.fade-out {
@@ -189,13 +204,14 @@ templ FriendRequestStyle() {
         padding-top: 0;
         padding-bottom: 0;
         transform: scale(0.95);
+        pointer-events: none; 
     }  
     .request-wrapper.fade-out * {
         
     }
     .accept-button:active img {
         transform: scale(0.9);
-        transition: transform 0.1s ease;
+        transition: transform 0.3s ease;
     }
     </style>
 }

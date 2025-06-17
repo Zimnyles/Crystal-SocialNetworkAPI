@@ -1,13 +1,43 @@
 package widgets
 
 import "zimniyles/fibergo/internal/models"
+import "zimniyles/fibergo/views/components"
 
 templ FriendList(FriendList []models.FriendList) {
     @FriendListStyle()
-
+    {{ login := ctx.Value("login").(string) }}
+    <div class="people-list-wrapper"> 
+        <div class="people-list">
+            for _, users := range FriendList {
+            @components.PeopleCard(components.PeopleProfileCardCredentials{
+            Login: users.Login,
+            AvatarPath: users.AvatarPath,
+            Role:users.Role,
+            IsFriend: 1,
+            }, login)
+            }
+        </div>
+    </div>
 }
 
 templ FriendListStyle() {
     <style>
+    .people-list-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+    
+        .people-list {
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-bottom: 30px;
+    
+    
+    
+        }
     </style>
 }

@@ -11,19 +11,17 @@ import (
 	"github.com/rs/zerolog"
 )
 
-
-
 type PeopleRepository struct {
 	Dbpool       *pgxpool.Pool
 	CustomLogger *zerolog.Logger
 }
 
 type friendshipStatus struct {
-	Id        int
-	Status    string
-	CreatedAt time.Time
-    OriginatorID int
-    RecipientID int
+	Id           int
+	Status       string
+	CreatedAt    time.Time
+	OriginatorID int
+	RecipientID  int
 }
 
 func NewPeopleRepository(dbpool *pgxpool.Pool, customLogger *zerolog.Logger) *PeopleRepository {
@@ -37,11 +35,14 @@ func (r *PeopleRepository) AddFriend(userID int, friendID int) (*friendshipStatu
 	query := `
     INSERT INTO friends (user_id, friend_id, status)
     VALUES (@user_id, @friend_id, 'pending')
-    ON CONFLICT (user_id, friend_id) 
-    DO UPDATE SET 
+    ON CONFLICT (user_id, friend_id)
+    DO UPDATE
+    SET 
         status = EXCLUDED.status,
         updated_at = CURRENT_TIMESTAMP
-    RETURNING id, status, created_at`
+    WHERE friends.status != 'accepted'
+    RETURNING id, status, created_at;
+    `
 
 	args := pgx.NamedArgs{
 		"user_id":   userID,
@@ -56,9 +57,8 @@ func (r *PeopleRepository) AddFriend(userID int, friendID int) (*friendshipStatu
 		&friendshipStatus.CreatedAt,
 	)
 
-    friendshipStatus.OriginatorID = userID
-    friendshipStatus.RecipientID = friendID
-
+	friendshipStatus.OriginatorID = userID
+	friendshipStatus.RecipientID = friendID
 
 	if err != nil {
 		return nil, fmt.Errorf("error creating friendship: %w", err)
@@ -77,13 +77,13 @@ func (r *PeopleRepository) GetIDfromLogin(login string) (int, error) {
 	args := pgx.NamedArgs{
 		"login": login,
 	}
-    
-    var userId int
-    err := r.Dbpool.QueryRow(context.Background(), query, args).Scan(&userId)
-    if err != nil {
+
+	var userId int
+	err := r.Dbpool.QueryRow(context.Background(), query, args).Scan(&userId)
+	if err != nil {
 		return 0, fmt.Errorf("cannot get user ID, server error: %w", err)
 	}
-    return userId, nil
+	return userId, nil
 
 }
 
@@ -107,7 +107,7 @@ func (r *PeopleRepository) CountAll() int {
 }
 
 func (r *PeopleRepository) CountNonFriends(currentUserID int) (int, error) {
-    query := `
+	query := `
         SELECT COUNT(*) 
         FROM users u
         WHERE 
@@ -126,22 +126,22 @@ func (r *PeopleRepository) CountNonFriends(currentUserID int) (int, error) {
                    OR (user_id = u.id AND friend_id = @currentUserID AND status = 'blocked')
             )`
 
-    var count int
-    err := r.Dbpool.QueryRow(
-        context.Background(),
-        query,
-        pgx.NamedArgs{"currentUserID": currentUserID},
-    ).Scan(&count)
+	var count int
+	err := r.Dbpool.QueryRow(
+		context.Background(),
+		query,
+		pgx.NamedArgs{"currentUserID": currentUserID},
+	).Scan(&count)
 
-    if err != nil {
-        return 0, fmt.Errorf("failed to count non-friends: %w", err)
-    }
+	if err != nil {
+		return 0, fmt.Errorf("failed to count non-friends: %w", err)
+	}
 
-    return count, nil
+	return count, nil
 }
 
 func (r *PeopleRepository) GetAll(currentUserID int, limit, offset int, searchTerm string) ([]models.PeopleProfileCredentials, error) {
-    query := `
+	query := `
         SELECT 
             u.login,
             u.avatarpath,
@@ -157,46 +157,46 @@ func (r *PeopleRepository) GetAll(currentUserID int, limit, offset int, searchTe
                    OR (user_id = u.id AND friend_id = @currentUserID)
             )`
 
-    args := pgx.NamedArgs{
-        "currentUserID": currentUserID,
-        "limit":        limit,
-        "offset":       offset,
-    }
+	args := pgx.NamedArgs{
+		"currentUserID": currentUserID,
+		"limit":         limit,
+		"offset":        offset,
+	}
 
-    if searchTerm != "" {
-        query += ` AND u.login ILIKE '%' || @searchTerm || '%'`
-        args["searchTerm"] = searchTerm
-    }
+	if searchTerm != "" {
+		query += ` AND u.login ILIKE '%' || @searchTerm || '%'`
+		args["searchTerm"] = searchTerm
+	}
 
-    query += `
+	query += `
         ORDER BY 
             u.login ASC
         LIMIT @limit OFFSET @offset`
 
-    rows, err := r.Dbpool.Query(context.Background(), query, args)
-    if err != nil {
-        return nil, fmt.Errorf("error querying non-friends: %w", err)
-    }
-    defer rows.Close()
+	rows, err := r.Dbpool.Query(context.Background(), query, args)
+	if err != nil {
+		return nil, fmt.Errorf("error querying non-friends: %w", err)
+	}
+	defer rows.Close()
 
-    var users []models.PeopleProfileCredentials
-    for rows.Next() {
-        var user models.PeopleProfileCredentials
-        err := rows.Scan(
-            &user.Login,
-            &user.AvatarPath,
-            &user.Role,
-            &user.IsFriendToUser,
-        )
-        if err != nil {
-            return nil, fmt.Errorf("error scanning user row: %w", err)
-        }
-        users = append(users, user)
-    }
+	var users []models.PeopleProfileCredentials
+	for rows.Next() {
+		var user models.PeopleProfileCredentials
+		err := rows.Scan(
+			&user.Login,
+			&user.AvatarPath,
+			&user.Role,
+			&user.IsFriendToUser,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("error scanning user row: %w", err)
+		}
+		users = append(users, user)
+	}
 
-    if err := rows.Err(); err != nil {
-        return nil, fmt.Errorf("error during rows iteration: %w", err)
-    }
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error during rows iteration: %w", err)
+	}
 
-    return users, nil
+	return users, nil
 }

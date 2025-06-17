@@ -1,12 +1,14 @@
 package friends
 
 import (
+	"fmt"
 	"net/http"
 	"zimniyles/fibergo/internal/models"
 	"zimniyles/fibergo/pkg/middleware"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/views"
 	"zimniyles/fibergo/views/components"
+	"zimniyles/fibergo/views/widgets"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
@@ -25,7 +27,7 @@ type FriendsRepo interface {
 	GetAcceptedFriends(userID int) ([]models.FriendList, error)
 	GetIDfromLogin(login string) (int, error)
 	AcceptFriendship(userId int, friendId int) bool
-	DeclineFriendship(userId int, friendId int) (bool)
+	DeclineFriendship(userId int, friendId int) bool
 }
 
 func NewFriendsHandler(router fiber.Router, customLogger *zerolog.Logger, friendsRepository FriendsRepo, store *session.Store) {
@@ -57,7 +59,15 @@ func (h *FriendsHandler) apiAcceptFriendship(c *fiber.Ctx) error {
 		component := components.Notification("Произошла ошибка на сервере, попробуйте повторить попытку позже", components.NotificationFail)
 		return tadapter.Render(c, component, http.StatusBadRequest)
 	}
-	return nil
+
+
+		friends, err := h.repository.GetAcceptedFriends(userID)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	component := widgets.FriendList(friends)
+	return tadapter.Render(c, component, 200)
 }
 
 func (h *FriendsHandler) apiDeclineFriendship(c *fiber.Ctx) error {
@@ -75,6 +85,7 @@ func (h *FriendsHandler) apiDeclineFriendship(c *fiber.Ctx) error {
 		component := components.Notification("Произошла ошибка на сервере, попробуйте повторить попытку позже", components.NotificationFail)
 		return tadapter.Render(c, component, http.StatusBadRequest)
 	}
+
 	return nil
 
 }
@@ -89,8 +100,14 @@ func (h *FriendsHandler) friends(c *fiber.Ctx) error {
 	login := sess.Get("login").(string)
 	userID, _ := h.repository.GetIDfromLogin(login)
 
-	friends, _ := h.repository.GetAcceptedFriends(userID)
-	requests, _ := h.repository.GetAllFriendRequests(userID)
+	friends, err := h.repository.GetAcceptedFriends(userID)
+	if err != nil {
+		fmt.Println(err)
+	}
+	requests, err := h.repository.GetAllFriendRequests(userID)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	friendsData := models.FriendPageCredentials{
 		Friends:        friends,
