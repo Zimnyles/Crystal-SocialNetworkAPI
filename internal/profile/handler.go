@@ -105,7 +105,7 @@ func (h *ProfileHandler) profile(c *fiber.Ctx) error {
 		return tadapter.Render(c, component, http.StatusInternalServerError)
 	}
 
-	userPosts, err := h.repository.GetAllUserPosts(username, PAGE_ITEMS, (page-1)*PAGE_ITEMS)
+	userPosts, _ := h.repository.GetAllUserPosts(username, PAGE_ITEMS, (page-1)*PAGE_ITEMS)
 
 	totalPages := int(math.Ceil(float64(count) / float64(PAGE_ITEMS)))
 
