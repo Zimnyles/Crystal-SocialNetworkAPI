@@ -1,6 +1,7 @@
 package feed
 
 import (
+	"fmt"
 	"math"
 	"net/http"
 	"strconv"
@@ -33,7 +34,7 @@ func NewFeedHandler(router fiber.Router, customLogger *zerolog.Logger, feedRepos
 	profileGroup := h.router.Group("/feed")
 	profileGroup.Get("/", h.feed)
 	h.router.Get("/createpost", middleware.AuthRequired(h.store), h.postCreate)
-	h.router.Post("api/createpost", h.apiPostCreate)
+	h.router.Post("api/createpost", middleware.AuthRequired(h.store), h.apiPostCreate)
 }
 
 func (h *FeedHandler) feed(c *fiber.Ctx) error {
@@ -47,7 +48,13 @@ func (h *FeedHandler) feed(c *fiber.Ctx) error {
 		return c.SendStatus(500)
 	}
 
-	component := views.FeedPage(posts, int(math.Ceil(float64(count/PAGE_ITEMS))), page)
+	totalPages := int(math.Ceil(float64(count) / float64(PAGE_ITEMS)))
+
+	if page > totalPages && totalPages > 0 {
+		return c.Redirect(fmt.Sprintf("/feed?page=%d", totalPages), fiber.StatusSeeOther)
+	}
+
+	component := views.FeedPage(posts, totalPages, page, "/feed?page=%d")
 	return tadapter.Render(c, component, http.StatusOK)
 
 }
@@ -67,12 +74,6 @@ func (h *FeedHandler) apiPostCreate(c *fiber.Ctx) error {
 		panic(err)
 	}
 
-	login := sess.Get("login")
-	if login == nil {
-		c.Response().Header.Add("Hx-Redirect", "/login")
-		return c.Redirect("/login", http.StatusOK)
-	}
-
 	authedLogin := sess.Get("login").(string)
 
 	content := c.FormValue("content")
@@ -80,9 +81,16 @@ func (h *FeedHandler) apiPostCreate(c *fiber.Ctx) error {
 
 	image, err := c.FormFile("image")
 
-	if err != nil || image == nil {
-		component := views.ErrorPage(500, "в разработке1")
-		return tadapter.Render(c, component, 500)
+	if err != nil {
+		err = h.repository.AddNewFeedPostWithoutImage(authedLogin, content)
+		if err != nil {
+			h.customLogger.Error().Msg(err.Error())
+			component := components.Notification("Произошла ошибка на сервере, попробуйте повторить попытку позже", components.NotificationFail)
+			return tadapter.Render(c, component, http.StatusBadRequest)
+		}
+		msg := "Всё получилось! Пост можно увидеть на странице \"Новости\" или в своем профиле."
+		component := components.Notification(msg, components.NotificationSuccess)
+		return tadapter.Render(c, component, http.StatusOK)
 	}
 
 	uniqueFilenameCode := generator.GenerateFilename()
@@ -101,7 +109,7 @@ func (h *FeedHandler) apiPostCreate(c *fiber.Ctx) error {
 		return tadapter.Render(c, component, http.StatusBadRequest)
 	}
 
-	msg := "Всё получилось! Пост можно увидеть на странице Новости или в своем профиле."
+	msg := "Всё получилось! Пост можно увидеть на странице \"Новости\" или в своем профиле."
 	component := components.Notification(msg, components.NotificationSuccess)
 	return tadapter.Render(c, component, http.StatusOK)
 }

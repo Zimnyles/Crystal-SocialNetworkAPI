@@ -6,7 +6,7 @@ import "zimniyles/fibergo/views/components"
 import "zimniyles/fibergo/internal/models"
 
 
-templ FeedPage(posts []models.FeedPost, pagesCount int, page int) {
+templ FeedPage(posts []models.FeedPost, pagesCount int, page int, link string) {
     @FeedPageStyle()
     @layout.Layout(layout.LayoutProps{
     Title: "Crystals",
@@ -32,7 +32,7 @@ templ FeedPage(posts []models.FeedPost, pagesCount int, page int) {
                     </div>
                     
                         <div class="postlist-submitform-wrapper">
-                            @widgets.FeedPostsList(posts, pagesCount, page)
+                            @widgets.FeedPostsList(posts, pagesCount, page, link, "")
                             
                         </div>
                     

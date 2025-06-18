@@ -75,3 +75,20 @@ func (r *FeedRepository) AddNewFeedPost(login string, content string, imagePath 
 	}
 	return nil
 }
+
+func (r *FeedRepository) AddNewFeedPostWithoutImage(login string, content string) error {
+	query := `INSERT INTO feedposts (login, image_path, content) 
+          VALUES (@login, @image_path, @content)`
+	args := pgx.NamedArgs{
+
+		"login":      login,
+		"image_path": "",
+		"content":    content,
+	}
+
+	_, err := r.Dbpool.Exec(context.Background(), query, args)
+	if err != nil {
+		r.CustomLogger.Info().Msg("не удалость создать пост")
+	}
+	return nil
+}

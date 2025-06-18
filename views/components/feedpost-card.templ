@@ -15,12 +15,18 @@ type FeedPostCardProps struct{
 
 templ FeedPostCard(props FeedPostCardProps ) {
     {{ date:= elapsed.LocalTime(props.CreatedAt, "ru") }}
+    {{ profileLink:= "/profile/" + props.CreatorLogin }}
+    {{ CreatorAvatarPath := "/" + props.CreatorAvatarPath}}
+    {{ ImagePath := "/" + props.ImagePath}}
+
     @FeedPostCardStyle()
     <div class="post-card">
         <div class="post-card__footer">
             <div class="post-card__footer--creator">
-                <img  class="profile-avatar" crossorigin="anonymous" src={ props.CreatorAvatarPath } alt="Изображение профиля">
-                <span class="post-card__creatorlogin">   { props.CreatorLogin }  </span>
+                
+                    <a class="profile-link-post" href={ templ.SafeURL(profileLink) }><img  class="profile-avatar" crossorigin="anonymous" src={ CreatorAvatarPath } alt="Изображение профиля"></a>
+                    <a class="profile-link-post-text" href={ templ.SafeURL(profileLink) }><span class="post-card__creatorlogin" >   { props.CreatorLogin }  </span></a>
+                
             </div>
             <span class="post-card__createdat"   >   { date }                </span>
             
@@ -28,28 +34,34 @@ templ FeedPostCard(props FeedPostCardProps ) {
         <div class="post-card__content__text">
             <span class="post-card__text"> { props.Content } </span>
         </div>
-        <div class="post-card__content">
-            <div class="post-card__content__image">
-                <img class="post-image" crossorigin="anonymous"  src={ props.ImagePath }
-                    alt="Изображение поста">
+        if props.ImagePath == "" {
+
+        } else {
+            <div class="post-card__content">
+                <div class="post-card__content__image">
+                    <img class="post-image" crossorigin="anonymous" src={ ImagePath } alt="Изображение поста">
+                </div>
+            
             </div>
-        
-        </div>
-        
+        }
     </div>
 }
 
 
 templ FeedPostCardStyle() {
     <style>
-
+        .profile-link-post{
+            text-decoration: none;
+            color: white;
+        }
         .post-card__text{
-            white-space: pre-wrap; /* Сохраняет переносы строк из текста */
-            word-wrap: break-word; /* Переносит длинные слова */
-            overflow-wrap: break-word; /* Альтернатива для word-wrap */
-            word-break: break-word; /* Оптимальный перенос слов */
-            display: block; /* Если нужно чтобы span вел себя как блок */
-            width: 100%; /* Занимает всю доступную ширину */
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            overflow-wrap: break-word; 
+            word-break: break-word; 
+            display: block; 
+            width: 100%;
+            margin-bottom: 15px;
         }
 
         .post-card__content__text{
@@ -127,14 +139,24 @@ templ FeedPostCardStyle() {
             display: flex;
             max-width: 1100px;
             width: 100%;
-            min-height: 400px;
+            min-height: 90px;
             height: 100%;
             flex-direction: column;
             background: #222222;
             border-radius: 20px;
             gap: 15px ;
             width: 100%;
+        }
 
+        .profile-link-post-text{
+            text-decoration: none;
+            color: white;
+        }
+
+        .profile-link-post{
+            width: 30px;
+            height: 30px;
+        }
         
     </style>
 }

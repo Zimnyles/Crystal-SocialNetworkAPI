@@ -35,7 +35,6 @@ func (r *ProfileRepository) IsLoginExistsForString(login string, logger *zerolog
 }
 
 func (r *ProfileRepository) GetUserDataFromLogin(login string, logger *zerolog.Logger) (*models.ProfileCredentials, error) {
-	logger.Info().Msg("1")
 	query := `
         SELECT 
             login,  
@@ -78,4 +77,54 @@ func (r *ProfileRepository) UpdateUserAvatar(login string, path string) error {
 		return fmt.Errorf("невозможно обновить аватар пост: %w", err)
 	}
 	return nil
+}
+
+func (r *ProfileRepository) GetAllUserPosts(userLogin string, limit int, offset int) ([]models.FeedPost, error) {
+	query := `
+        SELECT 
+            fp.*,
+            u.avatarpath
+        FROM 
+            feedposts fp
+        LEFT JOIN 
+            users u ON fp.login = u.login
+        WHERE 
+            fp.login = @userLogin  -- Предполагая, что есть поле user_id в feedposts
+        ORDER BY 
+            fp.created_at DESC
+        LIMIT @limit OFFSET @offset
+    `
+    args := pgx.NamedArgs{
+        "userLogin": userLogin,
+        "limit":  limit,
+        "offset": offset,
+    }
+    
+    rows, err := r.Dbpool.Query(context.Background(), query, args)
+    if err != nil {
+        return nil, err
+    }
+    
+    posts, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.FeedPost])
+    if err != nil {
+        return nil, err
+    }
+    
+    return posts, nil
+}
+
+func (r *ProfileRepository) CountUserPosts(userLogin string) (int, error) {
+    query := `
+        SELECT COUNT(*) 
+        FROM feedposts 
+        WHERE login = $1
+    `
+    
+    var count int
+    err := r.Dbpool.QueryRow(context.Background(), query, userLogin).Scan(&count)
+    if err != nil {
+        return 0, fmt.Errorf("failed to count user posts: %w", err)
+    }
+    
+    return count, nil
 }

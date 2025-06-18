@@ -14,6 +14,8 @@ import (
 	"github.com/rs/zerolog"
 )
 
+//NOT USED 
+
 type PostHandler struct {
 	router       fiber.Router
 	customLogger *zerolog.Logger

@@ -2,6 +2,7 @@ package home
 
 import (
 	"net/http"
+	"regexp"
 	"strings"
 	"zimniyles/fibergo/config"
 	"zimniyles/fibergo/internal/post"
@@ -82,13 +83,30 @@ func (h *HomeHandler) apiRegistration(c *fiber.Ctx) error {
 		Password: c.FormValue("password"),
 	}
 
+	var component templ.Component
+
+	if len(form.Login) > 13 {
+		component = components.Notification("Длина логина не может превышать 13 символов", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+
+	matched, _ := regexp.MatchString(`^[a-zA-Z0-9_]+$`, form.Login)
+	if !matched {
+		component = components.Notification("Логин может содержать только буквы, цифры и подчеркивания", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+
+	if len(form.Password) < 6 {
+		component = components.Notification("Длина пароля не может быть меньше 6 символов", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusBadRequest)
+	}
+
 	errors := validate.Validate(
 		&validators.EmailIsPresent{Name: "Email", Field: form.Email, Message: "Email не задан или задан неверно"},
 		&validators.StringIsPresent{Name: "Password", Field: form.Password, Message: "Пароль не задан или задан неверно"},
 		&validators.StringIsPresent{Name: "Login", Field: form.Login, Message: "Логин не задан или задан неверно"},
 	)
 
-	var component templ.Component
 	if len(errors.Error()) > 0 {
 		component = components.Notification(validator.FormatErrors(errors), components.NotificationFail)
 		return tadapter.Render(c, component, http.StatusBadRequest)

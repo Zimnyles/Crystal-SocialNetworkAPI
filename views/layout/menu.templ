@@ -10,10 +10,6 @@ templ Menu() {
         <div class="menu-leftpart">
             <a href="/"><img src="/public/images/logo2.png" width="160" height="48"></a>//height
             <div class="menu-leftpart-item">
-                <div class="menu-leftpart-item-ico">
-                    <img src="/public/icons/location-w.svg" width="24px" height="24" alt="location ico" />
-                </div>
-                <a class="menu__right-link">Уфа</a>
             </div>
         </div>
         
@@ -26,7 +22,11 @@ templ Menu() {
         } }}
         <div class="menu-rightpart"> 
             <div class={ menu__right_islogined }  >
-                <a class="menu__right-link-fav">Избранное</a>
+                if login == ""{
+                    
+                } else {
+                    <a class="menu__right-link-fav">Избранное</a>
+                }
                 if login == "" {
                     <a  class="menu__right-link" href="login">Войти</a>
                 @components.ButtonLink("/register"){
@@ -37,7 +37,8 @@ templ Menu() {
                         <div class="menu-leftpart-item-ico-user">
                             <img width="24px" height="24px" src="/public/icons/user2.svg" alt="user ico" />
                         </div>
-                        <span class="menu-right-login">{ login } </span>
+                        {{ profileLink := "/profile/" + login }}
+                        <a href={ templ.SafeURL(profileLink) } class="profile-link"><span class="menu-right-login">{ login } </span></a>
                     </div>
                     <a class="menu__right-link" hx-trigger="click" hx-get="/api/logout">Выход</a>
                 }
@@ -49,6 +50,9 @@ templ Menu() {
 templ MenuStyle() {
     
     <style>
+        .profile-link{
+            text-decoration: none;
+        }
 
         .menu {
         display: flex;

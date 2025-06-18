@@ -25,9 +25,9 @@ templ CreatePostPage() {
                 <div class="title">
                     <p>Здесь вы можете поделиться своими мыслями!</p>
                 </div>
+                <div id="post-result"></div>
                 <div class="new-post--wrapper">
                     <div class="post-form" hx-ext="response-targets">
-                        <div id="post-result"></div>
                         <form hx-post="/api/createpost" hx-encoding="multipart/form-data" enctype="multipart/form-data" hx-trigger="submit" hx-target="#post-result" hx-target-error="#post-result"
                             hx-swap="innerHTML swap:1s" hx-on::after-request="if(event.detail.successful) this.reset()">
 
@@ -146,6 +146,7 @@ templ CreatePostPageStyle() {
         background: #222222;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         overflow: hidden;
+        margin-bottom: 15px;
     }
 
     .post-form{

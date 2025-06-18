@@ -16,8 +16,9 @@ templ PeopleCard(userCredentials PeopleProfileCardCredentials, userLogin string)
             <div class="card">
                 <div class="wrapper">
                     <div class="avatar">
-                        <img class="profile-avatar" crossorigin="anonymous" src={ userCredentials.AvatarPath}
-                            alt="Изображение профиля">
+                        {{ profileLink := "/profile/" + userCredentials.Login }}
+                        <a class="people-card-link-wrapper-img" href={ templ.SafeURL(profileLink) } ><img class="profile-avatar" crossorigin="anonymous" src={ userCredentials.AvatarPath}
+                            alt="Изображение профиля"></a> 
                     </div>
                     <div class="user-info-wrapper">
                         if userCredentials.Role == 0 {
@@ -103,6 +104,12 @@ templ PeopleCardScript() {
 
 templ PeopleCardStyle() {
     <style>
+        .people-card-link-wrapper-img{
+            min-height: 60px;
+            height: 100%;
+            width: 60px;
+        }
+
         .wrapper{
             margin-left: 15px;
             flex-direction: row;

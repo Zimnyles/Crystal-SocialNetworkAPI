@@ -1,10 +1,13 @@
 package profile
 
 import (
+	"fmt"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
 	"zimniyles/fibergo/pkg/generator"
+	"zimniyles/fibergo/pkg/middleware"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/views"
 
@@ -32,7 +35,7 @@ func NewHandler(router fiber.Router, customLogger *zerolog.Logger, repository *P
 	//Get
 	profileGroup.Get("/:username", h.profile)
 	//Post
-	h.router.Post("api/upload-avatar", h.apiUploadAvatar)
+	h.router.Post("api/upload-avatar", middleware.AuthRequired(h.store), h.apiUploadAvatar)
 }
 
 func (h *ProfileHandler) apiUploadAvatar(c *fiber.Ctx) error {
@@ -57,7 +60,7 @@ func (h *ProfileHandler) apiUploadAvatar(c *fiber.Ctx) error {
 	}
 
 	sess, err := h.store.Get(c)
-	if err != nil {	
+	if err != nil {
 		panic(err)
 	}
 
@@ -67,7 +70,6 @@ func (h *ProfileHandler) apiUploadAvatar(c *fiber.Ctx) error {
 	}
 
 	err = h.repository.UpdateUserAvatar(login, newAvatarPath)
-	h.customLogger.Info().Msg("1")
 
 	if err != nil {
 		redirectLink := "/profile/" + login
@@ -77,13 +79,20 @@ func (h *ProfileHandler) apiUploadAvatar(c *fiber.Ctx) error {
 	redirectLink := "/profile/" + login
 	return c.Redirect(redirectLink, 302)
 
-	
-
 }
 
 func (h *ProfileHandler) profile(c *fiber.Ctx) error {
-
 	username := c.Params("username")
+
+	PAGE_ITEMS := 10
+	page := c.QueryInt("page", 1)
+
+	count, err := h.repository.CountUserPosts(username)
+	if err != nil {
+		h.customLogger.Error().Msg(err.Error())
+		return c.SendStatus(500)
+	}
+
 	isLoginExists, _ := h.repository.IsLoginExistsForString(username, h.customLogger)
 	if !isLoginExists {
 		component := views.ErrorPage(http.StatusNotFound, "Страница не найдена")
@@ -96,7 +105,15 @@ func (h *ProfileHandler) profile(c *fiber.Ctx) error {
 		return tadapter.Render(c, component, http.StatusInternalServerError)
 	}
 
-	component := views.ProfilePage(*UserData)
+	userPosts, err := h.repository.GetAllUserPosts(username, PAGE_ITEMS, (page-1)*PAGE_ITEMS)
+
+	totalPages := int(math.Ceil(float64(count) / float64(PAGE_ITEMS)))
+
+	if page > totalPages && totalPages > 0 {
+		return c.Redirect(fmt.Sprintf("/profile/" + username + "?page=%d", totalPages), fiber.StatusSeeOther)
+	}
+
+	component := views.ProfilePage(*UserData, userPosts, totalPages, page, "/profile/" + username + "?page=%d")
 
 	return tadapter.Render(c, component, http.StatusOK)
 

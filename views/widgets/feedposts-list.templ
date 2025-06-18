@@ -5,7 +5,7 @@ import "fmt"
 import "zimniyles/fibergo/internal/models"
 import "strconv"
 
-templ FeedPostsList(posts []models.FeedPost, pagesCount int, page int) {
+templ FeedPostsList(posts []models.FeedPost, pagesCount int, page int, link string, username string) {
 @FeedPostsListStyle()
     <div class="posts-list-wrapper">
     
@@ -21,22 +21,44 @@ templ FeedPostsList(posts []models.FeedPost, pagesCount int, page int) {
             }    
         </div>
         <div class="post-list__pagination">
-            <div class="post-list__pagination-item">
-                if page != 1 {
+            if (link == "/profile/" + username  + "?page=%d") && (pagesCount > 1){
+                <div class="post-list__pagination-item">
+                    if page != 1 {
+                    <img src="/public/icons/arrowleft.svg" alt="left arrow">
+                    <a href={templ.SafeURL(fmt.Sprintf("/profile/" + username  + "?page=%d", page-1))}>Предыдущие</a>
+                    }
+                </div>
+                <div class="post-list__pagination-pagenum">
+                    {{ pageNum := strconv.Itoa(page) }}
+                    { pageNum }
+                </div>
+                <div class="post-list__pagination-item">
+                    if page != pagesCount {
+                    <a href={templ.SafeURL(fmt.Sprintf("/profile/" + username  + "?page=%d", page+1))}>Следущие</a>
+                    <img src="/public/icons/arrowright.svg" alt="right arrow">
+                    }
+                </div>
+            } 
+            
+            if link == "/feed?page=%d"{
+                <div class="post-list__pagination-item">
+                    if page != 1 {
                     <img src="/public/icons/arrowleft.svg" alt="left arrow">
                     <a href={templ.SafeURL(fmt.Sprintf("/feed?page=%d", page-1))}>Предыдущие</a>
-                }
-            </div>
-            <div class="post-list__pagination-pagenum">
-                {{ pageNum := strconv.Itoa(page) }}
-                { pageNum } 
-            </div>
-            <div class="post-list__pagination-item">
-                if page != pagesCount {
+                    }
+                </div>
+                <div class="post-list__pagination-pagenum">
+                    {{ pageNum := strconv.Itoa(page) }}
+                    { pageNum }
+                </div>
+                <div class="post-list__pagination-item">
+                    if page != pagesCount {
                     <a href={templ.SafeURL(fmt.Sprintf("/feed?page=%d", page+1))}>Следущие</a>
                     <img src="/public/icons/arrowright.svg" alt="right arrow">
-                }
-            </div>
+                    }
+                </div>
+            }
+            
         </div>
     </div>
 }
@@ -101,8 +123,8 @@ templ FeedPostsListStyle() {
         display: flex;
         align-items: center;
         flex-direction: column;
-        gap: 24px;
-        margin-bottom: 30px;
+        gap: 15px;
+        margin-bottom: 15px;
         
       
     
