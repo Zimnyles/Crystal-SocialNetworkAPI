@@ -40,7 +40,7 @@ templ FeedPostsList(posts []models.FeedPost, pagesCount int, page int, link stri
                 </div>
             } 
             
-            if link == "/feed?page=%d"{
+            if link == "/feed?page=%d"  && (pagesCount > 1){
                 <div class="post-list__pagination-item">
                     if page != 1 {
                     <img src="/public/icons/arrowleft.svg" alt="left arrow">

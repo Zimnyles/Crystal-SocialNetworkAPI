@@ -1,0 +1,50 @@
+package widgets
+
+import "time"
+import "zimniyles/fibergo/internal/models"
+
+templ UserPhotosList(photos []models.PhotoList) {
+    @UserPhotosListStyle()
+    <div class="userphotoslist-wrapper">
+        if len(photos) != 0 {
+            for _, photo := range photos{
+            @UserPhotoCard(UserPhotoCardProps{
+                PhotoID: photo.PhotoID,
+                UserID: photo.UserID,
+                CreatedAt: photo.CreatedAt,
+                ImagePath: "/" + photo.ImagePath,
+                IsPublic: photo.IsPublic,
+                })
+        }
+        } else {
+
+        }
+    </div>
+}
+
+type UserPhotoCardProps struct{
+    PhotoID   int
+	UserID    int
+	CreatedAt time.Time
+	ImagePath string
+	IsPublic  bool
+}
+
+templ UserPhotoCard(photo UserPhotoCardProps) {
+    <div class="userphotoslist-item">
+        <img class="userphotoslist-item-img" src={ photo.ImagePath }>
+    </div>
+}
+
+templ UserPhotosListStyle() {
+    <style>
+        .userphotoslist-item-img{
+            height: 150px;
+            width: 150px;
+        }
+        .userphotoslist-wrapper{
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+}

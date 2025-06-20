@@ -8,6 +8,7 @@ import (
 	"zimniyles/fibergo/internal/home"
 	"zimniyles/fibergo/internal/messenger"
 	"zimniyles/fibergo/internal/people"
+	"zimniyles/fibergo/internal/photos"
 	"zimniyles/fibergo/internal/post"
 	"zimniyles/fibergo/internal/profile"
 	"zimniyles/fibergo/pkg/database"
@@ -60,6 +61,7 @@ func main() {
 	messengerRepository := messenger.NewMessengerRepository(dbpool, customLogger)
 	friendsRepository := friends.NewFriendsRepository(dbpool, customLogger)
 	peopleRepository := people.NewPeopleRepository(dbpool, customLogger)
+	photosRepository := photos.NewPhotosRepository(dbpool, customLogger)
 
 	//Handlers
 	home.NewHandler(app, customLogger, postRepository, store, homeRepository, authConfig)
@@ -69,6 +71,7 @@ func main() {
 	messenger.NewMessengerHandler(app, customLogger, messengerRepository, store)
 	friends.NewFriendsHandler(app, customLogger, friendsRepository, store)
 	people.NewPeopleHandler(app, customLogger, peopleRepository, store)
+	photos.NewPhotosHandler(app, customLogger, photosRepository, store)
 
 	app.Listen(":3000")
 }

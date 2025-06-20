@@ -92,6 +92,7 @@ templ ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, p
                         </div>
                         
                     </div>
+                    @widgets.ModuleCard()
                     @widgets.FeedPostsList(posts, pagesCount, page, link, userData.Login)
                     
                 </div>
@@ -184,6 +185,7 @@ templ ProfilePageStyle() {
             display: flex;
             flex-direction: row;
             gap: 15px;
+            margin-bottom: 15px;
         }
     
         .profile-avatar-profile {

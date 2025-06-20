@@ -116,7 +116,7 @@ func FeedPostsList(posts []models.FeedPost, pagesCount int, page int, link strin
 				return templ_7745c5c3_Err
 			}
 		}
-		if link == "/feed?page=%d" {
+		if link == "/feed?page=%d" && (pagesCount > 1) {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"post-list__pagination-item\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

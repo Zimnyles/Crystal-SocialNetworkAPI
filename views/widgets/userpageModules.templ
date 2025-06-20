@@ -1,0 +1,132 @@
+package widgets
+
+
+templ ModuleCard() {
+    @ModuleCardStyle()
+    
+    <div class="modulecard-wrapper">
+        <div class="modulecard-header--wrapper">
+            <div class={getTabClass("photo", "photos")} onclick="switchModule('photo')">
+                Фото
+            </div>
+            <div class={getTabClass("friend", "photos")} onclick="switchModule('friend')">
+                Друзья
+            </div>
+            <div class={getTabClass("group", "photos")} onclick="switchModule('group')">
+                Группы
+            </div>
+        </div>
+        <div class="chosen-module-wrapper">
+            <div id="module-content" class="module-content">
+
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const defaultModulejs = "photo";
+        document.addEventListener('DOMContentLoaded', function() {
+            loadModuleContent(defaultModulejs);
+        });
+
+        function switchModule(moduleName) {
+            updateActiveTab(moduleName);
+            loadModuleContent(moduleName);
+        }
+
+        function updateActiveTab(moduleName) {
+            document.querySelectorAll('.module-tab').forEach(tab => {
+                tab.classList.remove('active-tab');
+            });
+            document.querySelector(`.${moduleName}module-text`).classList.add('active-tab');
+        }
+
+        function loadModuleContent(moduleName) {
+            fetch(`/api/module-content?module=${encodeURIComponent(moduleName)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    document.getElementById('module-content').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading module content:', error);
+                    document.getElementById('module-content').innerHTML = `
+                        <div class="error-message">
+                            Ошибка загрузки контента. Пожалуйста, попробуйте позже.
+                        </div>
+                    `;
+                });
+        }
+    </script>
+}
+
+func getTabClass(tabName string, defaultModule string) string {
+    baseClass := tabName + "module-text module-tab"
+    if tabName == defaultModule {
+        return baseClass + " active-tab"
+    }
+    return baseClass
+}
+
+templ ModuleCardStyle() {
+    <style>
+        .modulecard-header--wrapper {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            margin: 0 auto;
+            align-items: center;
+            box-sizing: border-box;
+            max-width: 1100px;
+            width: 100%;
+            height: 80px;
+            border-radius: 20px 20px 0 0;
+            font-size: 24px;
+        }
+        .modulecard-wrapper {
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #222222;
+        }
+        .module-tab {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #888;
+        }
+        .module-tab:hover {
+            background-color: #333;
+            color: #ccc;
+        }
+        .active-tab {
+            background-color: #444;
+            color: white;
+            font-weight: bold;
+        }
+        .module-content {
+            padding: 20px;
+            min-height: 200px;
+        }
+        .photo-item {
+            margin-bottom: 15px;
+        }
+        .photo-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .error-message {
+            color: #ff4444;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+}

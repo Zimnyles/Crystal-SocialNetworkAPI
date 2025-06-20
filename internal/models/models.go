@@ -27,21 +27,29 @@ type PeopleProfileCredentials struct {
 }
 
 type FriendPageCredentials struct {
-    Friends         []FriendList         
-    FriendRequests  []FriendRequestList 
+	Friends        []FriendList
+	FriendRequests []FriendRequestList
 }
 
 type FriendList struct {
 	Login            string `db:"login"`
 	AvatarPath       string `db:"avatarpath"`
 	FriendshipStatus string `db:"status"`
-	Role int `db:"role"`
+	Role             int    `db:"role"`
 }
 
 type FriendRequestList struct {
 	Login            string `db:"login"`
 	AvatarPath       string `db:"avatarpath"`
 	FriendshipStatus string `db:"status"`
+}
+
+type PhotoList struct {
+	PhotoID   int
+	UserID    int
+	CreatedAt time.Time
+	ImagePath string
+	IsPublic  bool
 }
 
 type Message struct {
@@ -57,17 +65,17 @@ type Chat struct {
 }
 
 func NewChat() *Chat {
-    return &Chat{
-        Messages: make([]Message, 0),
-        Users:    make(map[string]bool),
-    }
+	return &Chat{
+		Messages: make([]Message, 0),
+		Users:    make(map[string]bool),
+	}
 }
 
 func (c *Chat) AddMessage(msg Message) {
-    msg.Timestamp = time.Now()
-    c.Messages = append(c.Messages, msg)
+	msg.Timestamp = time.Now()
+	c.Messages = append(c.Messages, msg)
 }
 
 func (c *Chat) AddUser(username string) {
-    c.Users[username] = true
+	c.Users[username] = true
 }
