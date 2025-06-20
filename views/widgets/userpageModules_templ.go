@@ -8,7 +8,7 @@ package widgets
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func ModuleCard() templ.Component {
+func ModuleCard(login string, defaultModule string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -33,86 +33,36 @@ func ModuleCard() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"modulecard-wrapper\"><div class=\"modulecard-header--wrapper\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"modulecard-wrapper\"><div class=\"modulecard-header--wrapper\"><div class=\"photomodule-text module-tab active-tab\" onclick=\"switchModule(&#39;photo&#39;)\">Фото</div><div class=\"friendmodule-text module-tab\" onclick=\"switchModule(&#39;friend&#39;)\">Друзья</div><div class=\"groupmodule-text module-tab\" onclick=\"switchModule(&#39;group&#39;)\">Группы</div></div><div class=\"chosen-module-wrapper\"><div id=\"module-content\" class=\"module-content\"></div></div></div><script>\r\n\r\n        const userLogin = ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{getTabClass("photo", "photos")}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
+		templ_7745c5c3_Var2, templ_7745c5c3_Err := templruntime.ScriptContentOutsideStringLiteral(login)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/userpageModules.templ`, Line: 26, Col: 34}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, ";\r\n        const DefaultModuleJS = ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
+		templ_7745c5c3_Var3, templ_7745c5c3_Err := templruntime.ScriptContentOutsideStringLiteral(defaultModule)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/userpageModules.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/userpageModules.templ`, Line: 27, Col: 48}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" onclick=\"switchModule(&#39;photo&#39;)\">Фото</div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 = []any{getTabClass("friend", "photos")}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var4).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/userpageModules.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" onclick=\"switchModule(&#39;friend&#39;)\">Друзья</div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 = []any{getTabClass("group", "photos")}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var6).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/userpageModules.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" onclick=\"switchModule(&#39;group&#39;)\">Группы</div></div><div class=\"chosen-module-wrapper\"><div id=\"module-content\" class=\"module-content\"><!-- Контент будет загружен через JavaScript --></div></div></div><script>\r\n        const defaultModulejs = \"photo\";\r\n        document.addEventListener('DOMContentLoaded', function() {\r\n            loadModuleContent(defaultModulejs);\r\n        });\r\n\r\n        function switchModule(moduleName) {\r\n            updateActiveTab(moduleName);\r\n            loadModuleContent(moduleName);\r\n        }\r\n\r\n        function updateActiveTab(moduleName) {\r\n            document.querySelectorAll('.module-tab').forEach(tab => {\r\n                tab.classList.remove('active-tab');\r\n            });\r\n            document.querySelector(`.${moduleName}module-text`).classList.add('active-tab');\r\n        }\r\n\r\n        function loadModuleContent(moduleName) {\r\n            fetch(`/api/module-content?module=${encodeURIComponent(moduleName)}`)\r\n                .then(response => {\r\n                    if (!response.ok) {\r\n                        throw new Error('Network response was not ok');\r\n                    }\r\n                    return response.text();\r\n                })\r\n                .then(html => {\r\n                    document.getElementById('module-content').innerHTML = html;\r\n                })\r\n                .catch(error => {\r\n                    console.error('Error loading module content:', error);\r\n                    document.getElementById('module-content').innerHTML = `\r\n                        <div class=\"error-message\">\r\n                            Ошибка загрузки контента. Пожалуйста, попробуйте позже.\r\n                        </div>\r\n                    `;\r\n                });\r\n        }\r\n    </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, ";\r\n        \r\n        document.addEventListener('DOMContentLoaded', function() {\r\n\r\n            updateActiveTab(DefaultModuleJS);\r\n            loadModuleContent(DefaultModuleJS, userLogin);\r\n        });\r\n\r\n        function switchModule(moduleName) {\r\n            updateActiveTab(moduleName);\r\n            loadModuleContent(moduleName, userLogin);\r\n        }\r\n\r\n        function updateActiveTab(moduleName) {\r\n            document.querySelectorAll('.module-tab').forEach(tab => {\r\n                tab.classList.remove('active-tab');\r\n            });\r\n            document.querySelector(`.${moduleName}module-text`).classList.add('active-tab');\r\n        }\r\n\r\n        function loadModuleContent(moduleName, login) {\r\n            fetch(`/api/module-content?module=${encodeURIComponent(moduleName)}&login=${encodeURIComponent(login)}`)\r\n                .then(response => {\r\n                    if (!response.ok) throw new Error('Network response was not ok');\r\n                    return response.text();\r\n                })\r\n                .then(html => {\r\n                    document.getElementById('module-content').innerHTML = html;\r\n                })\r\n                .catch(error => {\r\n                    console.error('Error loading module content:', error);\r\n                    document.getElementById('module-content').innerHTML = `\r\n                        <div class=\"error-message\">\r\n                            Ошибка загрузки контента. Пожалуйста, попробуйте позже.\r\n                        </div>\r\n                    `;\r\n                });\r\n        }\r\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		return nil
 	})
-}
-
-func getTabClass(tabName string, defaultModule string) string {
-	baseClass := tabName + "module-text module-tab"
-	if tabName == defaultModule {
-		return baseClass + " active-tab"
-	}
-	return baseClass
 }
 
 func ModuleCardStyle() templ.Component {
@@ -131,12 +81,12 @@ func ModuleCardStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<style>\r\n        .modulecard-header--wrapper {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            padding: 0 15px;\r\n            margin: 0 auto;\r\n            align-items: center;\r\n            box-sizing: border-box;\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            height: 80px;\r\n            border-radius: 20px 20px 0 0;\r\n            font-size: 24px;\r\n        }\r\n        .modulecard-wrapper {\r\n            display: flex;\r\n            flex-direction: column;\r\n            border-radius: 20px;\r\n            width: 100%;\r\n            max-width: 1100px;\r\n            margin: 0 auto;\r\n            background: #222222;\r\n        }\r\n        .module-tab {\r\n            cursor: pointer;\r\n            padding: 8px 16px;\r\n            border-radius: 8px;\r\n            transition: all 0.3s ease;\r\n            color: #888;\r\n        }\r\n        .module-tab:hover {\r\n            background-color: #333;\r\n            color: #ccc;\r\n        }\r\n        .active-tab {\r\n            background-color: #444;\r\n            color: white;\r\n            font-weight: bold;\r\n        }\r\n        .module-content {\r\n            padding: 20px;\r\n            min-height: 200px;\r\n        }\r\n        .photo-item {\r\n            margin-bottom: 15px;\r\n        }\r\n        .photo-item img {\r\n            max-width: 100%;\r\n            border-radius: 8px;\r\n        }\r\n        .error-message {\r\n            color: #ff4444;\r\n            padding: 20px;\r\n            text-align: center;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n        .modulecard-header--wrapper {\r\n            gap: 5px;\r\n            display: flex;\r\n            justify-content: left;\r\n            padding: 0 15px;\r\n            margin: 0 auto;\r\n            align-items: center;\r\n            box-sizing: border-box;\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            height: 60px;\r\n            border-radius: 20px 20px 0 0;\r\n            border-bottom: 3px solid #0c0c0c;\r\n        }\r\n        .modulecard-wrapper {\r\n            display: flex;\r\n            flex-direction: column;\r\n            border-radius: 20px;\r\n            width: 100%;\r\n            max-width: 1100px;\r\n            margin: 0 auto;\r\n            background: #222222;\r\n            margin-bottom: 15px;\r\n            \r\n        }\r\n        .module-tab {\r\n            cursor: pointer;\r\n            gap: 10px;\r\n            padding: 8px 16px;\r\n            border-radius: 8px;\r\n            transition: all 0.3s ease;\r\n            color: #888;\r\n        }\r\n        .module-tab:hover {\r\n            background-color: #333;\r\n            color: #ccc;\r\n        }\r\n        .active-tab {\r\n            background-color: #444;\r\n            color: white;\r\n            box-shadow: 0 2px 5px rgba(0,0,0,0.2);\r\n        }\r\n        .module-content {\r\n            padding-left: 15px;\r\n            max-height: 215px;\r\n            display: flex;\r\n            align-items: center;\r\n        }\r\n        .error-message {\r\n            color: #ff4444;\r\n            padding: 20px;\r\n            text-align: center;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

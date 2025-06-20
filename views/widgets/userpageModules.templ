@@ -1,18 +1,16 @@
 package widgets
 
-
-templ ModuleCard() {
+templ ModuleCard(login string, defaultModule string) {
     @ModuleCardStyle()
-    
     <div class="modulecard-wrapper">
         <div class="modulecard-header--wrapper">
-            <div class={getTabClass("photo", "photos")} onclick="switchModule('photo')">
+            <div class="photomodule-text module-tab active-tab" onclick="switchModule('photo')">
                 Фото
             </div>
-            <div class={getTabClass("friend", "photos")} onclick="switchModule('friend')">
+            <div class="friendmodule-text module-tab" onclick="switchModule('friend')">
                 Друзья
             </div>
-            <div class={getTabClass("group", "photos")} onclick="switchModule('group')">
+            <div class="groupmodule-text module-tab" onclick="switchModule('group')">
                 Группы
             </div>
         </div>
@@ -24,14 +22,19 @@ templ ModuleCard() {
     </div>
     
     <script>
-        const defaultModulejs = "photo";
+
+        const userLogin = {{ login }};
+        const DefaultModuleJS = {{ defaultModule }};
+        
         document.addEventListener('DOMContentLoaded', function() {
-            loadModuleContent(defaultModulejs);
+
+            updateActiveTab(DefaultModuleJS);
+            loadModuleContent(DefaultModuleJS, userLogin);
         });
 
         function switchModule(moduleName) {
             updateActiveTab(moduleName);
-            loadModuleContent(moduleName);
+            loadModuleContent(moduleName, userLogin);
         }
 
         function updateActiveTab(moduleName) {
@@ -41,12 +44,10 @@ templ ModuleCard() {
             document.querySelector(`.${moduleName}module-text`).classList.add('active-tab');
         }
 
-        function loadModuleContent(moduleName) {
-            fetch(`/api/module-content?module=${encodeURIComponent(moduleName)}`)
+        function loadModuleContent(moduleName, login) {
+            fetch(`/api/module-content?module=${encodeURIComponent(moduleName)}&login=${encodeURIComponent(login)}`)
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
+                    if (!response.ok) throw new Error('Network response was not ok');
                     return response.text();
                 })
                 .then(html => {
@@ -63,29 +64,21 @@ templ ModuleCard() {
         }
     </script>
 }
-
-func getTabClass(tabName string, defaultModule string) string {
-    baseClass := tabName + "module-text module-tab"
-    if tabName == defaultModule {
-        return baseClass + " active-tab"
-    }
-    return baseClass
-}
-
 templ ModuleCardStyle() {
     <style>
         .modulecard-header--wrapper {
+            gap: 5px;
             display: flex;
-            justify-content: space-between;
+            justify-content: left;
             padding: 0 15px;
             margin: 0 auto;
             align-items: center;
             box-sizing: border-box;
             max-width: 1100px;
             width: 100%;
-            height: 80px;
+            height: 60px;
             border-radius: 20px 20px 0 0;
-            font-size: 24px;
+            border-bottom: 3px solid #0c0c0c;
         }
         .modulecard-wrapper {
             display: flex;
@@ -95,9 +88,12 @@ templ ModuleCardStyle() {
             max-width: 1100px;
             margin: 0 auto;
             background: #222222;
+            margin-bottom: 15px;
+            
         }
         .module-tab {
             cursor: pointer;
+            gap: 10px;
             padding: 8px 16px;
             border-radius: 8px;
             transition: all 0.3s ease;
@@ -110,18 +106,13 @@ templ ModuleCardStyle() {
         .active-tab {
             background-color: #444;
             color: white;
-            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .module-content {
-            padding: 20px;
-            min-height: 200px;
-        }
-        .photo-item {
-            margin-bottom: 15px;
-        }
-        .photo-item img {
-            max-width: 100%;
-            border-radius: 8px;
+            padding-left: 15px;
+            max-height: 215px;
+            display: flex;
+            align-items: center;
         }
         .error-message {
             color: #ff4444;

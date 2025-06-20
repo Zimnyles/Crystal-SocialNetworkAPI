@@ -9,6 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "zimniyles/fibergo/internal/models"
+import "zimniyles/fibergo/views/components"
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/views/layout"
 
@@ -90,7 +91,7 @@ func ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, pa
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(userData.AvatarPath)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 46, Col: 131}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 47, Col: 131}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -117,7 +118,7 @@ func ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, pa
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(titleLogin)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 58, Col: 95}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 59, Col: 95}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -130,7 +131,7 @@ func ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, pa
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(userData.Email)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 72, Col: 79}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 73, Col: 79}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -143,7 +144,7 @@ func ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, pa
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(role)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 77, Col: 69}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 78, Col: 69}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -161,7 +162,7 @@ func ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, pa
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(time)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 88, Col: 53}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/profile-page.templ`, Line: 89, Col: 53}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -171,15 +172,69 @@ func ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, pa
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = widgets.ModuleCard().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = widgets.ModuleCard(userData.Login, "photo").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
+			}
+			if userData.Login == login {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<div class=\"newphotoandpost-wrapper\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Var8 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+					if !templ_7745c5c3_IsBuffer {
+						defer func() {
+							templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+							if templ_7745c5c3_Err == nil {
+								templ_7745c5c3_Err = templ_7745c5c3_BufErr
+							}
+						}()
+					}
+					ctx = templ.InitializeContext(ctx)
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<img width=\"24px\" height=\"24px\" src=\"/public/icons/plus.svg\" alt=\"plus ico\" class=\"icon\"> <span>Опубликовать запиcь</span>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					return nil
+				})
+				templ_7745c5c3_Err = components.NewPostButton("/createpost").Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Var9 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+					if !templ_7745c5c3_IsBuffer {
+						defer func() {
+							templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+							if templ_7745c5c3_Err == nil {
+								templ_7745c5c3_Err = templ_7745c5c3_BufErr
+							}
+						}()
+					}
+					ctx = templ.InitializeContext(ctx)
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<img width=\"24px\" height=\"24px\" src=\"/public/icons/plus.svg\" alt=\"plus ico\" class=\"icon\"> <span>Добавить фотографию</span>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					return nil
+				})
+				templ_7745c5c3_Err = components.NewPhotoButton("/addphoto").Render(templ.WithChildren(ctx, templ_7745c5c3_Var9), templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
 			}
 			templ_7745c5c3_Err = widgets.FeedPostsList(posts, pagesCount, page, link, userData.Login).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -212,12 +267,12 @@ func ProfilePageStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var10 == nil {
+			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<style>\r\n        .profile-header--right-container {\r\n            display: flex;\r\n            flex-direction: column;\r\n            width: 100%;\r\n        }\r\n\r\n        .left-menu{\r\n           min-width: 220px;\r\n           max-width: 220px;\r\n        }\r\n\r\n        .leftmenu-and-content-wrappper{\r\n            margin: 0;\r\n            padding: 0;\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: center;\r\n            margin-left: 300px;\r\n            margin-right: 300px;\r\n            max-width: 1320px;\r\n        }\r\n\r\n        .profile-header--right__title{\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: space-between;\r\n            align-items: center;\r\n            \r\n\r\n        }\r\n\r\n        .profile-header--right__title-name{\r\n            font-size: 34px;\r\n            margin-left: 15px;\r\n        }\r\n        .profile-header--right__title-role{\r\n            margin-right: 15px;\r\n            display: flex;\r\n            flex-direction: row;\r\n            align-items: center;\r\n            justify-content: center;\r\n            font-size: 28px;\r\n            gap: 10px;\r\n        }\r\n\r\n        .profile-container {\r\n            color: var(--color-white);\r\n            margin-top: 15px;\r\n            border-radius: 20px;\r\n            width: 100%;\r\n            overflow: hidden;\r\n        }\r\n    \r\n        .profile-header--left {\r\n            display: flex;\r\n            flex-direction: column;\r\n            background: #9a9a9a;\r\n            padding: 30px 20px; \r\n            text-align: center;\r\n            color: white;\r\n            border-radius: 20px;\r\n            max-width: 195px;\r\n            width: 100%;\r\n            align-items: center;\r\n            justify-content: center;\r\n            min-height: 246px;\r\n        }\r\n\r\n        .profile-header--right{\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            margin-bottom: 15px;\r\n        }\r\n\r\n        .profile-header--wrapper{\r\n            display: flex;\r\n            flex-direction: row;\r\n            gap: 15px;\r\n            margin-bottom: 15px;\r\n        }\r\n    \r\n        .profile-avatar-profile {\r\n            width: 120px;\r\n            height: 120px;\r\n            border-radius: 50%;\r\n            object-fit: cover;\r\n            border: 4px solid white;\r\n            margin-bottom: 15px;\r\n        }\r\n\r\n        .profile-details{\r\n            background: #222222;\r\n            height: 100%;\r\n        }\r\n    \r\n        .profile-username {\r\n            font-size: 24px;\r\n            font-weight: bold;\r\n            margin: 10px 0 5px;\r\n        }\r\n    \r\n        .profile-details {\r\n            background: #222222;\r\n            border-radius: 20px;\r\n            padding: 15px;\r\n        }\r\n    \r\n        .detail-item {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            padding: 12px 0;\r\n            border-bottom: 1px solid #eee;\r\n        }\r\n    \r\n        .detail-label {\r\n            font-weight: bold;\r\n            \r\n        }\r\n    \r\n        .detail-value {\r\n            \r\n        }\r\n    \r\n        .join-date {\r\n            display: flex;\r\n            align-items: center;\r\n            gap: 8px;\r\n        }\r\n    \r\n        .join-date svg {\r\n            width: 16px;\r\n            height: 16px;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<style>\r\n        .newphotoandpost-wrapper{\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: space-between;\r\n            gap: 15px;\r\n        }\r\n\r\n        .profile-header--right-container {\r\n            display: flex;\r\n            flex-direction: column;\r\n            width: 100%;\r\n        }\r\n\r\n        .left-menu{\r\n           min-width: 220px;\r\n           max-width: 220px;\r\n        }\r\n\r\n        .leftmenu-and-content-wrappper{\r\n            margin: 0;\r\n            padding: 0;\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: center;\r\n            margin-left: 300px;\r\n            margin-right: 300px;\r\n            max-width: 1320px;\r\n        }\r\n\r\n        .profile-header--right__title{\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: space-between;\r\n            align-items: center;\r\n            \r\n\r\n        }\r\n\r\n        .profile-header--right__title-name{\r\n            font-size: 34px;\r\n            margin-left: 15px;\r\n        }\r\n        .profile-header--right__title-role{\r\n            margin-right: 15px;\r\n            display: flex;\r\n            flex-direction: row;\r\n            align-items: center;\r\n            justify-content: center;\r\n            font-size: 28px;\r\n            gap: 10px;\r\n        }\r\n\r\n        .profile-container {\r\n            color: var(--color-white);\r\n            margin-top: 15px;\r\n            border-radius: 20px;\r\n            width: 100%;\r\n            overflow: hidden;\r\n        }\r\n    \r\n        .profile-header--left {\r\n            display: flex;\r\n            flex-direction: column;\r\n            background: #9a9a9a;\r\n            padding: 30px 20px; \r\n            text-align: center;\r\n            color: white;\r\n            border-radius: 20px;\r\n            max-width: 195px;\r\n            width: 100%;\r\n            align-items: center;\r\n            justify-content: center;\r\n            min-height: 246px;\r\n        }\r\n\r\n        .profile-header--right{\r\n            max-width: 1100px;\r\n            width: 100%;\r\n            margin-bottom: 15px;\r\n        }\r\n\r\n        .profile-header--wrapper{\r\n            display: flex;\r\n            flex-direction: row;\r\n            gap: 15px;\r\n            margin-bottom: 15px;\r\n        }\r\n    \r\n        .profile-avatar-profile {\r\n            width: 120px;\r\n            height: 120px;\r\n            border-radius: 50%;\r\n            object-fit: cover;\r\n            border: 4px solid white;\r\n            margin-bottom: 15px;\r\n        }\r\n\r\n        .profile-details{\r\n            background: #222222;\r\n            height: 100%;\r\n        }\r\n    \r\n        .profile-username {\r\n            font-size: 24px;\r\n            font-weight: bold;\r\n            margin: 10px 0 5px;\r\n        }\r\n    \r\n        .profile-details {\r\n            background: #222222;\r\n            border-radius: 20px;\r\n            padding: 15px;\r\n        }\r\n    \r\n        .detail-item {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            padding: 12px 0;\r\n            border-bottom: 1px solid #eee;\r\n        }\r\n    \r\n        .detail-label {\r\n            font-weight: bold;\r\n            \r\n        }\r\n    \r\n        .detail-value {\r\n            \r\n        }\r\n    \r\n        .join-date {\r\n            display: flex;\r\n            align-items: center;\r\n            gap: 8px;\r\n        }\r\n    \r\n        .join-date svg {\r\n            width: 16px;\r\n            height: 16px;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -241,12 +296,12 @@ func AvatarChangeScript() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var9 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var9 == nil {
-			templ_7745c5c3_Var9 = templ.NopComponent
+		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var11 == nil {
+			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<script>\r\n        const preview = document.getElementById(\"avatarPreview\");\r\n        const input = document.getElementById(\"avatarInput\");\r\n        const form = document.getElementById(\"avatarForm\");\r\n\r\n        preview.addEventListener(\"click\", function () {\r\n            input.click();\r\n        });\r\n\r\n\r\n        input.addEventListener(\"change\", function () {\r\n            if (input.files.length > 0) {\r\n                form.submit();\r\n            }\r\n        });\r\n    </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<script>\r\n        const preview = document.getElementById(\"avatarPreview\");\r\n        const input = document.getElementById(\"avatarInput\");\r\n        const form = document.getElementById(\"avatarForm\");\r\n\r\n        preview.addEventListener(\"click\", function () {\r\n            input.click();\r\n        });\r\n\r\n\r\n        input.addEventListener(\"change\", function () {\r\n            if (input.files.length > 0) {\r\n                form.submit();\r\n            }\r\n        });\r\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -270,12 +325,12 @@ func ProfilePageScript() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var10 == nil {
-			templ_7745c5c3_Var10 = templ.NopComponent
+		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var12 == nil {
+			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<script>\r\n        window.addEventListener('DOMContentLoaded', function () {\r\n            const img = document.getElementById('avatarImage');\r\n            const defaultColor = [210, 210, 210]; \r\n\r\n            if (!img) {\r\n                applyFallbackColor();\r\n                return;\r\n            }\r\n\r\n            function canUseColorThief() {\r\n                return img.complete &&\r\n                    img.naturalWidth !== 0 &&\r\n                    img.src &&\r\n                    !img.src.startsWith('data:');\r\n            }\r\n\r\n            function applyFallbackColor() {\r\n                const header = document.querySelector('.profile-header--left');\r\n                if (header) {\r\n                    header.style.background = `rgb(${defaultColor.join(',')})`;\r\n                    console.log('Применен цвет по умолчанию');\r\n                }\r\n            }\r\n\r\n            function applyColor() {\r\n                try {\r\n                    const colorThief = new ColorThief();\r\n                    let color;\r\n\r\n                    try {\r\n                        color = colorThief.getColor(img);\r\n                        if (!color || color.length !== 3) {\r\n                            throw new Error('Invalid color data');\r\n                        }\r\n                    } catch (e) {\r\n                        console.warn('Не удалось извлечь цвет:', e.message);\r\n                        applyFallbackColor();\r\n                        return;\r\n                    }\r\n\r\n\r\n                    const minDarkness = 30;\r\n                    const isTooLight = color.every(c => c > (255 - minDarkness));\r\n\r\n                    const finalColor = isTooLight\r\n                        ? color.map(c => Math.max(c - minDarkness, 200))\r\n                        : color;\r\n\r\n                    const rgbColor = `rgb(${finalColor.join(',')})`;\r\n                    const header = document.querySelector('.profile-header--left');\r\n\r\n                    if (header) {\r\n                        header.style.background = rgbColor;\r\n                        console.log('Фон установлен:', rgbColor);\r\n                    }\r\n                } catch (error) {\r\n                    console.error('Критическая ошибка:', error);\r\n                    applyFallbackColor();\r\n                }\r\n            }\r\n\r\n\r\n            if (canUseColorThief()) {\r\n                applyColor();\r\n            } else {\r\n                img.addEventListener('load', applyColor);\r\n                img.addEventListener('error', applyFallbackColor);\r\n\r\n                setTimeout(applyFallbackColor, 1000);\r\n            }\r\n        });\r\n    </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<script>\r\n        window.addEventListener('DOMContentLoaded', function () {\r\n            const img = document.getElementById('avatarImage');\r\n            const defaultColor = [210, 210, 210]; \r\n\r\n            if (!img) {\r\n                applyFallbackColor();\r\n                return;\r\n            }\r\n\r\n            function canUseColorThief() {\r\n                return img.complete &&\r\n                    img.naturalWidth !== 0 &&\r\n                    img.src &&\r\n                    !img.src.startsWith('data:');\r\n            }\r\n\r\n            function applyFallbackColor() {\r\n                const header = document.querySelector('.profile-header--left');\r\n                if (header) {\r\n                    header.style.background = `rgb(${defaultColor.join(',')})`;\r\n                    console.log('Применен цвет по умолчанию');\r\n                }\r\n            }\r\n\r\n            function applyColor() {\r\n                try {\r\n                    const colorThief = new ColorThief();\r\n                    let color;\r\n\r\n                    try {\r\n                        color = colorThief.getColor(img);\r\n                        if (!color || color.length !== 3) {\r\n                            throw new Error('Invalid color data');\r\n                        }\r\n                    } catch (e) {\r\n                        console.warn('Не удалось извлечь цвет:', e.message);\r\n                        applyFallbackColor();\r\n                        return;\r\n                    }\r\n\r\n\r\n                    const minDarkness = 30;\r\n                    const isTooLight = color.every(c => c > (255 - minDarkness));\r\n\r\n                    const finalColor = isTooLight\r\n                        ? color.map(c => Math.max(c - minDarkness, 200))\r\n                        : color;\r\n\r\n                    const rgbColor = `rgb(${finalColor.join(',')})`;\r\n                    const header = document.querySelector('.profile-header--left');\r\n\r\n                    if (header) {\r\n                        header.style.background = rgbColor;\r\n                        console.log('Фон установлен:', rgbColor);\r\n                    }\r\n                } catch (error) {\r\n                    console.error('Критическая ошибка:', error);\r\n                    applyFallbackColor();\r\n                }\r\n            }\r\n\r\n\r\n            if (canUseColorThief()) {\r\n                applyColor();\r\n            } else {\r\n                img.addEventListener('load', applyColor);\r\n                img.addEventListener('error', applyFallbackColor);\r\n\r\n                setTimeout(applyFallbackColor, 1000);\r\n            }\r\n        });\r\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

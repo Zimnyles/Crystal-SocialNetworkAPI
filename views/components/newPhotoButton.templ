@@ -1,15 +1,15 @@
 package components
 
-templ NewPostButton(href string) {
-    @NewPostButtonStyle()
-    <a class="newpost-button" href={templ.URL(href)}>
+templ NewPhotoButton(href string) {
+    @NewPhotoButtonStyle()
+    <a class="newphoto-button" href={templ.URL(href)}>
     { children... }
     </a>
 }
 
-templ NewPostButtonStyle() {
+templ NewPhotoButtonStyle() {
     <style>
-        .newpost-button{
+        .newphoto-button{
             display: flex;
             align-items: center;
             text-align: center;
@@ -22,7 +22,7 @@ templ NewPostButtonStyle() {
             border-radius: 20px;
         }
 
-        .newpost-button:hover{
+        .newphoto-button:hover{
             background-color: #303030
         }
         

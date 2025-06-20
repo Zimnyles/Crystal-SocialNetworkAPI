@@ -1,6 +1,7 @@
 package views
 
 import "zimniyles/fibergo/internal/models"
+import "zimniyles/fibergo/views/components"
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/views/layout"
 
@@ -92,7 +93,20 @@ templ ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, p
                         </div>
                         
                     </div>
-                    @widgets.ModuleCard()
+                    @widgets.ModuleCard(userData.Login, "photo")
+                    if userData.Login == login {
+                        <div class="newphotoandpost-wrapper">
+                        @components.NewPostButton("/createpost"){
+                            <img width="24px" height="24px" src="/public/icons/plus.svg" alt="plus ico" class="icon" />
+                            <span>Опубликовать запиcь</span>
+                        }
+                        @components.NewPhotoButton("/addphoto") {
+                            <img width="24px" height="24px" src="/public/icons/plus.svg" alt="plus ico" class="icon" />
+                            <span>Добавить фотографию</span>
+                        }
+                        </div>
+
+                    }
                     @widgets.FeedPostsList(posts, pagesCount, page, link, userData.Login)
                     
                 </div>
@@ -107,6 +121,13 @@ templ ProfilePage(userData models.ProfileCredentials, posts []models.FeedPost, p
 
 templ ProfilePageStyle() {
     <style>
+        .newphotoandpost-wrapper{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
         .profile-header--right-container {
             display: flex;
             flex-direction: column;

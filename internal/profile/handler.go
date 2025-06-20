@@ -43,24 +43,19 @@ func NewHandler(router fiber.Router, customLogger *zerolog.Logger, repository *P
 func (h *ProfileHandler) apiGetModule(c *fiber.Ctx) error {
 	chosenModule := c.Query("module")
 	//?module=friend ?module=photos ?module=groups
-	sess, err := h.store.Get(c)
-	if err != nil {
-		panic(err)
-	}
-
-	login := sess.Get("login").(string)
+	login := c.Query("login")
 	userID, err := h.repository.GetIDfromLogin(login)
 	if err != nil {
 		panic(err)
 	}
-	
+
 	switch chosenModule {
     case "photo":
         photos, err := h.repository.GetUserPhotos(userID, h.customLogger)
 		if err != nil {
 			h.customLogger.Error().Err(err).Msg("cannot get userID from login(profileHandler/getModule)")
 		}
-		component := widgets.UserPhotosList(photos)
+		component := widgets.UserPhotosList(photos, login)
 		return tadapter.Render(c, component, http.StatusOK)
 		
     case "friends":

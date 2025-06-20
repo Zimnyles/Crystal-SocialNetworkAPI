@@ -8,7 +8,7 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func NewPostButton(href string) templ.Component {
+func NewPhotoButton(href string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,11 +29,11 @@ func NewPostButton(href string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = NewPostButtonStyle().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = NewPhotoButtonStyle().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<a class=\"newpost-button\" href=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<a class=\"newphoto-button\" href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -58,7 +58,7 @@ func NewPostButton(href string) templ.Component {
 	})
 }
 
-func NewPostButtonStyle() templ.Component {
+func NewPhotoButtonStyle() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -79,7 +79,7 @@ func NewPostButtonStyle() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n        .newpost-button{\r\n            display: flex;\r\n            align-items: center;\r\n            text-align: center;\r\n            justify-content: center;\r\n            width: 100%;\r\n            padding: 15px 20px;\r\n            background-color: #222222;\r\n            color: var(--color-white);\r\n            text-decoration: none;\r\n            border-radius: 20px;\r\n        }\r\n\r\n        .newpost-button:hover{\r\n            background-color: #303030\r\n        }\r\n        \r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n        .newphoto-button{\r\n            display: flex;\r\n            align-items: center;\r\n            text-align: center;\r\n            justify-content: center;\r\n            width: 100%;\r\n            padding: 15px 20px;\r\n            background-color: #222222;\r\n            color: var(--color-white);\r\n            text-decoration: none;\r\n            border-radius: 20px;\r\n        }\r\n\r\n        .newphoto-button:hover{\r\n            background-color: #303030\r\n        }\r\n        \r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

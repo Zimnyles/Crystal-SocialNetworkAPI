@@ -11,7 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import "time"
 import "zimniyles/fibergo/internal/models"
 
-func UserPhotosList(photos []models.PhotoList) templ.Component {
+func UserPhotosList(photos []models.PhotoList, photoAuthorLogin string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -36,11 +36,12 @@ func UserPhotosList(photos []models.PhotoList) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"userphotoslist-wrapper\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
+		userLogin := ctx.Value("login").(string)
 		if len(photos) != 0 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"userphotoslist-wrapper\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 			for _, photo := range photos {
 				templ_7745c5c3_Err = UserPhotoCard(UserPhotoCardProps{
 					PhotoID:   photo.PhotoID,
@@ -53,10 +54,22 @@ func UserPhotosList(photos []models.PhotoList) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			if userLogin == photoAuthorLogin {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"usernophotoslist-wrapper\"><div class=\"no-downloaded-photos\">Вы еще не загрузили ни одного фото</div></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"usernophotoslist-wrapper\"><div class=\"no-downloaded-photos\">Пользователь не загрузил ни одного фото</div></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
 		}
 		return nil
 	})
@@ -91,20 +104,20 @@ func UserPhotoCard(photo UserPhotoCardProps) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"userphotoslist-item\"><img class=\"userphotoslist-item-img\" src=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div class=\"userphotoslist-item\"><img class=\"userphotoslist-item-img\" src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(photo.ImagePath)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/userPhotosList.templ`, Line: 35, Col: 66}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/widgets/userPhotosList.templ`, Line: 50, Col: 66}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\"></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -133,7 +146,7 @@ func UserPhotosListStyle() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<style>\r\n        .userphotoslist-item-img{\r\n            height: 150px;\r\n            width: 150px;\r\n        }\r\n        .userphotoslist-wrapper{\r\n            display: flex;\r\n            flex-direction: row;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<style>\r\n        .usernophotoslist-wrapper{\r\n            width: 100%;\r\n            max-width: 1100px;\r\n            display: flex;\r\n            align-items: center;\r\n            justify-content: center;\r\n            margin-bottom: 15px;\r\n            margin-top: 15px;\r\n        }\r\n        .userphotoslist-item{\r\n            max-height: 185px;\r\n            max-width: 185px;\r\n        }\r\n        .userphotoslist-item-img{\r\n            height: 185px;\r\n            width: 185px;\r\n            border-radius: 8px;\r\n        }\r\n        .userphotoslist-wrapper{\r\n            display: flex;\r\n            flex-direction: row;\r\n            gap: 5px;\r\n            margin-top: 15px;\r\n            margin-bottom: 15px;\r\n            align-items: center;\r\n            justify-content: center;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
