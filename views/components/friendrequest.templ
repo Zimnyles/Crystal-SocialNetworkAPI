@@ -1,5 +1,9 @@
 package components
 
+import (
+	"unicode/utf8"
+)
+
 type RequestCredentials struct{
     Login string 
     AvatarPath string 
@@ -69,11 +73,16 @@ templ FriendRequest(credentials RequestCredentials) {
         
 }
 
-func truncateString(str string, num int) string {
-    if len(str) <= num {
-        return str
-    }
-    return str[:num] + "..."
+func truncateString(str string, maxLen int) string {
+	if utf8.RuneCountInString(str) <= maxLen {
+		return str
+	}
+	
+	runes := []rune(str)
+	if len(runes) > maxLen {
+		return string(runes[:maxLen]) + "..."
+	}
+	return str
 }
 
 templ FriendRequestScript() {

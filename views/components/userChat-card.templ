@@ -1,0 +1,72 @@
+package components
+
+import "time"
+import "github.com/rvflash/elapsed"
+
+type ChatPreview struct {
+	ChatID            int       
+	InterlocutorID    int      
+	InterlocutorLogin string    
+	LastMessage      string    
+	LastMessageTime  time.Time 
+	IsYourMessage    bool  
+	InterlocutorAvatarPath string   
+}
+
+templ UserChatCard(chatInfo ChatPreview) {
+    @UserChatCardStyle()
+	{{ date:= elapsed.LocalTime(chatInfo.LastMessageTime, "ru") }}
+	<div class="chats-list--card">
+		<div class="chats-list--avatar">
+			<img class="profile-avatar" crossorigin="anonymous" src={ chatInfo.InterlocutorAvatarPath } alt="Изображение профиля">
+		</div>
+		<div class="chats-list--content">
+			<div class="chat-list--username">{ chatInfo.InterlocutorLogin }</div>
+			<div class="chat-list--lastmsg">{ truncateString(chatInfo.LastMessage, 20) }</div>
+			<div class="chat-list--date">{ date }</div>
+		</div>
+		
+	</div>
+}
+
+templ UserChatCardStyle() {
+    <style>
+	.chat-list--lastmsg{
+		color: rgb(146, 146, 146);
+		font-size: 12px;
+	}
+	.chat-list--date{
+		color: rgb(146, 146, 146);
+		font-size: 12px;
+	}
+	.profile-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+            
+    }
+	.chats-list--card{
+		display: flex;
+		flex-direction: row;
+		min-width: 300px;
+		max-width: 300px;
+		height: 90px;
+		background-color: #222222;
+		border-radius: 20px;
+		padding-left: 15px;
+		align-items: center;
+		transition: all 0.3s ease-in-out;
+	}
+	.chats-list--card:hover{
+		background-color: #303030;
+	}
+	.chats-list--content{
+		margin-left: 15px;
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
+    </style>
+}
+

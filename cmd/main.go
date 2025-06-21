@@ -7,6 +7,7 @@ import (
 	"zimniyles/fibergo/internal/friends"
 	"zimniyles/fibergo/internal/home"
 	"zimniyles/fibergo/internal/messenger"
+	"zimniyles/fibergo/internal/models"
 	"zimniyles/fibergo/internal/people"
 	"zimniyles/fibergo/internal/photos"
 	"zimniyles/fibergo/internal/post"
@@ -53,6 +54,7 @@ func main() {
 	app.Static("/static", "./static")
 
 	app.Use(middleware.AuthMiddleware(store))
+
 	//Repositories
 	postRepository := post.NewPostRepository(dbpool, customLogger)
 	homeRepository := home.NewUsersRepository(dbpool, customLogger)
@@ -62,13 +64,15 @@ func main() {
 	friendsRepository := friends.NewFriendsRepository(dbpool, customLogger)
 	peopleRepository := people.NewPeopleRepository(dbpool, customLogger)
 	photosRepository := photos.NewPhotosRepository(dbpool, customLogger)
+	//Global Repository
+	globalRepository := models.NewGlobalRepository(dbpool, customLogger)
 
 	//Handlers
 	home.NewHandler(app, customLogger, postRepository, store, homeRepository, authConfig)
 	post.NewHandler(app, customLogger, postRepository)
 	profile.NewHandler(app, customLogger, profileRepository, store)
 	feed.NewFeedHandler(app, customLogger, feedRepository, store)
-	messenger.NewMessengerHandler(app, customLogger, messengerRepository, store)
+	messenger.NewMessengerHandler(app, customLogger, messengerRepository,globalRepository, store)
 	friends.NewFriendsHandler(app, customLogger, friendsRepository, store)
 	people.NewPeopleHandler(app, customLogger, peopleRepository, store)
 	photos.NewPhotosHandler(app, customLogger, photosRepository, store)

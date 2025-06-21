@@ -1,0 +1,28 @@
+package components 
+
+templ NoMoreChats() {
+    @NoMoreChatsStyle()
+    <div class="no-more-chats">
+        <img width="24px" height="24px" src="/public/icons/plus.svg" alt="plus ico" class="icon-msg" />
+		<span>Напишем кому-нибудь?</span>
+	</div>
+}
+
+templ NoMoreChatsStyle() {
+    <style>
+    .no-more-chats{
+        display: flex;
+		flex-direction: row;
+		min-width: 300px;
+		max-width: 300px;
+		height: 90px;
+		background-color: #222222;
+		border-radius: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+    .no-more-chats:hover{
+		background-color: #303030;
+	}
+    </style>
+}

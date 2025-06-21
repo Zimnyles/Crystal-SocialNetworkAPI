@@ -59,6 +59,16 @@ type Message struct {
 	Timestamp time.Time
 }
 
+type ChatPreview struct {
+	ChatID            int       
+	InterlocutorID    int      
+	InterlocutorLogin string    
+	LastMessage      string    
+	LastMessageTime  time.Time 
+	IsYourMessage    bool
+	InterlocutorAvatarPath string
+}
+
 type Chat struct {
 	Messages []Message
 	Users    map[string]bool

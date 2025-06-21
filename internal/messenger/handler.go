@@ -2,6 +2,7 @@ package messenger
 
 import (
 	"net/http"
+	"zimniyles/fibergo/internal/models"
 	"zimniyles/fibergo/pkg/middleware"
 	"zimniyles/fibergo/pkg/tadapter"
 	"zimniyles/fibergo/views"
@@ -13,10 +14,15 @@ import (
 )
 
 type MessengerHandler struct {
-	router       fiber.Router
-	customLogger *zerolog.Logger
-	repository   *MessengerRepository
-	store        *session.Store
+	router           fiber.Router
+	customLogger     *zerolog.Logger
+	repository       MessagesRepo
+	globalRepository models.GlobalRepo
+	store            *session.Store
+}
+
+type MessagesRepo interface {
+	GetUserChats(userID int) ([]models.ChatPreview, error)
 }
 
 // var (
@@ -25,12 +31,13 @@ type MessengerHandler struct {
 // 	clients = make(map[*websocket.Conn]bool)
 // )
 
-func NewMessengerHandler(router fiber.Router, customLogger *zerolog.Logger, messengerRepository *MessengerRepository, store *session.Store) {
+func NewMessengerHandler(router fiber.Router, customLogger *zerolog.Logger, messengerRepository MessagesRepo, globalRepository models.GlobalRepo, store *session.Store) {
 	h := &MessengerHandler{
-		router:       router,
-		customLogger: customLogger,
-		repository:   messengerRepository,
-		store:        store,
+		router:           router,
+		customLogger:     customLogger,
+		repository:       messengerRepository,
+		globalRepository: globalRepository,
+		store:            store,
 	}
 	messagesGroup := h.router.Group("/messages")
 	messagesGroup.Get("/", h.messages)
@@ -46,8 +53,22 @@ func NewMessengerHandler(router fiber.Router, customLogger *zerolog.Logger, mess
 }
 
 func (h *MessengerHandler) messages(c *fiber.Ctx) error {
+	sess, err := h.store.Get(c)
+	if err != nil {
+		panic(err)
+	}
+	userLogin := sess.Get("login").(string)
+	userID, err := h.globalRepository.GetIDfromLogin(userLogin)
+	if err != nil {
+		h.customLogger.Error().Err(err).Msg("cannot get userID from login(messagesHandler)")
+	}
 
-	component := views.MessagesPage()
+	userChats, err := h.repository.GetUserChats(userID)
+	if err != nil {
+		h.customLogger.Error().Err(err).Msg("cannot get userChats (messagesHandler)")
+	}
+
+	component := views.MessagesPage(userChats)
 	return tadapter.Render(c, component, 200)
 
 }

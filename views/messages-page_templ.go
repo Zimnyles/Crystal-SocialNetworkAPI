@@ -10,8 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/internal/models"
 
-func MessagesPage() templ.Component {
+func MessagesPage(userChats []models.ChatPreview) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -67,25 +68,33 @@ func MessagesPage() templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"content-wrapper\"><div><div class=\"messanger--footer\"><span>Ваши чаты</span></div><div class=\"messanger--content-wrapper\"><div class=\"messanger--leftpart\"><p>left</p></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"content-wrapper\"><div><div class=\"messanger--footer\">Ваши чаты</div><div class=\"messanger--content-wrapper\"><div class=\"messanger--leftpart\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = widgets.ChatsList(userChats).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			link := "/messages/" + login
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"messanger--rightpart\" hx-swap=\"innerHTML\" hx-trigger=\"click\" hx-get=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div class=\"messanger--rightpart\" hx-swap=\"innerHTML\" hx-trigger=\"click\" hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(link)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/messages-page.templ`, Line: 36, Col: 106}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/messages-page.templ`, Line: 39, Col: 106}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"><p>right</p></div></div></div></div></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"><p>right</p></div></div></div></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -123,7 +132,7 @@ func MessagesPageStyle() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\r\n\r\n    .messanger--rightpart{\r\n        max-width: 800px;\r\n        width: 100%;\r\n        background-color: #222222;\r\n        margin-left: 10px;\r\n    }\r\n\r\n    .messanger--leftpart{\r\n        \r\n        max-width: 300px;\r\n        width: 100%;\r\n        background-color: #222222;\r\n    }\r\n\r\n    .icon {\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .messanger--content-wrapper{\r\n        display: flex;\r\n        flex-direction: initial;\r\n        margin-top: 15px;\r\n    \r\n    }\r\n\r\n    .messanger--footer{\r\n        height: 54px;\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        padding: 15px 20px;\r\n        background-color: #222222;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n        border-radius: 8px;\r\n        max-width: 1100px;\r\n        margin-top: 15px;\r\n    }\r\n\r\n    .content-wrapper {\r\n        position: relative;\r\n        display: block;\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n    }\r\n\r\n    .messanger--wrapper {\r\n        width: 100%;\r\n        display: flex;\r\n        flex-direction: row;\r\n        background: #222222;\r\n        overflow: hidden;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        border: #797979;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .content {\r\n\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n\r\n    .leftmenu-and-content-wrappper {\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: center;\r\n            width:1320px;\r\n            margin:0px auto;\r\n    }\r\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<style>\r\n\r\n    .messanger--rightpart{\r\n        max-width: 800px;\r\n        width: 100%;\r\n        background-color: #222222;\r\n        margin-left: 10px;\r\n    }\r\n\r\n    .messanger--leftpart{\r\n        \r\n        max-width: 300px;\r\n        width: 100%;\r\n        \r\n    }\r\n\r\n    .icon {\r\n        margin-left: 15px;\r\n    }\r\n\r\n    .messanger--content-wrapper{\r\n        display: flex;\r\n        flex-direction: initial;\r\n        margin-top: 15px;\r\n    \r\n    }\r\n\r\n    .messanger--footer{\r\n        height: 54px;\r\n        display: flex;\r\n        align-items: center;\r\n        text-align: center;\r\n        justify-content: center;\r\n        width: 100%;\r\n        padding: 15px 20px;\r\n        background-color: #222222;\r\n        color: var(--color-white);\r\n        text-decoration: none;\r\n        border-radius: 20px;\r\n        max-width: 1100px;\r\n        margin-top: 15px;\r\n    }\r\n\r\n    .content-wrapper {\r\n        position: relative;\r\n        display: block;\r\n        max-width: 1100px;\r\n        width: 100%;\r\n        color: var(--color-white);\r\n    }\r\n\r\n    .messanger--wrapper {\r\n        width: 100%;\r\n        display: flex;\r\n        flex-direction: row;\r\n        background: #222222;\r\n        overflow: hidden;\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        border: #797979;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n\r\n    .content {\r\n\r\n        border-radius: 20px;\r\n        margin-top: 15px;\r\n        width: 100%;\r\n        background: #222222;\r\n        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\r\n        overflow: hidden;\r\n    }\r\n\r\n    .leftmenu-and-content-wrappper {\r\n            display: flex;\r\n            flex-direction: row;\r\n            justify-content: center;\r\n            width:1320px;\r\n            margin:0px auto;\r\n    }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

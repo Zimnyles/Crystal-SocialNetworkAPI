@@ -1,0 +1,37 @@
+package widgets
+
+import "zimniyles/fibergo/internal/models"
+import "zimniyles/fibergo/views/components"
+
+templ ChatsList(userChats []models.ChatPreview) {
+    @ChatsListStyle()
+    <div class="chats-list">
+        for _, userChat := range userChats{
+            @components.UserChatCard(components.ChatPreview{
+                ChatID: userChat.ChatID,
+                InterlocutorID: userChat.InterlocutorID,
+                InterlocutorLogin: userChat.InterlocutorLogin,
+                LastMessage: userChat.LastMessage,
+                LastMessageTime: userChat.LastMessageTime,
+                IsYourMessage: userChat.IsYourMessage,
+                InterlocutorAvatarPath: userChat.InterlocutorAvatarPath,
+            })
+        }
+        @components.NoMoreChats()
+    </div>
+}
+
+templ ChatsListStyle() {
+    <style>
+    .chats-list{
+        max-width: 300px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    </style>
+}
+

@@ -2,9 +2,10 @@ package views
 
 import "zimniyles/fibergo/views/widgets"
 import "zimniyles/fibergo/views/layout"
+import "zimniyles/fibergo/internal/models"
 
 
-templ MessagesPage() {
+templ MessagesPage(userChats []models.ChatPreview) {
 @MessagesPageStyle()
 @layout.Layout(layout.LayoutProps{
 Title: "Crystals",
@@ -24,11 +25,13 @@ MetaDescriptiom: "Crystals social network",
         <div class="content-wrapper">
             <div >
                 <div class="messanger--footer">
-                    <span>Ваши чаты</span>
+                    Ваши чаты
                 </div>
                 <div class="messanger--content-wrapper">
                     <div class="messanger--leftpart">
-                        <p>left</p>
+
+                    @widgets.ChatsList(userChats)
+
                     </div>
 
                     {{ link:= "/messages/" + login }}
@@ -59,7 +62,7 @@ templ MessagesPageStyle(){
         
         max-width: 300px;
         width: 100%;
-        background-color: #222222;
+        
     }
 
     .icon {
@@ -84,7 +87,7 @@ templ MessagesPageStyle(){
         background-color: #222222;
         color: var(--color-white);
         text-decoration: none;
-        border-radius: 8px;
+        border-radius: 20px;
         max-width: 1100px;
         margin-top: 15px;
     }
